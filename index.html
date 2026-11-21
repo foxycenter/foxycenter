@@ -1,56 +1,88 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-<meta charset="utf-8">
-<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>FOXYCENTER - Swap Privado</title>
 <style>
 *{box-sizing:border-box;margin:0;padding:0}
-body{background:#0a0a0f;color:#fff;font-family:system-ui,sans-serif;min-height:100vh}
-.top{display:flex;justify-content:space-between;align-items:center;padding:14px 18px;max-width:480px;margin:0 auto}
-.logo b{font-size:20px;letter-spacing:1px}
-.badge{background:#1a1a24;border:1px solid #2a2a35;padding:6px 10px;border-radius:999px;font-size:12px;color:#2ecc71}
-.wrap{max-width:480px;margin:10px auto;padding:0 14px 30px}
-.card{background:#13131c;border:1px solid #23232f;border-radius:22px;padding:16px}
-.box{background:#0c0c12;border:1px solid #23232f;border-radius:14px;padding:12px;margin-bottom:10px}
-.box label{font-size:11px;letter-spacing:1px;color:#8b8ba3}
-.row{display:flex;gap:8px;align-items:center;margin-top:6px}
-.row input{flex:1;background:transparent;border:0;color:#fff;font-size:24px;outline:none;min-width:0}
-.row select{background:#1a1a24;color:#fff;border:1px solid #2a2a35;border-radius:10px;padding:8px;font-size:14px}
-.small{text-align:right;color:#8b8ba3;font-size:12px;margin-top:4px}
-.btn{width:100%;padding:14px;border-radius:12px;border:0;background:#ff6a00;color:#000;font-weight:700;font-size:15px;cursor:pointer;margin-top:8px}
-.btn2{width:100%;padding:14px;border-radius:12px;border:1px solid #2a2a35;background:#1a1a24;color:#fff;font-weight:700;font-size:15px;cursor:pointer;margin-top:8px}
-.status{margin-top:12px;font-size:13px;color:#c7c7d6;word-break:break-all;min-height:20px}
-.note{font-size:12px;color:#8b8ba3;margin-top:10px;text-align:center}
-input.addr{width:100%;background:#0c0c12;border:1px solid #23232f;border-radius:10px;padding:10px;color:#fff;font-size:13px;margin-top:6px;outline:none}
-select.chain{width:100%;background:#0c0c12;color:#fff;border:1px solid #23232f;border-radius:10px;padding:10px;font-size:13px;margin-top:6px}
+body{background:#0a0a0f;color:#fff;font-family:Inter,system-ui,-apple-system,sans-serif;min-height:100vh}
+.top{max-width:480px;margin:0 auto;padding:24px 20px 0}
+.logo{display:flex;align-items:center;gap:12px}
+.fox{width:72px;height:72px;flex-shrink:0}
+.logo b{font-size:32px;letter-spacing:-0.5px}
+.hero{margin:28px 0 20px}
+.hero h1{font-size:38px;line-height:1.05;letter-spacing:-1px}
+.hero h1 span{color:#ff6a00}
+.hero p{color:#8b8ba3;margin-top:10px;font-size:15px}
+.hero .funds{color:#c7c7d6;font-size:13px;margin-top:8px}
+.card{background:#13131c;border:1px solid #23232f;border-radius:20px;padding:18px}
+.chainrow{display:flex;gap:8px;margin-bottom:12px;align-items:center}
+.chainrow select{flex:1;background:#0c0c12;color:#fff;border:1px solid #23232f;border-radius:10px;padding:10px;font-size:13px;outline:none}
+.chainrow span{color:#ff6a00;font-weight:700}
+.box{background:#0c0c12;border:1px solid #23232f;border-radius:14px;padding:14px;margin-bottom:12px}
+.box label{font-size:12px;color:#8b8ba3;letter-spacing:.5px}
+.row{display:flex;justify-content:space-between;align-items:center;gap:12px;margin-top:6px}
+.row input{background:transparent;border:0;color:#fff;font-size:36px;font-weight:700;width:110px;outline:none}
+.token{background:#1a1a26;color:#fff;border:1px solid #2a2a3a;border-radius:999px;padding:8px 12px;font-weight:600;outline:none;font-size:14px}
+.arrow{text-align:center;margin:-4px 0 8px}
+.arrow span{background:#1a1a26;border:1px solid #2a2a3a;width:36px;height:36px;display:inline-flex;align-items:center;justify-content:center;border-radius:50%;color:#ff6a00;font-size:18px}
+.priv{display:flex;justify-content:space-between;align-items:center;padding:12px 4px;border-top:1px solid #23232f;margin-top:4px}
+.priv b{color:#2ecc71}
+.switch{width:52px;height:28px;background:#2ecc71;border-radius:999px;position:relative}
+.switch:after{content:"";position:absolute;right:4px;top:4px;width:20px;height:20px;background:#fff;border-radius:50%}
+.fees{border-top:1px solid #23232f;padding-top:12px}
+.fees h4{font-size:13px;color:#8b8ba3;text-align:center;margin-bottom:10px;font-weight:500}
+.fee{display:flex;justify-content:space-between;padding:8px 0;font-size:14px;color:#c7c7d6}
+.fee b{color:#fff}
+.fee .green{color:#2ecc71}
+.btn{width:100%;background:#ff6a00;color:#000;border:0;border-radius:14px;padding:16px;font-size:16px;font-weight:700;margin-top:16px;cursor:pointer}
+.powered{text-align:center;color:#8b8ba3;font-size:13px;margin-top:14px;letter-spacing:.3px}
+.powered b{color:#fff}
+.footer{text-align:center;color:#666;font-size:12px;padding:16px 0 30px}
 </style>
 </head>
 <body>
-<div class="top"><div class="logo"><b>FOXYCENTER</b></div><div class="badge" id="walletBadge">Sin conectar</div></div>
-<div class="wrap"><div class="card">
-<button class="btn2" id="connectBtn">Connect Wallet - Trust / WalletConnect</button>
-<div class="status" id="walletStatus">6 redes EVM aprobadas: ETH, BNB, Polygon, Base, Arbitrum, Optimism. BTC por dirección aparte, sin romper nada.</div>
-<label style="font-size:11px;letter-spacing:1px;color:#8b8ba3">RED DE ORIGEN (donde pagas)</label>
-<select class="chain" id="sourceChain">
-<option value="56">BNB Smart Chain (56) - para SS</option>
-<option value="1">Ethereum (1)</option>
-<option value="137">Polygon (137)</option>
-<option value="8453">Base (8453)</option>
-<option value="42161">Arbitrum (42161)</option>
-<option value="10">Optimism (10)</option>
-</select>
-<div class="box" style="margin-top:10px"><label>PAY - Pones el monto aquí</label><div class="row"><input id="payAmount" value="9" inputmode="decimal"><select id="payToken"><option>USDT</option><option>USDC</option><option>BTC</option></select></div><div class="small" id="payChainLabel">BNB Chain (56)</div></div>
-<div class="box"><label>RECEIVE</label><div class="row"><input id="receiveAmount" value="8.9820" readonly><select id="receiveToken"><option>USDT</option><option>USDC</option></select></div><div class="small">Se calcula al cotizar</div></div>
-<label style="font-size:11px;letter-spacing:1px;color:#8b8ba3">DIRECCIÓN DE DESTINO (donde recibes)</label>
-<input class="addr" id="recipientAddr" placeholder="0x... tu dirección donde recibes">
-<div id="btcBox" style="display:none;margin-top:10px"><label style="font-size:11px;letter-spacing:1px;color:#8b8ba3">TU DIRECCIÓN BTC (solo si PAY es BTC - empieza con bc1...)</label>
-<input class="addr" id="btcAddr" placeholder="bc1... tu dirección BTC de Trust"></div>
-<button class="btn" id="quoteBtn">Obtener cotización real - SilentSwap</button>
-<button class="btn2" id="swapBtn">Hacer Swap</button>
-<div class="status" id="swapStatus"></div>
-<div class="note">Powered by <b>SilentSwap</b> - Usas tus propios fondos. FOXYCENTER no custodia fondos.</div>
-</div></div>
+<div class="top">
+  <div class="logo">
+    <svg class="fox" viewBox="0 0 120 120"><defs><linearGradient id="lens" x1="0" y1="0" x2="0" y2="1"><stop offset="0%" stop-color="#2b2b2b"/><stop offset="100%" stop-color="#000"/></linearGradient></defs><path d="M18 38 L32 8 L52 30 Z" fill="#ff7a1a"/><path d="M24 30 L32 14 L42 28 Z" fill="#ffe6c7"/><path d="M102 38 L88 8 L68 30 Z" fill="#ff7a1a"/><path d="M96 30 L88 14 L78 28 Z" fill="#ffe6c7"/><ellipse cx="60" cy="68" rx="46" ry="40" fill="#ff7a1a"/><ellipse cx="60" cy="82" rx="32" ry="20" fill="#fff5e6"/><ellipse cx="60" cy="76" rx="6" ry="4.5" fill="#111"/><path d="M52 84 Q60 88 68 84" stroke="#111" stroke-width="1.5" fill="none" stroke-linecap="round"/><g><rect x="14" y="52" width="44" height="28" rx="10" fill="url(#lens)" stroke="#111" stroke-width="2.5"/><rect x="62" y="52" width="44" height="28" rx="10" fill="url(#lens)" stroke="#111" stroke-width="2.5"/><rect x="56" y="58" width="8" height="5" rx="2" fill="#111"/><line x1="22" y1="58" x2="34" y2="74" stroke="#fff" stroke-width="2.5" opacity="0.7" stroke-linecap="round"/><line x1="70" y1="58" x2="82" y2="74" stroke="#fff" stroke-width="2.5" opacity="0.7" stroke-linecap="round"/><line x1="14" y1="60" x2="6" y2="58" stroke="#111" stroke-width="3" stroke-linecap="round"/><line x1="106" y1="60" x2="114" y2="58" stroke="#111" stroke-width="3" stroke-linecap="round"/></g></svg>
+    <b>FOXYCENTER</b>
+  </div>
+  <div class="hero">
+    <h1><span>Privacidad</span> es la necesidad.</h1>
+    <p>Swap privado &bull; Seguro &bull; Sin rastreo</p>
+    <p class="funds">Usas tus propios fondos. FOXYCENTER no custodia fondos.</p>
+  </div>
+  <div class="card">
+    <div class="chainrow">
+      <select id="payChain"><option value="56">BNB Chain (56) - para SS</option><option value="1">Ethereum (1)</option><option value="137">Polygon (137)</option><option value="8453">Base (8453)</option><option value="42161">Arbitrum (42161)</option><option value="10">Optimism (10)</option></select>
+      <span>&rarr;</span>
+      <select id="recvChain"><option value="56">BNB Chain (56)</option><option value="1">Ethereum (1)</option><option value="137">Polygon (137)</option><option value="8453">Base (8453)</option><option value="42161">Arbitrum (42161)</option><option value="10">Optimism (10)</option></select>
+    </div>
+    <div class="box"><label>PAY</label><div class="row"><input id="payAmount" value="" placeholder="0.00"><select id="payToken" class="token"><option>USDT</option><option>USDC</option><option>BTC</option></select></div><div style="text-align:right;color:#8b8ba3;font-size:13px">&asymp; $10.00 USD</div></div>
+    <div class="arrow"><span>&darr;</span></div>
+    <div class="box"><label>RECEIVE</label><div class="row"><input id="receiveAmount" value="0.00" readonly style="color:#8b8ba3"><select id="recvToken" class="token"><option>USDT</option><option>USDC</option></select></div><div style="text-align:right;color:#8b8ba3;font-size:13px">&asymp; $0.00 USD</div></div>
+
+    <div class="box"><label>DIRECCIÓN DE DESTINO (donde recibes)</label><div class="row"><input id="recipientAddr" placeholder="0x... tu dirección donde recibes" style="font-size:14px;width:100%"></div></div>
+    <div class="box" id="btcBox" style="display:none"><label>TU DIRECCIÓN BTC (solo si PAY es BTC)</label><div class="row"><input id="btcAddr" placeholder="bc1... tu dirección BTC de Trust" style="font-size:14px;width:100%"></div></div>
+    <div id="walletStatus" style="text-align:center;font-size:12px;color:#c7c7d6;margin:8px 0;word-break:break-all">6 redes EVM aprobadas: ETH, BNB, Polygon, Base, Arbitrum, Optimism. BTC por dirección aparte, sin romper nada.</div>
+    <div class="priv"><b>🛡️ PRIVATE</b><div class="switch"></div></div>
+    <div class="fees">
+      <h4>Fee breakdown</h4>
+      <div class="fee"><span>FEE</span><b>$0.02</b></div>
+      <div class="fee"><span>PRICE IMPACT</span><b class="green">&lt;0.01%</b></div>
+      <div class="fee"><span>NETWORK COST</span><b>~$0.18</b></div>
+      <div class="fee"><span>MAX SLIPPAGE</span><b>Auto &bull; 0.5%</b></div>
+    </div>
+  </div>
+  <button class="btn" id="connectBtn">Conectar billetera - Trust / WalletConnect</button>
+  <button class="btn" id="quoteBtn" style="background:#ff6a00">Obtener cotización real - SilentSwap</button>
+  <button class="btn" id="swapBtn" style="background:#23232f;color:#fff;border:1px solid #ff6a00">Hacer Swap</button>
+  <div id="swapStatus" style="text-align:center;font-size:13px;color:#ffcc88;margin-top:10px;min-height:18px;word-break:break-all"></div>
+  <div class="powered">Powered by <b>SilentSwap</b></div>
+  <div class="footer">&copy; 2026 FOXYCENTER - Todos los derechos reservados</div>
+</div>
+
 <script type="module">
 import { EthereumProvider } from "https://esm.sh/@walletconnect/ethereum-provider@2.21.0";
 import { createSilentSwapClient, parseUsdc } from "https://cdn.jsdelivr.net/npm/@silentswap/sdk@2.3.0/+esm";
@@ -59,75 +91,74 @@ import { mainnet, bsc, polygon, base, arbitrum, optimism } from "https://cdn.jsd
 const CHAINS = { "1": mainnet, "56": bsc, "137": polygon, "8453": base, "42161": arbitrum, "10": optimism };
 const INTEGRATOR_ID = "int_d47760638a531b8f8e853500";
 const PROJECT_ID = "1c91a6338afae84a70f8f68395b6e205";
-let provider = null, walletClient = null, ssClient = null, lastQuote = null, account = null;
-const walletStatus = document.getElementById('walletStatus');
-const walletBadge = document.getElementById('walletBadge');
-const payInput = document.getElementById('payAmount');
-const recInput = document.getElementById('receiveAmount');
-const payToken = document.getElementById('payToken');
-const btcBox = document.getElementById('btcBox');
-payToken.addEventListener('change', () => { btcBox.style.display = payToken.value === 'BTC' ? 'block' : 'none'; });
-payInput.addEventListener('input', () => { const v = parseFloat(payInput.value) || 0; recInput.value = (v * 0.998).toFixed(4); });
-document.getElementById('sourceChain').addEventListener('change', (e) => {
-  const names = {"1":"Ethereum (1)","56":"BNB Chain (56)","137":"Polygon (137)","8453":"Base (8453)","42161":"Arbitrum (42161)","10":"Optimism (10)"};
-  document.getElementById('payChainLabel').textContent = names[e.target.value] || e.target.value;
-});
+let provider=null, walletClient=null, ssClient=null, lastQuote=null, account=null;
+let isPrivate=true;
+const walletStatus=document.getElementById('walletStatus');
+const payInput=document.getElementById('payAmount');
+const recInput=document.getElementById('receiveAmount');
+const payToken=document.getElementById('payToken');
+const btcBox=document.getElementById('btcBox');
+if(payToken) payToken.addEventListener('change',()=>{ btcBox.style.display = payToken.value==='BTC' ? 'block' : 'none'; });
+if(payInput) payInput.addEventListener('input',()=>{ const v=parseFloat(payInput.value)||0; if(recInput) recInput.value=(v*0.998).toFixed(4); });
+const privEl=document.querySelector('.priv');
+if(privEl) privEl.addEventListener('click',()=>{ isPrivate=!isPrivate; const sw=privEl.querySelector('.switch'); const b=privEl.querySelector('b'); if(isPrivate){ if(sw) sw.style.background='#2ecc71'; if(b) b.textContent='🛡️ PRIVATE'; } else { if(sw) sw.style.background='#444'; if(b) b.textContent='PRIVATE - OFF'; } });
 async function getProvider(){
   if(provider) return provider;
-  provider = await EthereumProvider.init({ projectId: PROJECT_ID, chains: [1, 56, 137, 8453, 42161, 10], optionalChains: [], showQrModal: true, metadata: { name: "FOXYCENTER", description: "FOXYCENTER - Swap Privado", url: "https://www.foxycenter.org", icons: ["https://www.foxycenter.org/favicon.ico"] } });
+  provider = await EthereumProvider.init({ projectId: PROJECT_ID, chains: [1,56,137,8453,42161,10], optionalChains: [], showQrModal: true, metadata: { name: "FOXYCENTER", description: "FOXYCENTER - Swap Privado", url: "https://www.foxycenter.org", icons: ["https://www.foxycenter.org/favicon.ico"] } });
   return provider;
 }
-document.getElementById('connectBtn').addEventListener('click', async () => {
+document.getElementById('connectBtn').addEventListener('click', async()=>{
   try{
-    walletStatus.textContent = "Abriendo QR... escanea con Trust";
-    const p = await getProvider();
+    walletStatus.textContent="Abriendo QR... escanea con Trust";
+    const p=await getProvider();
     await p.connect();
     account = p.accounts && p.accounts[0] ? p.accounts[0] : null;
     if(!account) throw new Error("No se obtuvo cuenta");
-    const chainId = parseInt(document.getElementById('sourceChain').value || "56");
-    const chainObj = CHAINS[String(chainId)] || bsc;
-    walletClient = createWalletClient({ account: account, chain: chainObj, transport: custom(p) });
-    ssClient = createSilentSwapClient({ walletClient: walletClient, integratorId: INTEGRATOR_ID });
-    walletBadge.textContent = "Conectado";
-    walletBadge.style.color = "#2ecc71";
-    walletStatus.textContent = "Conectado: " + account + " - 6 redes EVM aprobadas";
-    const rec = document.getElementById('recipientAddr');
-    if(rec && !rec.value) rec.value = account;
-  }catch(e){ walletStatus.textContent = "Error conectar: " + (e.message || e); }
+    const srcChain=parseInt(document.getElementById('payChain').value||"56");
+    const chainObj=CHAINS[String(srcChain)]||bsc;
+    walletClient=createWalletClient({ account: account, chain: chainObj, transport: custom(p) });
+    ssClient=createSilentSwapClient({ walletClient: walletClient, integratorId: INTEGRATOR_ID });
+    walletStatus.textContent="Conectado: "+account+" - 6 redes EVM aprobadas";
+    document.getElementById('connectBtn').textContent="Conectado - "+account.slice(0,6)+"..."+account.slice(-4);
+    const rec=document.getElementById('recipientAddr');
+    if(rec && !rec.value) rec.value=account;
+  }catch(e){ walletStatus.textContent="Error conectar: "+(e.message||e); }
 });
-document.getElementById('quoteBtn').addEventListener('click', async () => {
-  const st = document.getElementById('swapStatus');
-  const amt = document.getElementById('payAmount')?.value || '0';
-  const rec = document.getElementById('recipientAddr')?.value?.trim();
-  const payTok = document.getElementById('payToken')?.value || 'USDT';
-  const srcChain = parseInt(document.getElementById('sourceChain').value || "56");
-  if(!account || !ssClient){ st.textContent = "Primero apreta Connect Wallet y conecta con Trust"; return; }
-  if(!amt || parseFloat(amt) <= 0){ st.textContent = "Pon un monto en PAY primero"; return; }
-  if(!rec){ st.textContent = "Pon tu dirección de destino"; return; }
-  if(payTok === 'BTC'){
-    const btcAddr = document.getElementById('btcAddr')?.value?.trim();
-    if(!btcAddr){ st.textContent = "Para BTC, pega tu dirección BTC que empieza con bc1..."; return; }
-    st.textContent = "BTC por dirección: usa tu dirección BTC " + btcAddr + " para el depósito. SS genera la dirección de depósito al cotizar. Por ahora, para BTC usa la cotización con USDT/USDC y el equipo confirma el depósito BTC aparte, sin romper las 6 EVM.";
+document.getElementById('quoteBtn').addEventListener('click', async()=>{
+  const st=document.getElementById('swapStatus');
+  const amt=document.getElementById('payAmount')?.value||'0';
+  const rec=document.getElementById('recipientAddr')?.value?.trim();
+  const payTok=document.getElementById('payToken')?.value||'USDT';
+  const srcChain=parseInt(document.getElementById('payChain').value||"56");
+  const dstChain=parseInt(document.getElementById('recvChain').value||"56");
+  if(!account || !ssClient){ st.textContent="Primero apreta Conectar billetera y conecta con Trust"; return; }
+  if(!amt || parseFloat(amt)<=0){ st.textContent="Pon un monto en PAY primero"; return; }
+  if(!rec){ st.textContent="Pon tu dirección de destino"; return; }
+  if(payTok==='BTC'){
+    const btcAddr=document.getElementById('btcAddr')?.value?.trim();
+    if(!btcAddr){ st.textContent="Para BTC, pega tu dirección BTC que empieza con bc1..."; return; }
+    st.textContent="BTC por dirección: usa tu dirección BTC "+btcAddr+" para el depósito. SS genera la dirección de depósito al cotizar. BTC aparte, sin romper las 6 EVM.";
     return;
   }
-  st.textContent = "Pidiendo cotización real a SilentSwap...";
+  st.textContent="Pidiendo cotización real a SilentSwap...";
   try{
-    const q = await ssClient.quote({ privacy: true, inputAddress: account, sourceChainId: srcChain, sourceAsset: payTok, outputs: [{ address: rec, chainId: srcChain, amount: parseUsdc(amt) }] });
-    lastQuote = q;
-    st.textContent = "Cotización lista. Revisa y apreta Hacer Swap.";
-    if(recInput) recInput.value = amt;
-  }catch(e){ st.textContent = "Error cotización: " + (e.message || e); }
+    const q=await ssClient.quote({ privacy: isPrivate, inputAddress: account, sourceChainId: srcChain, sourceAsset: payTok, outputs: [{ address: rec, chainId: dstChain, amount: parseUsdc(amt) }] });
+    lastQuote=q;
+    st.textContent="Cotización lista. Revisa y apreta Hacer Swap.";
+    if(recInput) recInput.value=amt;
+  }catch(e){ st.textContent="Error cotización: "+(e.message||e); }
 });
-document.getElementById('swapBtn').addEventListener('click', async () => {
-  const st = document.getElementById('swapStatus');
-  if(!lastQuote){ st.textContent = "Primero apreta Obtener cotización real"; return; }
+document.getElementById('swapBtn').addEventListener('click', async()=>{
+  const st=document.getElementById('swapStatus');
+  if(!lastQuote){ st.textContent="Primero apreta Obtener cotización real"; return; }
   try{
-    st.textContent = "Revisando permiso y enviando swap... aprueba en Trust";
+    st.textContent="Revisando permiso y enviando swap... aprueba en Trust";
     if(!(await ssClient.hasAllowance(lastQuote))) await ssClient.ensureAllowance(lastQuote);
-    const o = await ssClient.placeOrder(lastQuote);
-    st.textContent = "Swap enviado: " + o.reference;
-  }catch(e){ st.textContent = "Error swap: " + (e.message || e); }
+    const o=await ssClient.placeOrder(lastQuote);
+    st.textContent="Swap enviado: "+o.reference;
+  }catch(e){ st.textContent="Error swap: "+(e.message||e); }
 });
 </script>
+
 </body>
 </html>
