@@ -219,5 +219,35 @@ if(payChainEl) payChainEl.addEventListener('change',()=>{
 });
 </script>
 
+
+<script>
+// CALCULO APARTE - NO DEPENDE DE LA CONEXION, ASI SIEMPRE CALCULA
+(function(){
+  var PRICES={USDT:1,USDC:1,DAI:1,USD1:1,BTC:95000,ETH:3500,WETH:3500,BNB:650,WBNB:650,SOL:180,LTC:110,TRX:0.28,TON:2.5,POL:0.25,AVAX:35,FTM:0.8};
+  function fmt(n){ return n.toLocaleString('en-US',{minimumFractionDigits:2,maximumFractionDigits:2}); }
+  function fmtInt(n){ return n.toLocaleString('en-US',{maximumFractionDigits:4}); }
+  function calc(){
+    var pay=document.getElementById('payAmount'); var rec=document.getElementById('receiveAmount');
+    if(!pay||!rec) return;
+    var v=parseFloat(pay.value)||0;
+    var payTok=(document.getElementById('payToken')?.value||'USDT');
+    var recTok=(document.getElementById('recvToken')?.value||'USDC');
+    var pPay=PRICES[payTok]||1; var pRecv=PRICES[recTok]||1;
+    var usdPay=v*pPay;
+    var recVal=usdPay/pRecv*0.998;
+    var usdRecv=recVal*pRecv;
+    rec.value = recVal>=1000 ? fmtInt(recVal) : recVal.toFixed(4);
+    var pu=document.getElementById('payUsd'); if(pu) pu.textContent='≈ $'+fmt(usdPay)+' USD';
+    var ru=document.getElementById('recvUsd'); if(ru) ru.textContent='≈ $'+fmt(usdRecv)+' USD';
+  }
+  var pay=document.getElementById('payAmount');
+  if(pay) pay.addEventListener('input',calc);
+  document.getElementById('payToken')?.addEventListener('change',calc);
+  document.getElementById('recvToken')?.addEventListener('change',calc);
+  // Si ya hay 0.01 escrito, calcularlo al cargar
+  setTimeout(calc, 300);
+  setTimeout(calc, 1000);
+})();
+</script>
 </body>
 </html>
