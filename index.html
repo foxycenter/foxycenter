@@ -117,16 +117,27 @@ const payToken=document.getElementById('payToken');
 const btcBox=document.getElementById('btcBox');
 if(payToken) payToken.addEventListener('change',()=>{ const nonEvm=['BTC','LTC','SOL','TRX','TON']; btcBox.style.display = nonEvm.includes(payToken.value) ? 'block' : 'none'; const lbl=document.querySelector('#btcBox label'); if(lbl) lbl.textContent='DIRECCIÓN '+payToken.value+' (solo si PAY es '+payToken.value+')'; });
 
+
+const PRICES = {USDT:1, USDC:1, DAI:1, USD1:1, BTC:95000, ETH:3500, WETH:3500, BNB:650, WBNB:650, SOL:180, LTC:110, TRX:0.28, TON:2.5, POL:0.25, AVAX:35, FTM:0.8};
+function getPaySym(){ const s=document.getElementById('payToken'); return s? s.value : 'USDT'; }
+function getRecvSym(){ const s=document.getElementById('recvToken'); return s? s.value : 'USDT'; }
 function fmt(n){ return n.toLocaleString('en-US',{minimumFractionDigits:2,maximumFractionDigits:2}); }
+
 function fmtInt(n){ return n.toLocaleString('en-US',{maximumFractionDigits:4}); }
+function recalc(){ if(payInput) payInput.dispatchEvent(new Event('input')); } 
+const _pt=document.getElementById('payToken'); if(_pt) _pt.addEventListener('change',recalc); const _rt=document.getElementById('recvToken'); if(_rt) _rt.addEventListener('change',recalc);
 if(payInput) payInput.addEventListener('input',()=>{
   let raw = payInput.value.replace(/[^0-9.]/g,'');
   const v = parseFloat(raw)||0;
   if(v>=100000) payInput.classList.add('big'); else payInput.classList.remove('big');
-  const rec = v*0.998;
+  const pPay = PRICES[getPaySym()]||1;
+  const pRecv = PRICES[getRecvSym()]||1;
+  const usdPay = v * pPay;
+  const rec = usdPay / pRecv * 0.998;
+  const usdRecv = rec * pRecv;
   if(recInput) recInput.value = rec>=1000 ? fmtInt(rec) : rec.toFixed(4);
-  const pu=document.getElementById('payUsd'); if(pu) pu.textContent='≈ $'+fmt(v)+' USD';
-  const ru=document.getElementById('recvUsd'); if(ru) ru.textContent='≈ $'+fmt(rec)+' USD';
+  const pu=document.getElementById('payUsd'); if(pu) pu.textContent='≈ $'+fmt(usdPay)+' USD';
+  const ru=document.getElementById('recvUsd'); if(ru) ru.textContent='≈ $'+fmt(usdRecv)+' USD';
   // Guardar valor sin comas para cotización
   payInput.dataset.raw = String(v);
 });
