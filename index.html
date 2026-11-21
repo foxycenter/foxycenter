@@ -1,37 +1,48 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
 <title>FOXYCENTER</title>
-<style>
-body{background:#0a0a0f;color:#fff;font-family:Inter,system-ui,sans-serif;text-align:center;padding:40px 20px}
-h1{font-size:32px}h1 span{color:#ff6a00}
-p{color:#8b8ba3;font-size:14px;margin:10px 0 24px}
-appkit-button{display:flex;justify-content:center}
-small{color:#666;font-size:12px;display:block;margin-top:24px}
-</style>
+<style>body{font-family:system-ui,sans-serif;padding:24px;max-width:520px;margin:auto}button{padding:12px 18px;font-size:16px;border-radius:10px;border:0;background:#111;color:#fff;cursor:pointer}#status{margin-top:16px;word-break:break-all}</style>
 </head>
 <body>
-<h1><span>FOXYCENTER</span></h1>
-<p>Prueba de conexión</p>
-<appkit-button></appkit-button>
-<small>Usas tus propios fondos. FOXYCENTER no custodia fondos.</small>
+<h1>FOXYCENTER</h1>
+<p>Prueba de conexión - Solo Ethereum</p>
+<button id="connect">Connect Wallet</button>
+<p id="status">Sin conectar</p>
 <script type="module">
-import { createAppKit } from 'https://esm.sh/@reown/appkit@1.7.9?bundle';
-import { WagmiAdapter } from 'https://esm.sh/@reown/appkit-adapter-wagmi@1.7.9?bundle';
-import { mainnet } from 'https://esm.sh/@reown/appkit@1.7.9/networks?bundle';
-const projectId = '1c91a6338afae84a70f8f68395b6e205';
-const networks = [mainnet];
-const wagmiAdapter = new WagmiAdapter({ networks, projectId, ssr: false });
-createAppKit({
-adapters: [wagmiAdapter],
-networks,
-defaultNetwork: mainnet,
-projectId,
-metadata: { name: 'FOXYCENTER', description: 'FOXYSwap - Swap privado', url: 'https://www.foxycenter.org', icons: ['https://www.foxycenter.org/favicon.ico'] },
-themeMode: 'dark',
-themeVariables: { '--w3m-accent': '#ff6a00' }
+import { EthereumProvider } from "https://esm.sh/@walletconnect/ethereum-provider@2.21.0";
+const statusEl = document.getElementById('status');
+const btn = document.getElementById('connect');
+let provider = null;
+async function getProvider(){
+  if(provider) return provider;
+  provider = await EthereumProvider.init({
+    projectId: "1c91a6338afae84a70f8f68395b6e205",
+    chains: [1],
+    optionalChains: [],
+    showQrModal: true,
+    metadata: {
+      name: "FOXYCENTER",
+      description: "FOXYCENTER - Prueba de conexión",
+      url: "https://www.foxycenter.org",
+      icons: ["https://www.foxycenter.org/favicon.ico"]
+    }
+  });
+  return provider;
+}
+btn.addEventListener('click', async () => {
+  try{
+    statusEl.textContent = "Abriendo QR... escanea solo con Trust en Ethereum";
+    const p = await getProvider();
+    await p.connect();
+    const addr = p.accounts && p.accounts[0] ? p.accounts[0] : p.address;
+    statusEl.textContent = "Conectado: " + addr;
+    btn.textContent = "Conectado";
+  }catch(e){
+    statusEl.textContent = "Error: " + (e && e.message ? e.message : e);
+  }
 });
 </script>
 </body>
