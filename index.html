@@ -158,7 +158,7 @@ document.getElementById('connectBtn').addEventListener('click', async()=>{
     if(!account) throw new Error("No se obtuvo cuenta");
     const srcChain=parseInt(document.getElementById('payChain').value||"56");
     const chainObj=CHAINS[String(srcChain)]||bsc;
-    walletClient=createWalletClient({ account: account, chain: chainObj, transport: custom(p) });
+    walletClient=createWalletClient({ account: { address: account, type: 'json-rpc' }, chain: chainObj, transport: custom(p) });
     ssClient=createSilentSwapClient({ walletClient: walletClient, integratorId: INTEGRATOR_ID });
     walletStatus.textContent="Conectado: "+account+" - 6 redes EVM aprobadas";
     document.getElementById('connectBtn').textContent="Conectado - "+account.slice(0,6)+"..."+account.slice(-4);
@@ -188,12 +188,20 @@ document.getElementById('swapBtn').addEventListener('click', async()=>{
     if(!rec){ st.textContent="Pon tu dirección de destino"; return; }
     if(!lastQuote){
       st.textContent="Obteniendo cotización automática de SilentSwap...";
-      const q=await ssClient.quote({ privacy: isPrivate, inputAddress: account, sourceChainId: srcChain, sourceAsset: payTok, outputs: [{ address: rec, chainId: dstChain, amount: BigInt(Math.round(parseFloat(outAmt) * 1e6)) }] });
-      lastQuote=q;
+      // FIX toString: SDK 2.3.0 espera amount con parseUsdc y asset en outputs, y account como objeto
+      // Intento 1: con asset. Si falla, intento 2: sin asset.
+      try{
+        const q=await ssClient.quote({ privacy: isPrivate, inputAddress: account, sourceChainId: srcChain, sourceAsset: payTok, outputs: [{ address: rec, chainId: dstChain, amount: parseUsdc(outAmt), asset: recvTok }] });
+        lastQuote=q;
+      }catch(e1){
+        console.log('quote con asset falló, reintento sin asset', e1);
+        const q2=await ssClient.quote({ privacy: isPrivate, inputAddress: account, sourceChainId: srcChain, sourceAsset: payTok, outputs: [{ address: rec, chainId: dstChain, amount: parseUsdc(outAmt) }] });
+        lastQuote=q2;
+      }
     }
     st.textContent="Cotización automática lista. Enviando swap... aprueba en Trust";
     try{ if(!(await ssClient.hasAllowance(lastQuote))) await ssClient.ensureAllowance(lastQuote); }catch(e){ console.log('hasAllowance saltado, sigo a placeOrder', e); }
-    const o=await ssClient.placeOrder(lastQuote);
+    let o; try{ o=await ssClient.placeOrder(lastQuote); }catch(eP){ throw new Error('Error en placeOrder: '+(eP.message||eP)); }
     st.textContent="Swap enviado: "+o.reference;
     lastQuote=null;
   }catch(e){ st.textContent="Error swap: "+(e.message||e); }
