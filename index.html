@@ -6,19 +6,19 @@
 <title>FOXYCENTER - Swap Privado</title>
 <style>
 *{box-sizing:border-box;margin:0;padding:0}
-body{background:#0a0a0f;color:#fff;font-family:Inter,system-ui,-apple-system,sans-serif;min-height:100vh}
-.top{max-width:480px;margin:0 auto;padding:24px 20px 0}
+body{background:#0a0a0f;color:#fff;font-family:Inter,system-ui,-apple-system,sans-serif;min-height:100vh;overflow-x:hidden;width:100%}
+.top{max-width:480px;width:100%;margin:0 auto;padding:16px 16px 0;box-sizing:border-box;overflow:hidden}
 .logo{display:flex;align-items:center;gap:12px}
-.fox{width:72px;height:72px;flex-shrink:0}
-.logo b{font-size:32px;letter-spacing:-0.5px}
-.hero{margin:28px 0 20px}
-.hero h1{font-size:38px;line-height:1.05;letter-spacing:-1px}
+.fox{width:56px;height:56px;flex-shrink:0}
+.logo b{font-size:26px;letter-spacing:-0.5px;white-space:nowrap}
+.hero{margin:20px 0 16px;overflow:hidden;width:100%;text-align:center}
+.hero h1{font-size:32px;line-height:1.05;letter-spacing:-0.5px;word-break:break-word;overflow-wrap:break-word}
 .hero h1 span{color:#ff6a00}
 .hero p{color:#8b8ba3;margin-top:10px;font-size:15px}
 .hero .funds{color:#c7c7d6;font-size:13px;margin-top:8px}
-.card{background:#13131c;border:1px solid #23232f;border-radius:20px;padding:18px}
-.chainrow{display:flex;gap:8px;margin-bottom:12px;align-items:center}
-.chainrow select{flex:1;background:#0c0c12;color:#fff;border:1px solid #23232f;border-radius:10px;padding:10px;font-size:13px;outline:none}
+.card{background:#13131c;border:1px solid #23232f;border-radius:20px;padding:16px;width:100%;box-sizing:border-box;overflow:hidden}
+.chainrow{display:flex;gap:8px;margin-bottom:12px;align-items:center;width:100%;box-sizing:border-box}
+.chainrow select{flex:1;min-width:0;background:#0c0c12;color:#fff;border:1px solid #23232f;border-radius:10px;padding:10px;font-size:12px;outline:none;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
 .chainrow span{color:#ff6a00;font-weight:700}
 .box{background:#0c0c12;border:1px solid #23232f;border-radius:14px;padding:14px;margin-bottom:12px}
 .box label{font-size:12px;color:#8b8ba3;letter-spacing:.5px}
@@ -40,6 +40,21 @@ body{background:#0a0a0f;color:#fff;font-family:Inter,system-ui,-apple-system,san
 .powered{text-align:center;color:#8b8ba3;font-size:13px;margin-top:14px;letter-spacing:.3px}
 .powered b{color:#fff}
 .footer{text-align:center;color:#666;font-size:12px;padding:16px 0 30px}
+
+  .upg{display:flex;gap:8px;align-items:center;justify-content:center;background:#0f2a1a;border:1px solid #2ecc71;border-radius:999px;padding:8px 12px;margin:14px 0 0;font-size:12px;color:#2ecc71;font-weight:700}
+  .dot{width:9px;height:9px;background:#2ecc71;border-radius:50%;box-shadow:0 0 0 4px rgba(46,204,113,.25)}
+  .upgBox{background:#0c0c12;border:1px solid #2ecc71;border-radius:14px;padding:12px;margin-bottom:12px}
+  .upgBox b{color:#2ecc71}
+@media (max-width:480px){.top{padding:12px 12px 0}.logo b{font-size:22px}.fox{width:48px;height:48px}.hero h1{font-size:28px}.chainrow{flex-direction:column}.chainrow select{width:100%;flex:none}.chainrow span{transform:rotate(90deg)}.row input{font-size:28px;width:80px}.card{padding:14px}}
+
+  body{display:flex;flex-direction:column;align-items:center;justify-content:flex-start}
+  .top{width:100%;max-width:480px;margin:0 auto !important;padding:16px 16px 0;box-sizing:border-box;display:flex;flex-direction:column;align-items:center}
+  .logo{width:100%;justify-content:center}
+  .hero{width:100%;text-align:center}
+  .hero h1,.hero p{ text-align:center}
+  .card{width:100%;max-width:480px;margin:0 auto;box-sizing:border-box}
+  .powered,.footer{width:100%;text-align:center}
+  .btn{max-width:480px;margin-left:auto;margin-right:auto}
 </style>
 </head>
 <body>
@@ -55,17 +70,18 @@ body{background:#0a0a0f;color:#fff;font-family:Inter,system-ui,-apple-system,san
   </div>
   <div class="card">
     <div class="chainrow">
-      <select id="payChain"><option value="56">BNB Chain (56) - para SS</option><option value="1">Ethereum (1)</option><option value="137">Polygon (137)</option><option value="8453">Base (8453)</option><option value="42161">Arbitrum (42161)</option><option value="10">Optimism (10)</option></select>
+      <select id="payChain"><optgroup label="EVM - con QR / Trust"><option value="56">BNB Chain (56) - para SS</option><option value="1">Ethereum (1)</option><option value="137">Polygon (137)</option><option value="8453">Base (8453)</option><option value="42161">Arbitrum (42161)</option><option value="10">Optimism (10)</option><option value="43114">Avalanche (43114)</option><option value="250">Fantom (250)</option></optgroup><optgroup label="No-EVM - "><option value="bitcoin">Bitcoin - BTC</option><option value="litecoin">Litecoin - LTC</option><option value="solana">Solana - SOL</option><option value="ton">TON - TON</option><option value="tron">TRON - TRX</option></optgroup></select>
       <span>&rarr;</span>
-      <select id="recvChain"><option value="56">BNB Chain (56)</option><option value="1">Ethereum (1)</option><option value="137">Polygon (137)</option><option value="8453">Base (8453)</option><option value="42161">Arbitrum (42161)</option><option value="10">Optimism (10)</option></select>
+      <select id="recvChain"><optgroup label="EVM - con QR / Trust"><option value="56">BNB Chain (56)</option><option value="1">Ethereum (1)</option><option value="137">Polygon (137)</option><option value="8453">Base (8453)</option><option value="42161">Arbitrum (42161)</option><option value="10">Optimism (10)</option><option value="43114">Avalanche (43114)</option><option value="250">Fantom (250)</option></optgroup><optgroup label="No-EVM - por dirección"><option value="bitcoin">Bitcoin - BTC</option><option value="litecoin">Litecoin - LTC</option><option value="solana">Solana - SOL</option><option value="ton">TON - TON</option><option value="tron">TRON - TRX</option></optgroup></select>
     </div>
-    <div class="box"><label>PAY</label><div class="row"><input id="payAmount" value="" placeholder="0.00"><select id="payToken" class="token"><option>USDT</option><option>USDC</option><option>BTC</option></select></div><div style="text-align:right;color:#8b8ba3;font-size:13px">&asymp; $10.00 USD</div></div>
+    <div class="box"><label>PAY</label><div class="row"><input id="payAmount" value="" placeholder="0.00"><select id="payToken" class="token"><option>USDT</option><option>USDC</option><option>BTC</option><option>ETH</option><option>WETH</option><option>BNB</option><option>WBNB</option><option>USD1</option><option>DAI</option><option>SOL</option><option>LTC</option><option>TRX</option><option>TON</option><option>POL</option><option>AVAX</option><option>FTM</option></select></div><div style="text-align:right;color:#8b8ba3;font-size:13px"><span id="payUsd">&asymp; $0.00 USD</span></div></div>
     <div class="arrow"><span>&darr;</span></div>
-    <div class="box"><label>RECEIVE</label><div class="row"><input id="receiveAmount" value="0.00" readonly style="color:#8b8ba3"><select id="recvToken" class="token"><option>USDT</option><option>USDC</option></select></div><div style="text-align:right;color:#8b8ba3;font-size:13px">&asymp; $0.00 USD</div></div>
+    <div class="box"><label>RECEIVE</label><div class="row"><input id="receiveAmount" value="0.00" readonly style="color:#8b8ba3"><select id="recvToken" class="token"><option>USDT</option><option>USDC</option><option>BTC</option><option>ETH</option><option>WETH</option><option>BNB</option><option>WBNB</option><option>USD1</option><option>DAI</option><option>SOL</option><option>LTC</option><option>TRX</option><option>TON</option><option>POL</option><option>AVAX</option><option>FTM</option></select></div><div style="text-align:right;color:#8b8ba3;font-size:13px">&asymp; $0.00 USD</div></div>
 
-    <div class="box"><label>DIRECCIÓN DE DESTINO (donde recibes)</label><div class="row"><input id="recipientAddr" placeholder="0x... tu dirección donde recibes" style="font-size:14px;width:100%"></div></div>
-    <div class="box" id="btcBox" style="display:none"><label>TU DIRECCIÓN BTC (solo si PAY es BTC)</label><div class="row"><input id="btcAddr" placeholder="bc1... tu dirección BTC de Trust" style="font-size:14px;width:100%"></div></div>
-    <div id="walletStatus" style="text-align:center;font-size:12px;color:#c7c7d6;margin:8px 0;word-break:break-all">6 redes EVM aprobadas: ETH, BNB, Polygon, Base, Arbitrum, Optimism. BTC por dirección aparte, sin romper nada.</div>
+    <div class="box"><label>DIRECCIÓN DE DESTINO</label><div class="row"><input id="recipientAddr" placeholder="0x... tu dirección donde recibes" style="font-size:14px;width:100%"></div></div>
+    <div class="box" id="btcBox" style="display:none"><label>DIRECCIÓN</label><div class="row"><input id="btcAddr" placeholder="bc1... tu dirección BTC de Trust" style="font-size:14px;width:100%"></div></div>
+    
+    <div id="walletStatus" style="text-align:center;font-size:12px;color:#c7c7d6;margin:8px 0"></div>
     <div class="priv"><b>🛡️ PRIVATE</b><div class="switch"></div></div>
     <div class="fees">
       <h4>Fee breakdown</h4>
@@ -98,8 +114,8 @@ const payInput=document.getElementById('payAmount');
 const recInput=document.getElementById('receiveAmount');
 const payToken=document.getElementById('payToken');
 const btcBox=document.getElementById('btcBox');
-if(payToken) payToken.addEventListener('change',()=>{ btcBox.style.display = payToken.value==='BTC' ? 'block' : 'none'; });
-if(payInput) payInput.addEventListener('input',()=>{ const v=parseFloat(payInput.value)||0; if(recInput) recInput.value=(v*0.998).toFixed(4); });
+if(payToken) payToken.addEventListener('change',()=>{ const nonEvm=['BTC','LTC','SOL','TRX','TON']; btcBox.style.display = nonEvm.includes(payToken.value) ? 'block' : 'none'; const lbl=document.querySelector('#btcBox label'); if(lbl) lbl.textContent='DIRECCIÓN '+payToken.value+' (solo si PAY es '+payToken.value+')'; });
+if(payInput) payInput.addEventListener('input',()=>{ const v=parseFloat(payInput.value)||0; if(recInput) recInput.value=(v*0.998).toFixed(4); const pu=document.getElementById('payUsd'); if(pu) pu.textContent='≈ $'+v.toFixed(2)+' USD'; });
 const privEl=document.querySelector('.priv');
 if(privEl) privEl.addEventListener('click',()=>{ isPrivate=!isPrivate; const sw=privEl.querySelector('.switch'); const b=privEl.querySelector('b'); if(isPrivate){ if(sw) sw.style.background='#2ecc71'; if(b) b.textContent='🛡️ PRIVATE'; } else { if(sw) sw.style.background='#444'; if(b) b.textContent='PRIVATE - OFF'; } });
 async function getProvider(){
@@ -131,13 +147,16 @@ document.getElementById('quoteBtn').addEventListener('click', async()=>{
   const payTok=document.getElementById('payToken')?.value||'USDT';
   const srcChain=parseInt(document.getElementById('payChain').value||"56");
   const dstChain=parseInt(document.getElementById('recvChain').value||"56");
-  if(!account || !ssClient){ st.textContent="Primero apreta Conectar billetera y conecta con Trust"; return; }
+  const payChainVal=document.getElementById('payChain').value;
+  const isPayNonEvm=['bitcoin','litecoin','solana','ton','tron'].includes(payChainVal);
+  if(!isPayNonEvm && (!account || !ssClient)){ st.textContent="Primero apreta Conectar billetera y conecta con Trust"; return; }
+  if(isPayNonEvm && !document.getElementById('btcAddr')?.value?.trim()){ st.textContent="Para "+payChainVal+", pega tu dirección nativa en la caja de arriba (BTC bc1..., LTC ltc1..., SOL, TON UQ..., TRX T...)"; return; }
   if(!amt || parseFloat(amt)<=0){ st.textContent="Pon un monto en PAY primero"; return; }
   if(!rec){ st.textContent="Pon tu dirección de destino"; return; }
-  if(payTok==='BTC'){
+  if(['BTC','LTC','SOL','TRX','TON'].includes(payTok)){
     const btcAddr=document.getElementById('btcAddr')?.value?.trim();
-    if(!btcAddr){ st.textContent="Para BTC, pega tu dirección BTC que empieza con bc1..."; return; }
-    st.textContent="BTC por dirección: usa tu dirección BTC "+btcAddr+" para el depósito. SS genera la dirección de depósito al cotizar. BTC aparte, sin romper las 6 EVM.";
+    if(!btcAddr){ st.textContent='Para '+payTok+', pega tu dirección '+payTok+' de tu billetera (Trust / OKX / Xverse / Unisat)'; return; }
+    st.textContent=payTok+' Usa tu dirección '+btcAddr+' para el depósito. SS genera la dirección de depósito al cotizar. '+payTok+' aparte,  EVM.';
     return;
   }
   st.textContent="Pidiendo cotización real a SilentSwap...";
@@ -157,6 +176,27 @@ document.getElementById('swapBtn').addEventListener('click', async()=>{
     const o=await ssClient.placeOrder(lastQuote);
     st.textContent="Swap enviado: "+o.reference;
   }catch(e){ st.textContent="Error swap: "+(e.message||e); }
+});
+
+document.getElementById('connectBtcBtn')?.addEventListener('click', ()=>{
+  const st=document.getElementById('btcStatus');
+  const addr=prompt('Pega tu dirección BTC nativa de Trust / OKX / Xverse / Unisat (empieza con bc1... o 1...):');
+  if(!addr){ st.textContent='Cancelado - BTC sigue sin conectar, EVM intacto'; return; }
+  if(!addr.startsWith('bc1') && !addr.startsWith('1') && !addr.startsWith('3')){ st.textContent='Esa no parece dirección BTC. Debe empezar con bc1... o 1... EVM no tocado.'; return; }
+  st.textContent='BTC conectado por dirección: '+addr+' - Verificado aparte, EVM sin tocar.';
+  const btcInput=document.getElementById('btcAddr');
+  if(btcInput) btcInput.value=addr;
+});
+
+const payChainEl=document.getElementById('payChain');
+if(payChainEl) payChainEl.addEventListener('change',()=>{
+  const v=payChainEl.value;
+  const nonEvm=['bitcoin','litecoin','solana','ton','tron'].includes(v);
+  const bBox=document.getElementById('btcBox');
+  if(bBox) bBox.style.display = nonEvm || ['BTC','LTC','SOL','TRX','TON'].includes(document.getElementById('payToken')?.value) ? 'block' : 'none';
+  const lbl=document.querySelector('#btcBox label');
+  if(lbl) lbl.textContent = nonEvm ? 'DIRECCIÓN '+v.toUpperCase()+' -  ()' : 'DIRECCIÓN '+ (document.getElementById('payToken')?.value||'') +' (solo si PAY es No-EVM)';
+  const recLbl=document.querySelector('#recipientAddr');
 });
 </script>
 
