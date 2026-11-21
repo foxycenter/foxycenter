@@ -23,7 +23,7 @@ body{background:#0a0a0f;color:#fff;font-family:Inter,system-ui,-apple-system,san
 .box{background:#0c0c12;border:1px solid #23232f;border-radius:14px;padding:14px;margin-bottom:12px}
 .box label{font-size:12px;color:#8b8ba3;letter-spacing:.5px}
 .row{display:flex;justify-content:space-between;align-items:center;gap:12px;margin-top:6px}
-.row input{background:transparent;border:0;color:#fff;font-size:36px;font-weight:700;width:110px;outline:none}
+.row input{background:transparent;border:0;color:#fff;font-size:32px;font-weight:700;flex:1;min-width:0;width:100%;outline:none;overflow:hidden;text-overflow:ellipsis}
 .token{background:#1a1a26;color:#fff;border:1px solid #2a2a3a;border-radius:999px;padding:8px 12px;font-weight:600;outline:none;font-size:14px}
 .arrow{text-align:center;margin:-4px 0 8px}
 .arrow span{background:#1a1a26;border:1px solid #2a2a3a;width:36px;height:36px;display:inline-flex;align-items:center;justify-content:center;border-radius:50%;color:#ff6a00;font-size:18px}
@@ -55,6 +55,7 @@ body{background:#0a0a0f;color:#fff;font-family:Inter,system-ui,-apple-system,san
   .card{width:100%;max-width:480px;margin:0 auto;box-sizing:border-box}
   .powered,.footer{width:100%;text-align:center}
   .btn{max-width:480px;margin-left:auto;margin-right:auto}
+.row input.big{font-size:22px} @media (max-width:480px){.row input{font-size:28px}} 
 </style>
 </head>
 <body>
@@ -74,9 +75,9 @@ body{background:#0a0a0f;color:#fff;font-family:Inter,system-ui,-apple-system,san
       <span>&rarr;</span>
       <select id="recvChain"><optgroup label="EVM - con QR / Trust"><option value="56">BNB Chain (56)</option><option value="1">Ethereum (1)</option><option value="137">Polygon (137)</option><option value="8453">Base (8453)</option><option value="42161">Arbitrum (42161)</option><option value="10">Optimism (10)</option><option value="43114">Avalanche (43114)</option><option value="250">Fantom (250)</option></optgroup><optgroup label="No-EVM - por dirección"><option value="bitcoin">Bitcoin - BTC</option><option value="litecoin">Litecoin - LTC</option><option value="solana">Solana - SOL</option><option value="ton">TON - TON</option><option value="tron">TRON - TRX</option></optgroup></select>
     </div>
-    <div class="box"><label>PAY</label><div class="row"><input id="payAmount" value="" placeholder="0.00"><select id="payToken" class="token"><option>USDT</option><option>USDC</option><option>BTC</option><option>ETH</option><option>WETH</option><option>BNB</option><option>WBNB</option><option>USD1</option><option>DAI</option><option>SOL</option><option>LTC</option><option>TRX</option><option>TON</option><option>POL</option><option>AVAX</option><option>FTM</option></select></div><div style="text-align:right;color:#8b8ba3;font-size:13px"><span id="payUsd">&asymp; $0.00 USD</span></div></div>
+    <div class="box"><label>PAY</label><div class="row"><input id="payAmount" value="" placeholder="0.00"><select id="payToken" class="token"><option>USDT</option><option>USDC</option><option>BTC</option><option>ETH</option><option>WETH</option><option>BNB</option><option>WBNB</option><option>USD1</option><option>DAI</option><option>SOL</option><option>LTC</option><option>TRX</option><option>TON</option><option>POL</option><option>AVAX</option><option>FTM</option></select></div><div style="text-align:right;color:#8b8ba3;font-size:13px"><span id="payUsd">&asymp; $0.00 USD</span></span></div></div>
     <div class="arrow"><span>&darr;</span></div>
-    <div class="box"><label>RECEIVE</label><div class="row"><input id="receiveAmount" value="0.00" readonly style="color:#8b8ba3"><select id="recvToken" class="token"><option>USDT</option><option>USDC</option><option>BTC</option><option>ETH</option><option>WETH</option><option>BNB</option><option>WBNB</option><option>USD1</option><option>DAI</option><option>SOL</option><option>LTC</option><option>TRX</option><option>TON</option><option>POL</option><option>AVAX</option><option>FTM</option></select></div><div style="text-align:right;color:#8b8ba3;font-size:13px">&asymp; $0.00 USD</div></div>
+    <div class="box"><label>RECEIVE</label><div class="row"><input id="receiveAmount" value="0.00" readonly style="color:#8b8ba3"><select id="recvToken" class="token"><option>USDT</option><option>USDC</option><option>BTC</option><option>ETH</option><option>WETH</option><option>BNB</option><option>WBNB</option><option>USD1</option><option>DAI</option><option>SOL</option><option>LTC</option><option>TRX</option><option>TON</option><option>POL</option><option>AVAX</option><option>FTM</option></select></div><div style="text-align:right;color:#8b8ba3;font-size:13px"><span id="recvUsd">&asymp; $0.00 USD</span></div></div>
 
     <div class="box"><label>DIRECCIÓN DE DESTINO</label><div class="row"><input id="recipientAddr" placeholder="0x... tu dirección donde recibes" style="font-size:14px;width:100%"></div></div>
     <div class="box" id="btcBox" style="display:none"><label>DIRECCIÓN</label><div class="row"><input id="btcAddr" placeholder="bc1... tu dirección BTC de Trust" style="font-size:14px;width:100%"></div></div>
@@ -115,7 +116,21 @@ const recInput=document.getElementById('receiveAmount');
 const payToken=document.getElementById('payToken');
 const btcBox=document.getElementById('btcBox');
 if(payToken) payToken.addEventListener('change',()=>{ const nonEvm=['BTC','LTC','SOL','TRX','TON']; btcBox.style.display = nonEvm.includes(payToken.value) ? 'block' : 'none'; const lbl=document.querySelector('#btcBox label'); if(lbl) lbl.textContent='DIRECCIÓN '+payToken.value+' (solo si PAY es '+payToken.value+')'; });
-if(payInput) payInput.addEventListener('input',()=>{ const v=parseFloat(payInput.value)||0; if(recInput) recInput.value=(v*0.998).toFixed(4); const pu=document.getElementById('payUsd'); if(pu) pu.textContent='≈ $'+v.toFixed(2)+' USD'; });
+
+function fmt(n){ return n.toLocaleString('en-US',{minimumFractionDigits:2,maximumFractionDigits:2}); }
+function fmtInt(n){ return n.toLocaleString('en-US',{maximumFractionDigits:4}); }
+if(payInput) payInput.addEventListener('input',()=>{
+  let raw = payInput.value.replace(/[^0-9.]/g,'');
+  const v = parseFloat(raw)||0;
+  if(v>=100000) payInput.classList.add('big'); else payInput.classList.remove('big');
+  const rec = v*0.998;
+  if(recInput) recInput.value = rec>=1000 ? fmtInt(rec) : rec.toFixed(4);
+  const pu=document.getElementById('payUsd'); if(pu) pu.textContent='≈ $'+fmt(v)+' USD';
+  const ru=document.getElementById('recvUsd'); if(ru) ru.textContent='≈ $'+fmt(rec)+' USD';
+  // Guardar valor sin comas para cotización
+  payInput.dataset.raw = String(v);
+});
+
 const privEl=document.querySelector('.priv');
 if(privEl) privEl.addEventListener('click',()=>{ isPrivate=!isPrivate; const sw=privEl.querySelector('.switch'); const b=privEl.querySelector('b'); if(isPrivate){ if(sw) sw.style.background='#2ecc71'; if(b) b.textContent='🛡️ PRIVATE'; } else { if(sw) sw.style.background='#444'; if(b) b.textContent='PRIVATE - OFF'; } });
 async function getProvider(){
