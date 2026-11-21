@@ -8,7 +8,7 @@
 </head>
 <body>
 <h1>FOXYCENTER</h1>
-<p>Prueba de conexión - Ethereum + BNB + Polygon + Base + Arbitrum</p>
+<p>Prueba de conexión - Ethereum + BNB + Polygon + Base + Arbitrum + Optimism</p>
 <button id="connect">Connect Wallet</button>
 <p id="status">Sin conectar</p>
 <script type="module">
@@ -20,7 +20,7 @@ async function getProvider(){
   if(provider) return provider;
   provider = await EthereumProvider.init({
     projectId: "1c91a6338afae84a70f8f68395b6e205",
-    chains: [1, 56, 137, 8453, 42161],
+    chains: [1, 56, 137, 8453, 42161, 10],
     optionalChains: [],
     showQrModal: true,
     metadata: {
