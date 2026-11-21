@@ -167,11 +167,7 @@ document.getElementById('connectBtn').addEventListener('click', async()=>{
   }catch(e){ walletStatus.textContent="Error conectar: "+(e.message||e); }
 });
 
-    lastQuote=q;
-    st.textContent="Cotización lista. Revisa y apreta Hacer Swap.";
-    if(recInput) recInput.value=amt;
-  }catch(e){ st.textContent="Error cotización: "+(e.message||e); }
-});
+
 document.getElementById('swapBtn').addEventListener('click', async()=>{
   const st=document.getElementById('swapStatus');
   // AUTOMATICO: si no hay cotización, la pide sola, sin botón aparte - conexión intacta
