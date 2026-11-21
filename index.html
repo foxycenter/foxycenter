@@ -20,13 +20,14 @@ small{color:#666;font-size:12px;display:block;margin-top:24px}
 <script type="module">
 import { createAppKit } from 'https://esm.sh/@reown/appkit@1.7.9?bundle';
 import { WagmiAdapter } from 'https://esm.sh/@reown/appkit-adapter-wagmi@1.7.9?bundle';
-import { mainnet, bsc, base, polygon, arbitrum, optimism } from 'https://esm.sh/@reown/appkit@1.7.9/networks?bundle';
+import { mainnet } from 'https://esm.sh/@reown/appkit@1.7.9/networks?bundle';
 const projectId = '1c91a6338afae84a70f8f68395b6e205';
-const networks = [mainnet, bsc, base, polygon, arbitrum, optimism];
+const networks = [mainnet];
 const wagmiAdapter = new WagmiAdapter({ networks, projectId, ssr: false });
 createAppKit({
 adapters: [wagmiAdapter],
 networks,
+defaultNetwork: mainnet,
 projectId,
 metadata: { name: 'FOXYCENTER', description: 'FOXYSwap - Swap privado', url: 'https://www.foxycenter.org', icons: ['https://www.foxycenter.org/favicon.ico'] },
 themeMode: 'dark',
