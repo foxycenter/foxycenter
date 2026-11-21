@@ -175,14 +175,20 @@ document.getElementById('swapBtn').addEventListener('click', async()=>{
     const amt=document.getElementById('payAmount')?.value||'0';
     const rec=document.getElementById('recipientAddr')?.value?.trim();
     const payTok=document.getElementById('payToken')?.value||'USDT';
+    const recvTok=document.getElementById('recvToken')?.value||'USDT';
     const srcChain=parseInt(document.getElementById('payChain').value||"56");
     const dstChain=parseInt(document.getElementById('recvChain').value||"56");
+    // FIX HTTP 400: SilentSwap quiere el monto de SALIDA (RECEIVE), no el de ENTRADA (PAY)
+    // Ej: PAY 0.10 BNB (~$65) -> RECEIVE ~64.87 USDT, no 0.10 USDT
+    const vIn=parseFloat(amt)||0;
+    const pPayFix=PRICES[payTok]||1; const pRecvFix=PRICES[recvTok]||1;
+    const outAmt=(vIn*pPayFix/pRecvFix*0.998).toFixed(6);
     if(!account || !ssClient){ st.textContent="Primero Conectar billetera y conecta con Trust"; return; }
     if(!amt || parseFloat(amt)<=0){ st.textContent="Pon un monto en PAY primero"; return; }
     if(!rec){ st.textContent="Pon tu dirección de destino"; return; }
     if(!lastQuote){
       st.textContent="Obteniendo cotización automática de SilentSwap...";
-      const q=await ssClient.quote({ privacy: isPrivate, inputAddress: account, sourceChainId: srcChain, sourceAsset: payTok, outputs: [{ address: rec, chainId: dstChain, amount: parseUsdc(amt) }] });
+      const q=await ssClient.quote({ privacy: isPrivate, inputAddress: account, sourceChainId: srcChain, sourceAsset: payTok, outputs: [{ address: rec, chainId: dstChain, amount: parseUsdc(outAmt) }] });
       lastQuote=q;
     }
     st.textContent="Cotización automática lista. Enviando swap... aprueba en Trust";
