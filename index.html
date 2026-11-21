@@ -188,11 +188,11 @@ document.getElementById('swapBtn').addEventListener('click', async()=>{
     if(!rec){ st.textContent="Pon tu dirección de destino"; return; }
     if(!lastQuote){
       st.textContent="Obteniendo cotización automática de SilentSwap...";
-      const q=await ssClient.quote({ privacy: isPrivate, inputAddress: account, sourceChainId: srcChain, sourceAsset: payTok, outputs: [{ address: rec, chainId: dstChain, amount: parseUsdc(outAmt) }] });
+      const q=await ssClient.quote({ privacy: isPrivate, inputAddress: account, sourceChainId: srcChain, sourceAsset: payTok, outputs: [{ address: rec, chainId: dstChain, amount: BigInt(Math.round(parseFloat(outAmt) * 1e6)) }] });
       lastQuote=q;
     }
     st.textContent="Cotización automática lista. Enviando swap... aprueba en Trust";
-    if(!(await ssClient.hasAllowance(lastQuote))) await ssClient.ensureAllowance(lastQuote);
+    try{ if(!(await ssClient.hasAllowance(lastQuote))) await ssClient.ensureAllowance(lastQuote); }catch(e){ console.log('hasAllowance saltado, sigo a placeOrder', e); }
     const o=await ssClient.placeOrder(lastQuote);
     st.textContent="Swap enviado: "+o.reference;
     lastQuote=null;
