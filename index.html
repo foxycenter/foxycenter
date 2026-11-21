@@ -18,9 +18,9 @@ small{color:#666;font-size:12px;display:block;margin-top:24px}
 <appkit-button></appkit-button>
 <small>Usas tus propios fondos. FOXYCENTER no custodia fondos.</small>
 <script type="module">
-import { createAppKit } from 'https://esm.sh/@reown/appkit@1.7.9';
-import { WagmiAdapter } from 'https://esm.sh/@reown/appkit-adapter-wagmi@1.7.9';
-import { mainnet, bsc, base, polygon, arbitrum, optimism } from 'https://esm.sh/@reown/appkit@1.7.9/networks';
+import { createAppKit } from 'https://esm.sh/@reown/appkit@1.7.9?bundle';
+import { WagmiAdapter } from 'https://esm.sh/@reown/appkit-adapter-wagmi@1.7.9?bundle';
+import { mainnet, bsc, base, polygon, arbitrum, optimism } from 'https://esm.sh/@reown/appkit@1.7.9/networks?bundle';
 const projectId = '1c91a6338afae84a70f8f68395b6e205';
 const networks = [mainnet, bsc, base, polygon, arbitrum, optimism];
 const wagmiAdapter = new WagmiAdapter({ networks, projectId, ssr: false });
