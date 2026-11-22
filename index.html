@@ -190,15 +190,19 @@ document.getElementById('swapBtn').addEventListener('click', async()=>{
     // DEBUG: mostrar valores si falla
     st.textContent="Obteniendo cotización... PAY "+payTok+" "+amt+" en "+srcChain+" -> "+recvTok+" en "+dstChain+" privado="+isPrivate;
     if(!lastQuote){
-      st.textContent="Obteniendo cotización automática de SilentSwap...";
-      // FIX toString: SDK 2.3.0 espera amount con parseUsdc y asset en outputs, y account como objeto
-      // Intento 1: con asset. Si falla, intento 2: sin asset.
+      st.textContent="Obteniendo cotización automática de SilentSwap... (espera 20s, no toques nada)";
+      const quoteConTimeout = (params) => Promise.race([
+        ssClient.quote(params),
+        new Promise((_,rej)=> setTimeout(()=> rej(new Error('SilentSwap no responde en 20s - señal 4G lenta o monto/cadenas sin ruta. Dale otra vez a Hacer Swap.')), 20000))
+      ]);
       try{
-        const q=await ssClient.quote({ privacy: isPrivate, inputAddress: account, sourceChainId: srcChain, sourceAsset: payTok, outputs: [{ address: rec, chainId: dstChain, amount: parseUsdc(outAmt), asset: recvTok }] });
+        const q=await quoteConTimeout({ privacy: isPrivate, inputAddress: account, sourceChainId: srcChain, sourceAsset: payTok, outputs: [{ address: rec, chainId: dstChain, amount: parseUsdc(outAmt), asset: recvTok }] });
         lastQuote=q;
       }catch(e1){
         console.log('quote con asset falló, reintento sin asset', e1);
-        const q2=await ssClient.quote({ privacy: isPrivate, inputAddress: account, sourceChainId: srcChain, sourceAsset: payTok, outputs: [{ address: rec, chainId: dstChain, amount: parseUsdc(outAmt) }] });
+        // Si fue timeout, no reintentar de inmediato, avisar
+        if(String(e1.message||e1).includes('20s')) throw e1;
+        const q2=await quoteConTimeout({ privacy: isPrivate, inputAddress: account, sourceChainId: srcChain, sourceAsset: payTok, outputs: [{ address: rec, chainId: dstChain, amount: parseUsdc(outAmt) }] });
         lastQuote=q2;
       }
     }
@@ -207,7 +211,7 @@ document.getElementById('swapBtn').addEventListener('click', async()=>{
     let o; try{ o=await ssClient.placeOrder(lastQuote); }catch(eP){ throw new Error('Error en placeOrder: '+(eP.message||eP)); }
     st.textContent="Swap enviado: "+o.reference;
     lastQuote=null;
-  }catch(e){ st.textContent="Error swap: "+(e.message||e)+" | PAY "+payTok+" "+amt+" src="+srcChain+" dst="+dstChain+" out="+outAmt+" acct="+(account?account.slice(0,6):'sin cuenta'); console.error(e); }
+  }catch(e){ lastQuote=null; st.textContent="Error swap: "+(e.message||e)+" | PAY "+payTok+" "+amt+" src="+srcChain+" dst="+dstChain+" out="+outAmt+" acct="+(account?account.slice(0,6):'sin cuenta'); console.error(e); }
 });
 
 document.getElementById('connectBtcBtn')?.addEventListener('click', ()=>{
