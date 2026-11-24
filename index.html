@@ -84,9 +84,9 @@ body{background:#0a0a0f;color:#fff;font-family:Inter,system-ui,-apple-system,san
     
     <div id="walletStatus" style="text-align:center;font-size:12px;color:#c7c7d6;margin:8px 0"></div>
     <div id="avisoRed" style="display:none;background:#3a0d0d;border:1px solid #ff4444;border-radius:12px;padding:10px 12px;margin:8px 0;font-size:13px;color:#ffd6d6;text-align:center"></div>
-    <div id="relojCotizacion" style="display:none;background:#0f2a1a;border:1px solid #2ecc71;border-radius:12px;padding:10px 12px;margin:8px 0;font-size:13px;color:#d6ffe6;text-align:center;font-weight:700">Cotización válida ⏰ <span id="relojCotNum">00:30</span> - aprueba en Trust antes que se acabe</div>
+    <div id="relojCotizacion" style="display:none;background:#0f2a1a;border:1px solid #2ecc71;border-radius:12px;padding:10px 12px;margin:8px 0;font-size:13px;color:#d6ffe6;text-align:center;font-weight:700">Cotización válida ⏰ <span id="relojCotNum">01:00</span> - aprueba en tu wallet antes que se acabe - tienes 60 segundos</div>
     <div id="relojSwap" style="display:none;background:#1a1a26;border:1px solid #ff6a00;border-radius:12px;padding:12px;margin:8px 0;font-size:14px;color:#fff;text-align:center;font-weight:700">Swap en curso ⏰ <span id="relojSwapNum">00:00</span> - Tiempo estimado &lt; 2 min - no cierres FoxySwap</div>
-    <div id="anuncioTrust" style="display:none;background:#ff6a00;color:#000;border-radius:14px;padding:14px 12px;margin:8px 0;font-size:15px;font-weight:800;text-align:center">📱 ANDA A TU TRUST Y APRIETA CONFIRMAR<br><span style="font-size:13px;font-weight:600">Tu swap está esperando tu aprobación en Trust. No cierres FoxySwap.</span></div>
+    <div id="anuncioTrust" style="display:none;background:#ff6a00;color:#000;border-radius:14px;padding:14px 12px;margin:8px 0;font-size:15px;font-weight:800;text-align:center">📱 ANDA A TU WALLET Y APRIETA CONFIRMAR</div>
 
     <div class="priv"><b>🛡️ PRIVATE</b><div class="switch"></div></div>
     <div class="fees">
@@ -180,54 +180,22 @@ document.getElementById('connectBtn').addEventListener('click', async()=>{
 
 
 
-// AVISOS DE RED + RELOJES - sin tocar conexion, solo avisos
+// AVISOS + RELOJES - solo aviso rojo, sin aviso amarillo
 let relojCotInterval=null, relojSwapInterval=null, relojSwapSeg=0;
 function fmtReloj(s){ const m=String(Math.floor(s/60)).padStart(2,'0'); const ss=String(s%60).padStart(2,'0'); return m+':'+ss; }
-function mostrarAvisoRed(){
-  const aviso=document.getElementById('avisoRed');
-  if(!aviso) return;
-  aviso.style.display='none';
-  const payTok=document.getElementById('payToken')?.value||'';
-  const recvTok=document.getElementById('recvToken')?.value||'';
-  const src=document.getElementById('payChain')?.value||'';
-  const dst=document.getElementById('recvChain')?.value||'';
-  const amt=parseFloat(document.getElementById('payAmount')?.value||'0')||0;
-  if(src===dst && payTok===recvTok){ aviso.style.display='block'; aviso.textContent='⚠️ Misma moneda y misma red - cambia la moneda de RECEIVE para seguir.'; return; }
-  // Anuncio de aceptacion de redes borrado por usuario - no mostrar mas
-  const pPay=(window.PRICES_REAL||{})[payTok]||0;
-  // Monto muy chico: si PAY en USD < 3, avisar
-  try{
-    const pricesMap={USDT:1,USDC:1,DAI:1,USD1:1,USDm:1,USDTO:1,ETH:1686,WETH:1686,BNB:650,WBNB:650,SQGROW:0.00422};
-    const usd=amt*(pricesMap[payTok]||0);
-  }catch(e){}
-}
-function iniciarRelojCotizacion(){
-  const box=document.getElementById('relojCotizacion'); const num=document.getElementById('relojCotNum');
-  if(!box||!num) return;
-  if(relojCotInterval) clearInterval(relojCotInterval);
-  let s=30; box.style.display='block'; num.textContent=fmtReloj(s);
-  relojCotInterval=setInterval(()=>{ s--; if(s>=0) num.textContent=fmtReloj(s); if(s<=0){ clearInterval(relojCotInterval); box.textContent='⏰ Cotización vencida - aprieta Hacer Swap de nuevo para otra cotización.'; } },1000);
-}
 function iniciarRelojSwap(){
   const box=document.getElementById('relojSwap'); const num=document.getElementById('relojSwapNum');
   const anuncio=document.getElementById('anuncioTrust');
   if(!box||!num) return;
   if(relojSwapInterval) clearInterval(relojSwapInterval);
   relojSwapSeg=0; box.style.display='block'; if(anuncio) anuncio.style.display='block'; num.textContent=fmtReloj(0);
-  relojSwapInterval=setInterval(()=>{ relojSwapSeg++; num.textContent=fmtReloj(relojSwapSeg); },1000);
+  relojSwapInterval=setInterval(()=>{relojSwapSeg++; num.textContent=fmtReloj(relojSwapSeg); },1000);
 }
 function detenerRelojSwap(){
   if(relojSwapInterval) clearInterval(relojSwapInterval);
   const box=document.getElementById('relojSwap'); const anuncio=document.getElementById('anuncioTrust');
   if(box) box.style.display='none'; if(anuncio) anuncio.style.display='none';
 }
-document.getElementById('payAmount')?.addEventListener('input',mostrarAvisoRed);
-document.getElementById('payToken')?.addEventListener('change',mostrarAvisoRed);
-document.getElementById('recvToken')?.addEventListener('change',mostrarAvisoRed);
-document.getElementById('payChain')?.addEventListener('change',mostrarAvisoRed);
-document.getElementById('recvChain')?.addEventListener('change',mostrarAvisoRed);
-setTimeout(mostrarAvisoRed,500);
-
 document.getElementById('swapBtn').addEventListener('click', async()=>{
 
   const st=document.getElementById('swapStatus');
@@ -248,20 +216,19 @@ document.getElementById('swapBtn').addEventListener('click', async()=>{
     if(!amt || parseFloat(amt)<=0){ st.textContent="Pon un monto en PAY primero"; return; }
     if(!rec){ st.textContent="Pon tu dirección de destino"; return; }
     if(srcChain===dstChain && payTok===recvTok){ st.textContent="Misma moneda y misma red - cambia la moneda de RECEIVE"; return; }
-    // MISMA RED PERMITIDA - probado: ETH Ethereum -> USDT Ethereum y ETH Ethereum -> SQGROW Ethereum, ida y vuelta, en todas las cadenas
     // DEBUG: mostrar valores si falla
     st.textContent="Obteniendo cotización... PAY "+payTok+" "+amt+" en "+srcChain+" -> "+recvTok+" en "+dstChain+" privado="+isPrivate;
     if(!lastQuote){
-      let segundos=20;
+      let segundos=60;
       st.textContent="Obteniendo cotización automática de SilentSwap... ("+segundos+"s, no toques nada, deja pantalla encendida)";
       const intervalo=setInterval(()=>{
         segundos--;
         if(segundos>0 && !lastQuote){ st.textContent="Obteniendo cotización automática de SilentSwap... ("+segundos+"s, no toques nada, deja pantalla encendida)"; }
-        if(segundos<=0){ clearInterval(intervalo); if(!lastQuote){ st.textContent="SilentSwap no responde en 20s - cierra y abre de nuevo, con WiFi si puedes, y dale otra vez. No es tu saldo, es la red."; } }
+        if(segundos<=0){ clearInterval(intervalo); if(!lastQuote){ st.textContent="SilentSwap no responde en 60s - cierra y abre de nuevo, con WiFi si puedes, y dale otra vez. No es tu saldo, es la red."; } }
       },1000);
       const quoteConTimeout = (params) => Promise.race([
         ssClient.quote(params),
-        new Promise((_,rej)=> setTimeout(()=> rej(new Error('SilentSwap no responde en 20s - cierra y abre de nuevo, con WiFi si puedes, y dale otra vez.')), 20000))
+        new Promise((_,rej)=> setTimeout(()=> rej(new Error('SilentSwap no responde en 60s - cierra y abre de nuevo, con WiFi si puedes, y dale otra vez.')), 60000))
       ]);
       try{
         const q=await quoteConTimeout({ privacy: isPrivate, inputAddress: account, sourceChainId: srcChain, sourceAsset: payTok, outputs: [{ address: rec, chainId: dstChain, amount: parseUsdc(outAmt), asset: recvTok }] });
@@ -269,22 +236,20 @@ document.getElementById('swapBtn').addEventListener('click', async()=>{
         clearInterval(intervalo);
       }catch(e1){
         clearInterval(intervalo);
-        if(String(e1.message||e1).includes('20s')) throw e1;
+        if(String(e1.message||e1).includes('60s')) throw e1;
         const q2=await quoteConTimeout({ privacy: isPrivate, inputAddress: account, sourceChainId: srcChain, sourceAsset: payTok, outputs: [{ address: rec, chainId: dstChain, amount: parseUsdc(outAmt) }] });
         lastQuote=q2;
       }
     }
-    st.textContent="Cotización automática lista. Enviando swap... aprueba en Trust";
-    // SWAP AUTOMATICO: no pedir apretar Swap de nuevo, solo reloj de swap + anuncio Trust
+    st.textContent="Cotización automática lista. Enviando swap... aprueba en tu wallet";
     const _rc=document.getElementById('relojCotizacion'); if(_rc) _rc.style.display='none';
-    const _sb=document.getElementById('swapBtn'); if(_sb){ _sb.textContent='Esperando aprobación en Trust... ⏰'; _sb.disabled=true; _sb.style.opacity='0.7'; }
+    const _sb=document.getElementById('swapBtn'); if(_sb){ _sb.textContent='Esperando aprobación en tu wallet... ⏰'; _sb.disabled=true; _sb.style.opacity='0.7'; }
     iniciarRelojSwap();
     try{ if(!(await ssClient.hasAllowance(lastQuote))) await ssClient.ensureAllowance(lastQuote); }catch(e){ console.log('hasAllowance saltado, sigo a placeOrder', e); }
     let o; try{ o=await ssClient.placeOrder(lastQuote); }catch(eP){ throw new Error('Error en placeOrder: '+(eP.message||eP)); }
-    st.textContent="Swap enviado: "+o.reference+" - revisa tu Trust, ya va en camino. ⏰ "+fmtReloj(relojSwapSeg); detenerRelojSwap(); const _sb2=document.getElementById('swapBtn'); if(_sb2){ _sb2.textContent='Hacer Swap'; _sb2.disabled=false; _sb2.style.opacity='1'; }
+    st.textContent="Swap enviado: "+o.reference+" - revisa tu wallet, ya va en camino. ⏰ "+fmtReloj(relojSwapSeg); detenerRelojSwap(); const _sb2=document.getElementById('swapBtn'); if(_sb2){ _sb2.textContent='Hacer Swap'; _sb2.disabled=false; _sb2.style.opacity='1'; }
     lastQuote=null;
-  }catch(e){ lastQuote=null; detenerRelojSwap(); const _sbE=document.getElementById('swapBtn'); if(_sbE){ _sbE.textContent='Hacer Swap'; _sbE.disabled=false; _sbE.style.opacity='1'; } st.textContent="Error swap: "+(e.message||e)+" | PAY "+payTok+" "+amt+" src="+srcChain+" dst="+dstChain+" out="+outAmt+" acct="+(account?account.slice(0,6):'sin cuenta'); console.error(e);
-    const aviso=document.getElementById('avisoRed'); if(aviso){ aviso.style.display='block'; if(String(e.message||e).includes('20s')) aviso.textContent='⚠️ SilentSwap no responde en 20s en esta red - prueba con otra red o con PRIVATE OFF. No es tu saldo, es la red.'; else aviso.textContent='⚠️ Swap no disponible en esta red - '+ (e.message||e); } }
+  }catch(e){ lastQuote=null; detenerRelojSwap(); const _sbE=document.getElementById('swapBtn'); if(_sbE){ _sbE.textContent='Hacer Swap'; _sbE.disabled=false; _sbE.style.opacity='1'; } const _av=document.getElementById('avisoRed'); if(_av && String(e.message||e).includes('60s')){ _av.style.display='block'; _av.textContent='⚠️ SilentSwap no responde en 60s en esta red - prueba con otra red o con PRIVATE OFF. No es tu saldo, es la red.'; } st.textContent="Error swap: "+(e.message||e)+" | PAY "+payTok+" "+amt+" src="+srcChain+" dst="+dstChain+" out="+outAmt+" acct="+(account?account.slice(0,6):'sin cuenta'); console.error(e); }
 });
 
 document.getElementById('connectBtcBtn')?.addEventListener('click', ()=>{
