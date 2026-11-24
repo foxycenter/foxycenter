@@ -57,7 +57,7 @@ body{background:#0a0a0f;color:#fff;font-family:Inter,system-ui,-apple-system,san
   .btn{max-width:480px;margin-left:auto;margin-right:auto}
 .row input.big{font-size:22px} @media (max-width:480px){.row input{font-size:28px}} 
 
-  .buscarBtn{background:#1a1a26;color:#fff;border:1px solid #2a2a3a;border-radius:999px;padding:6px 12px;font-size:12px;cursor:pointer;margin-left:8px}
+  .buscarBtn{background:#1a1a26;color:#fff;border:1px solid #2a2a3a;border-radius:999px;padding:7px 14px;font-size:12px;cursor:pointer}
   .modal{position:fixed;inset:0;background:rgba(0,0,0,.7);display:none;align-items:flex-end;justify-content:center;z-index:999}
   .modal.open{display:flex}
   .modalBox{background:#f5f5f5;color:#111;width:100%;max-width:480px;max-height:82vh;border-radius:18px 18px 0 0;overflow:hidden;display:flex;flex-direction:column;padding:14px 14px 20px}
@@ -75,6 +75,9 @@ body{background:#0a0a0f;color:#fff;font-family:Inter,system-ui,-apple-system,san
   .tokRow b{font-size:17px}
   .tokRow small{color:#666;font-size:13px}
   .tokRow .sel{color:#888;font-size:12px;letter-spacing:1px}
+
+  .tokenBtn{background:#1a1a26;color:#fff;border:1px solid #2a2a3a;border-radius:999px;padding:8px 12px;font-weight:600;font-size:14px;cursor:pointer;white-space:nowrap}
+  .tokenSelectHidden{display:none}
 </style>
 </head>
 <body>
@@ -94,9 +97,9 @@ body{background:#0a0a0f;color:#fff;font-family:Inter,system-ui,-apple-system,san
       <span>&rarr;</span>
       <select id="recvChain"><optgroup label="EVM - con QR / Trust"><option value="56">BNB Chain (56)</option><option value="1">Ethereum (1)</option><option value="137">Polygon (137)</option><option value="8453" selected>Base (8453)</option><option value="42161">Arbitrum (42161)</option><option value="10">Optimism (10)</option><option value="747474">Katana (747474)</option><option value="34443">Mode (34443)</option><option value="169">Manta Pacific (169)</option><option value="4326">MegaETH (4326)</option><option value="288">Boba Network (288)</option><option value="9745">Plasma (9745)</option></optgroup><optgroup label="No-EVM - por dirección"><option value="bitcoin">Bitcoin - BTC</option><option value="litecoin">Litecoin - LTC</option><option value="solana">Solana - SOL</option><option value="ton">TON - TON</option><option value="tron">TRON - TRX</option></optgroup></select>
     </div>
-    <div class="box"><label>PAY</label><div class="row"><input id="payAmount" value="" placeholder="0.00"><button type="button" class="buscarBtn" id="buscarPayBtn">🔍 Buscar</button><select id="payToken" class="token"><option>USDT</option><option>USDC</option><option>BTC</option><option>ETH</option><option>WETH</option><option>BNB</option><option>WBNB</option><option>USD1</option><option>DAI</option><option>USDm</option><option>USDTO</option><option>SOL</option><option>LTC</option><option>TRX</option><option>TON</option><option>POL</option><option>SQGROW</option><option>SHIB</option><option>BONE</option><option>ASTEROID</option><option>SHIBA2</option><option>ShibDoge</option><option>QOM</option><option>XRP</option><option>wXRP</option><option>uXRP</option><option>WXRP</option><option>XRP20</option><option>DOGE</option><option>WDOGE</option><option>BabyDoge</option><option>ELON</option><option>DOG</option><option>SIRIUS</option></select></div><div style="text-align:right;color:#8b8ba3;font-size:13px"><span id="payUsd">&asymp; $0.00 USD</span></span></div></div>
+    <div class="box"><label>PAY</label><div class="row"><input id="payAmount" value="" placeholder="0.00"><button type="button" class="tokenBtn" id="payTokenBtn">USDT ▼</button><select id="payToken" class="token tokenSelectHidden"><option>USDT</option><option>USDC</option><option>BTC</option><option>ETH</option><option>WETH</option><option>BNB</option><option>WBNB</option><option>USD1</option><option>DAI</option><option>USDm</option><option>USDTO</option><option>SOL</option><option>LTC</option><option>TRX</option><option>TON</option><option>POL</option><option>SQGROW</option><option>SHIB</option><option>BONE</option><option>ASTEROID</option><option>SHIBA2</option><option>ShibDoge</option><option>QOM</option><option>XRP</option><option>wXRP</option><option>uXRP</option><option>WXRP</option><option>XRP20</option><option>DOGE</option><option>WDOGE</option><option>BabyDoge</option><option>ELON</option><option>DOG</option><option>SIRIUS</option></select></div><div style="text-align:right;color:#8b8ba3;font-size:13px"><span id="payUsd">&asymp; $0.00 USD</span></span></div></div>
     <div class="arrow"><span>&darr;</span></div>
-    <div class="box"><label>RECEIVE</label><div class="row"><input id="receiveAmount" value="0.00" readonly style="color:#8b8ba3"><button type="button" class="buscarBtn" id="buscarRecvBtn">🔍 Buscar</button><select id="recvToken" class="token"><option>USDT</option><option>USDC</option><option>BTC</option><option>ETH</option><option>WETH</option><option>BNB</option><option>WBNB</option><option>USD1</option><option>DAI</option><option>USDm</option><option>USDTO</option><option>SOL</option><option>LTC</option><option>TRX</option><option>TON</option><option>POL</option><option>SQGROW</option><option>SHIB</option><option>BONE</option><option>ASTEROID</option><option>SHIBA2</option><option>ShibDoge</option><option>QOM</option><option>XRP</option><option>wXRP</option><option>uXRP</option><option>WXRP</option><option>XRP20</option><option>DOGE</option><option>WDOGE</option><option>BabyDoge</option><option>ELON</option><option>DOG</option><option>SIRIUS</option></select></div><div style="text-align:right;color:#8b8ba3;font-size:13px"><span id="recvUsd">&asymp; $0.00 USD</span></div></div>
+    <div class="box"><label>RECEIVE</label><div class="row"><input id="receiveAmount" value="0.00" readonly style="color:#8b8ba3"><button type="button" class="tokenBtn" id="recvTokenBtn">USDT ▼</button><select id="recvToken" class="token tokenSelectHidden"><option>USDT</option><option>USDC</option><option>BTC</option><option>ETH</option><option>WETH</option><option>BNB</option><option>WBNB</option><option>USD1</option><option>DAI</option><option>USDm</option><option>USDTO</option><option>SOL</option><option>LTC</option><option>TRX</option><option>TON</option><option>POL</option><option>SQGROW</option><option>SHIB</option><option>BONE</option><option>ASTEROID</option><option>SHIBA2</option><option>ShibDoge</option><option>QOM</option><option>XRP</option><option>wXRP</option><option>uXRP</option><option>WXRP</option><option>XRP20</option><option>DOGE</option><option>WDOGE</option><option>BabyDoge</option><option>ELON</option><option>DOG</option><option>SIRIUS</option></select></div><div style="text-align:right;color:#8b8ba3;font-size:13px"><span id="recvUsd">&asymp; $0.00 USD</span></div></div>
 
     <div class="box"><label>DIRECCIÓN DE DESTINO</label><div class="row"><input id="recipientAddr" placeholder="0x... tu dirección donde recibes" style="font-size:14px;width:100%"></div></div>
     <div class="box" id="btcBox" style="display:none"><label>DIRECCIÓN</label><div class="row"><input id="btcAddr" placeholder="bc1... tu dirección BTC de Trust" style="font-size:14px;width:100%"></div></div>
@@ -366,7 +369,7 @@ if(payChainEl) payChainEl.addEventListener('change',()=>{
         const selChain = target==='pay' ? document.getElementById('payChain') : document.getElementById('recvChain');
         if(selTok) selTok.value=tok;
         if(selChain && filtro!=='all') selChain.value=chainMostrar;
-        selTok?.dispatchEvent(new Event('change')); selChain?.dispatchEvent(new Event('change'));
+        selTok?.dispatchEvent(new Event('change')); selChain?.dispatchEvent(new Event('change')); setTimeout(()=>{ const pb=document.getElementById('payTokenBtn'); if(pb) pb.textContent=(document.getElementById('payToken')?.value||'USDT')+' ▼'; const rb=document.getElementById('recvTokenBtn'); if(rb) rb.textContent=(document.getElementById('recvToken')?.value||'USDT')+' ▼'; },50);
         document.getElementById('payAmount')?.dispatchEvent(new Event('input'));
         modal.classList.remove('open');
       };
@@ -374,8 +377,18 @@ if(payChainEl) payChainEl.addEventListener('change',()=>{
     });
   }
   function abrir(t){ target=t; filtro='all'; if(input) input.value=''; renderChips(); renderList(); modal.classList.add('open'); setTimeout(()=>input?.focus(),100); }
-  document.getElementById('buscarPayBtn')?.addEventListener('click',()=>abrir('pay'));
-  document.getElementById('buscarRecvBtn')?.addEventListener('click',()=>abrir('recv'));
+  // Directo: apretar donde dice la moneda abre el buscador, sin boton Buscar aparte
+  function syncTokenBtns(){
+    const p=document.getElementById('payToken')?.value||'USDT'; const r=document.getElementById('recvToken')?.value||'USDT';
+    const pb=document.getElementById('payTokenBtn'); if(pb) pb.textContent=p+' ▼';
+    const rb=document.getElementById('recvTokenBtn'); if(rb) rb.textContent=r+' ▼';
+  }
+  document.getElementById('payTokenBtn')?.addEventListener('click',()=>abrir('pay'));
+  document.getElementById('recvTokenBtn')?.addEventListener('click',()=>abrir('recv'));
+  // Sincronizar cuando cambia por buscador o por otro lado
+  document.getElementById('payToken')?.addEventListener('change',syncTokenBtns);
+  document.getElementById('recvToken')?.addEventListener('change',syncTokenBtns);
+  setTimeout(syncTokenBtns,300);
   document.getElementById('modalCloseBtn')?.addEventListener('click',()=>modal.classList.remove('open'));
   modal?.addEventListener('click',(e)=>{ if(e.target===modal) modal.classList.remove('open'); });
   input?.addEventListener('input',renderList);
