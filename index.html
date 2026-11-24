@@ -84,7 +84,6 @@ body{background:#0a0a0f;color:#fff;font-family:Inter,system-ui,-apple-system,san
     
     <div id="walletStatus" style="text-align:center;font-size:12px;color:#c7c7d6;margin:8px 0"></div>
     <div id="avisoRed" style="display:none;background:#3a0d0d;border:1px solid #ff4444;border-radius:12px;padding:10px 12px;margin:8px 0;font-size:13px;color:#ffd6d6;text-align:center"></div>
-    <div id="avisoAmarillo" style="display:none;background:#3a2a0d;border:1px solid #ffaa00;border-radius:12px;padding:10px 12px;margin:8px 0;font-size:13px;color:#ffe9b0;text-align:center"></div>
     <div id="relojCotizacion" style="display:none;background:#0f2a1a;border:1px solid #2ecc71;border-radius:12px;padding:10px 12px;margin:8px 0;font-size:13px;color:#d6ffe6;text-align:center;font-weight:700">Cotización válida ⏰ <span id="relojCotNum">00:30</span> - aprueba en Trust antes que se acabe</div>
     <div id="relojSwap" style="display:none;background:#1a1a26;border:1px solid #ff6a00;border-radius:12px;padding:12px;margin:8px 0;font-size:14px;color:#fff;text-align:center;font-weight:700">Swap en curso ⏰ <span id="relojSwapNum">00:00</span> - Tiempo estimado &lt; 2 min - no cierres FoxySwap</div>
     <div id="anuncioTrust" style="display:none;background:#ff6a00;color:#000;border-radius:14px;padding:14px 12px;margin:8px 0;font-size:15px;font-weight:800;text-align:center">📱 ANDA A TU TRUST Y APRIETA CONFIRMAR<br><span style="font-size:13px;font-weight:600">Tu swap está esperando tu aprobación en Trust. No cierres FoxySwap.</span></div>
@@ -186,26 +185,20 @@ let relojCotInterval=null, relojSwapInterval=null, relojSwapSeg=0;
 function fmtReloj(s){ const m=String(Math.floor(s/60)).padStart(2,'0'); const ss=String(s%60).padStart(2,'0'); return m+':'+ss; }
 function mostrarAvisoRed(){
   const aviso=document.getElementById('avisoRed');
-  const amar=document.getElementById('avisoAmarillo');
-  if(!aviso||!amar) return;
-  aviso.style.display='none'; amar.style.display='none';
+  if(!aviso) return;
+  aviso.style.display='none';
   const payTok=document.getElementById('payToken')?.value||'';
   const recvTok=document.getElementById('recvToken')?.value||'';
   const src=document.getElementById('payChain')?.value||'';
   const dst=document.getElementById('recvChain')?.value||'';
   const amt=parseFloat(document.getElementById('payAmount')?.value||'0')||0;
   if(src===dst && payTok===recvTok){ aviso.style.display='block'; aviso.textContent='⚠️ Misma moneda y misma red - cambia la moneda de RECEIVE para seguir.'; return; }
-  if(src===dst){
-    const nombres={ '1':'Ethereum','56':'BNB','137':'Polygon','8453':'Base','42161':'Arbitrum','10':'Optimism','747474':'Katana','34443':'Mode','169':'Manta','4326':'MegaETH','288':'Boba','9745':'Plasma','bitcoin':'Bitcoin','litecoin':'Litecoin','solana':'Solana','ton':'TON','tron':'TRON' };
-    const nSrc=nombres[src]||src; const nDst=nombres[dst]||dst;
-    amar.style.display='block'; amar.textContent='✅ Misma red permitida - '+payTok+' en '+nSrc+' -> '+recvTok+' en '+nDst;
-  }
+  // Anuncio de aceptacion de redes borrado por usuario - no mostrar mas
   const pPay=(window.PRICES_REAL||{})[payTok]||0;
   // Monto muy chico: si PAY en USD < 3, avisar
   try{
     const pricesMap={USDT:1,USDC:1,DAI:1,USD1:1,USDm:1,USDTO:1,ETH:1686,WETH:1686,BNB:650,WBNB:650,SQGROW:0.00422};
     const usd=amt*(pricesMap[payTok]||0);
-    if(amt>0 && usd>0 && usd<3){ amar.style.display='block'; amar.textContent='⚠️ Monto muy chico - ≈ $'+usd.toFixed(2)+' USD. La comisión ~$1.45 se lo come. Sube a $5 o más.'; }
   }catch(e){}
 }
 function iniciarRelojCotizacion(){
