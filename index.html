@@ -91,7 +91,7 @@ body{background:#0a0a0f;color:#fff;font-family:Inter,system-ui,-apple-system,san
 
     <div class="priv"><b>🛡️ PRIVATE</b><div class="switch"></div></div>
     <div class="fees">
-      <h4>Fee breakdown - reales SS misma red ETH-&gt;USDT</h4>
+      <h4>Fee breakdown - ejemplo misma red ETH-&gt;USDT</h4>
       <div class="fee"><span>FEE</span><b>~$0.73</b></div>
       <div class="fee"><span>PRICE IMPACT</span><b class="green">&lt;0.01%</b></div>
       <div class="fee"><span>NETWORK COST</span><b>~$0.72</b></div>
@@ -195,7 +195,11 @@ function mostrarAvisoRed(){
   const dst=document.getElementById('recvChain')?.value||'';
   const amt=parseFloat(document.getElementById('payAmount')?.value||'0')||0;
   if(src===dst && payTok===recvTok){ aviso.style.display='block'; aviso.textContent='⚠️ Misma moneda y misma red - cambia la moneda de RECEIVE para seguir.'; return; }
-  if(src===dst){ amar.style.display='block'; amar.textContent='✅ Misma red permitida - '+payTok+' en '+src+' -> '+recvTok+' en '+dst+' (probado en SS: ETH->USDT y ETH->SQGROW).'; }
+  if(src===dst){
+    const nombres={ '1':'Ethereum','56':'BNB','137':'Polygon','8453':'Base','42161':'Arbitrum','10':'Optimism','747474':'Katana','34443':'Mode','169':'Manta','4326':'MegaETH','288':'Boba','9745':'Plasma','bitcoin':'Bitcoin','litecoin':'Litecoin','solana':'Solana','ton':'TON','tron':'TRON' };
+    const nSrc=nombres[src]||src; const nDst=nombres[dst]||dst;
+    amar.style.display='block'; amar.textContent='✅ Misma red permitida - '+payTok+' en '+nSrc+' -> '+recvTok+' en '+nDst;
+  }
   const pPay=(window.PRICES_REAL||{})[payTok]||0;
   // Monto muy chico: si PAY en USD < 3, avisar
   try{
