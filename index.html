@@ -71,13 +71,13 @@ body{background:#0a0a0f;color:#fff;font-family:Inter,system-ui,-apple-system,san
   </div>
   <div class="card">
     <div class="chainrow">
-      <select id="payChain"><optgroup label="EVM - con QR / Trust"><option value="56">BNB Chain (56) - para SS</option><option value="1">Ethereum (1)</option><option value="137">Polygon (137)</option><option value="8453">Base (8453)</option><option value="42161">Arbitrum (42161)</option><option value="10">Optimism (10)</option></optgroup><optgroup label="No-EVM - "><option value="bitcoin">Bitcoin - BTC</option><option value="litecoin">Litecoin - LTC</option><option value="solana">Solana - SOL</option><option value="ton">TON - TON</option><option value="tron">TRON - TRX</option></optgroup></select>
+      <select id="payChain"><optgroup label="EVM - con QR / Trust"><option value="56">BNB Chain (56) - para SS</option><option value="1">Ethereum (1)</option><option value="137">Polygon (137)</option><option value="8453">Base (8453)</option><option value="42161">Arbitrum (42161)</option><option value="10">Optimism (10)</option><option value="747474">Katana (747474)</option><option value="34443">Mode (34443)</option><option value="169">Manta Pacific (169)</option><option value="4326">MegaETH (4326)</option><option value="288">Boba Network (288)</option><option value="9745">Plasma (9745)</option></optgroup><optgroup label="No-EVM - "><option value="bitcoin">Bitcoin - BTC</option><option value="litecoin">Litecoin - LTC</option><option value="solana">Solana - SOL</option><option value="ton">TON - TON</option><option value="tron">TRON - TRX</option></optgroup></select>
       <span>&rarr;</span>
-      <select id="recvChain"><optgroup label="EVM - con QR / Trust"><option value="56">BNB Chain (56)</option><option value="1">Ethereum (1)</option><option value="137">Polygon (137)</option><option value="8453" selected>Base (8453)</option><option value="42161">Arbitrum (42161)</option><option value="10">Optimism (10)</option></optgroup><optgroup label="No-EVM - por dirección"><option value="bitcoin">Bitcoin - BTC</option><option value="litecoin">Litecoin - LTC</option><option value="solana">Solana - SOL</option><option value="ton">TON - TON</option><option value="tron">TRON - TRX</option></optgroup></select>
+      <select id="recvChain"><optgroup label="EVM - con QR / Trust"><option value="56">BNB Chain (56)</option><option value="1">Ethereum (1)</option><option value="137">Polygon (137)</option><option value="8453" selected>Base (8453)</option><option value="42161">Arbitrum (42161)</option><option value="10">Optimism (10)</option><option value="747474">Katana (747474)</option><option value="34443">Mode (34443)</option><option value="169">Manta Pacific (169)</option><option value="4326">MegaETH (4326)</option><option value="288">Boba Network (288)</option><option value="9745">Plasma (9745)</option></optgroup><optgroup label="No-EVM - por dirección"><option value="bitcoin">Bitcoin - BTC</option><option value="litecoin">Litecoin - LTC</option><option value="solana">Solana - SOL</option><option value="ton">TON - TON</option><option value="tron">TRON - TRX</option></optgroup></select>
     </div>
-    <div class="box"><label>PAY</label><div class="row"><input id="payAmount" value="" placeholder="0.00"><select id="payToken" class="token"><option>USDT</option><option>USDC</option><option>BTC</option><option>ETH</option><option>WETH</option><option>BNB</option><option>WBNB</option><option>USD1</option><option>DAI</option><option>SOL</option><option>LTC</option><option>TRX</option><option>TON</option><option>POL</option></select></div><div style="text-align:right;color:#8b8ba3;font-size:13px"><span id="payUsd">&asymp; $0.00 USD</span></span></div></div>
+    <div class="box"><label>PAY</label><div class="row"><input id="payAmount" value="" placeholder="0.00"><select id="payToken" class="token"><option>USDT</option><option>USDC</option><option>BTC</option><option>ETH</option><option>WETH</option><option>BNB</option><option>WBNB</option><option>USD1</option><option>DAI</option><option>USDm</option><option>USDTO</option><option>SOL</option><option>LTC</option><option>TRX</option><option>TON</option><option>POL</option><option>SQGROW</option><option>SHIB</option><option>BONE</option><option>ASTEROID</option><option>SHIBA2</option><option>ShibDoge</option><option>QOM</option><option>XRP</option><option>wXRP</option><option>uXRP</option><option>WXRP</option><option>XRP20</option><option>DOGE</option><option>WDOGE</option><option>BabyDoge</option><option>ELON</option><option>DOG</option><option>SIRIUS</option></select></div><div style="text-align:right;color:#8b8ba3;font-size:13px"><span id="payUsd">&asymp; $0.00 USD</span></span></div></div>
     <div class="arrow"><span>&darr;</span></div>
-    <div class="box"><label>RECEIVE</label><div class="row"><input id="receiveAmount" value="0.00" readonly style="color:#8b8ba3"><select id="recvToken" class="token"><option>USDT</option><option>USDC</option><option>BTC</option><option>ETH</option><option>WETH</option><option>BNB</option><option>WBNB</option><option>USD1</option><option>DAI</option><option>SOL</option><option>LTC</option><option>TRX</option><option>TON</option><option>POL</option></select></div><div style="text-align:right;color:#8b8ba3;font-size:13px"><span id="recvUsd">&asymp; $0.00 USD</span></div></div>
+    <div class="box"><label>RECEIVE</label><div class="row"><input id="receiveAmount" value="0.00" readonly style="color:#8b8ba3"><select id="recvToken" class="token"><option>USDT</option><option>USDC</option><option>BTC</option><option>ETH</option><option>WETH</option><option>BNB</option><option>WBNB</option><option>USD1</option><option>DAI</option><option>USDm</option><option>USDTO</option><option>SOL</option><option>LTC</option><option>TRX</option><option>TON</option><option>POL</option><option>SQGROW</option><option>SHIB</option><option>BONE</option><option>ASTEROID</option><option>SHIBA2</option><option>ShibDoge</option><option>QOM</option><option>XRP</option><option>wXRP</option><option>uXRP</option><option>WXRP</option><option>XRP20</option><option>DOGE</option><option>WDOGE</option><option>BabyDoge</option><option>ELON</option><option>DOG</option><option>SIRIUS</option></select></div><div style="text-align:right;color:#8b8ba3;font-size:13px"><span id="recvUsd">&asymp; $0.00 USD</span></div></div>
 
     <div class="box"><label>DIRECCIÓN DE DESTINO</label><div class="row"><input id="recipientAddr" placeholder="0x... tu dirección donde recibes" style="font-size:14px;width:100%"></div></div>
     <div class="box" id="btcBox" style="display:none"><label>DIRECCIÓN</label><div class="row"><input id="btcAddr" placeholder="bc1... tu dirección BTC de Trust" style="font-size:14px;width:100%"></div></div>
@@ -104,8 +104,14 @@ body{background:#0a0a0f;color:#fff;font-family:Inter,system-ui,-apple-system,san
 import { EthereumProvider } from "https://esm.sh/@walletconnect/ethereum-provider@2.21.0";
 import { createSilentSwapClient, parseUsdc } from "https://cdn.jsdelivr.net/npm/@silentswap/sdk@2.3.0/+esm";
 import { createWalletClient, custom } from "https://cdn.jsdelivr.net/npm/viem@2.21.55/+esm";
-import { mainnet, bsc, polygon, base, arbitrum, optimism } from "https://cdn.jsdelivr.net/npm/viem@2.21.55/chains/+esm";
-const CHAINS = { "1": mainnet, "56": bsc, "137": polygon, "8453": base, "42161": arbitrum, "10": optimism };
+import { mainnet, bsc, polygon, base, arbitrum, optimism, defineChain } from "https://cdn.jsdelivr.net/npm/viem@2.21.55/chains/+esm";
+const katana = defineChain({ id: 747474, name: 'Katana', nativeCurrency: { name: 'Ether', symbol: 'ETH', decimals: 18 }, rpcUrls: { default: { http: ['https://rpc.katana.network'] } } });
+const modeChain = defineChain({ id: 34443, name: 'Mode', nativeCurrency: { name: 'Ether', symbol: 'ETH', decimals: 18 }, rpcUrls: { default: { http: ['https://mainnet.mode.network'] } } });
+const manta = defineChain({ id: 169, name: 'Manta Pacific', nativeCurrency: { name: 'Ether', symbol: 'ETH', decimals: 18 }, rpcUrls: { default: { http: ['https://pacific-rpc.manta.network/http'] } } });
+const megaeth = defineChain({ id: 4326, name: 'MegaETH', nativeCurrency: { name: 'Ether', symbol: 'ETH', decimals: 18 }, rpcUrls: { default: { http: ['https://mainnet.megaeth.com/rpc'] } } });
+const boba = defineChain({ id: 288, name: 'Boba Network', nativeCurrency: { name: 'Ether', symbol: 'ETH', decimals: 18 }, rpcUrls: { default: { http: ['https://mainnet.boba.network'] } } });
+const plasma = defineChain({ id: 9745, name: 'Plasma', nativeCurrency: { name: 'Ether', symbol: 'ETH', decimals: 18 }, rpcUrls: { default: { http: ['https://rpc.plasma.to'] } } });
+const CHAINS = { "1": mainnet, "56": bsc, "137": polygon, "8453": base, "42161": arbitrum, "10": optimism, "747474": katana, "34443": modeChain, "169": manta, "4326": megaeth, "288": boba, "9745": plasma };
 const INTEGRATOR_ID = "int_d47760638a531b8f8e853500";
 const PROJECT_ID = "1c91a6338afae84a70f8f68395b6e205";
 let provider=null, walletClient=null, ssClient=null, lastQuote=null, account=null;
@@ -118,7 +124,7 @@ const btcBox=document.getElementById('btcBox');
 if(payToken) payToken.addEventListener('change',()=>{ const nonEvm=['BTC','LTC','SOL','TRX','TON']; btcBox.style.display = nonEvm.includes(payToken.value) ? 'block' : 'none'; const lbl=document.querySelector('#btcBox label'); if(lbl) lbl.textContent='DIRECCIÓN '+payToken.value+' (solo si PAY es '+payToken.value+')'; });
 
 
-const PRICES = {USDT:1, USDC:1, DAI:1, USD1:1, BTC:95000, ETH:3500, WETH:3500, BNB:650, WBNB:650, SOL:180, LTC:110, TRX:0.28, TON:2.5, POL:0.25, AVAX:35, FTM:0.8};
+const PRICES = {USDT:1, USDC:1, DAI:1, USD1:1, USDm:1, USDTO:1, BTC:95000, ETH:3500, WETH:3500, BNB:650, WBNB:650, SOL:180, LTC:110, TRX:0.28, TON:2.5, POL:0.25, AVAX:35, FTM:0.8, SQGROW:0.004278, SHIB:0.000012, BONE:0.2, ASTEROID:0.001, SHIBA2:0.000001, ShibDoge:0.000001, QOM:0.000001, XRP:2.5, wXRP:2.5, uXRP:2.5, WXRP:2.5, XRP20:0.001, DOGE:0.15, WDOGE:0.15, BabyDoge:0.000000001, ELON:0.0000001, DOG:0.001, SIRIUS:0.001};
 function getPaySym(){ const s=document.getElementById('payToken'); return s? s.value : 'USDT'; }
 function getRecvSym(){ const s=document.getElementById('recvToken'); return s? s.value : 'USDT'; }
 function fmt(n){ return n.toLocaleString('en-US',{minimumFractionDigits:2,maximumFractionDigits:2}); }
@@ -160,7 +166,7 @@ document.getElementById('connectBtn').addEventListener('click', async()=>{
     const chainObj=CHAINS[String(srcChain)]||bsc;
     walletClient=createWalletClient({ account: { address: account, type: 'json-rpc' }, chain: chainObj, transport: custom(p) });
     ssClient=createSilentSwapClient({ walletClient: walletClient, integratorId: INTEGRATOR_ID });
-    walletStatus.textContent="Conectado: "+account+" - 6 redes EVM aprobadas";
+    walletStatus.textContent="Conectado: "+account+" - 12 redes EVM aprobadas";
     document.getElementById('connectBtn').textContent="Conectado - "+account.slice(0,6)+"..."+account.slice(-4);
     const rec=document.getElementById('recipientAddr');
     if(rec && !rec.value) rec.value=account;
@@ -190,17 +196,23 @@ document.getElementById('swapBtn').addEventListener('click', async()=>{
     // DEBUG: mostrar valores si falla
     st.textContent="Obteniendo cotización... PAY "+payTok+" "+amt+" en "+srcChain+" -> "+recvTok+" en "+dstChain+" privado="+isPrivate;
     if(!lastQuote){
-      st.textContent="Obteniendo cotización automática de SilentSwap... (espera 20s, no toques nada)";
+      let segundos=20;
+      st.textContent="Obteniendo cotización automática de SilentSwap... ("+segundos+"s, no toques nada, deja pantalla encendida)";
+      const intervalo=setInterval(()=>{
+        segundos--;
+        if(segundos>0 && !lastQuote){ st.textContent="Obteniendo cotización automática de SilentSwap... ("+segundos+"s, no toques nada, deja pantalla encendida)"; }
+        if(segundos<=0){ clearInterval(intervalo); if(!lastQuote){ st.textContent="SilentSwap no responde en 20s - cierra y abre de nuevo, con WiFi si puedes, y dale otra vez. No es tu saldo, es la red."; } }
+      },1000);
       const quoteConTimeout = (params) => Promise.race([
         ssClient.quote(params),
-        new Promise((_,rej)=> setTimeout(()=> rej(new Error('SilentSwap no responde en 20s - señal 4G lenta o monto/cadenas sin ruta. Dale otra vez a Hacer Swap.')), 20000))
+        new Promise((_,rej)=> setTimeout(()=> rej(new Error('SilentSwap no responde en 20s - cierra y abre de nuevo, con WiFi si puedes, y dale otra vez.')), 20000))
       ]);
       try{
         const q=await quoteConTimeout({ privacy: isPrivate, inputAddress: account, sourceChainId: srcChain, sourceAsset: payTok, outputs: [{ address: rec, chainId: dstChain, amount: parseUsdc(outAmt), asset: recvTok }] });
         lastQuote=q;
+        clearInterval(intervalo);
       }catch(e1){
-        console.log('quote con asset falló, reintento sin asset', e1);
-        // Si fue timeout, no reintentar de inmediato, avisar
+        clearInterval(intervalo);
         if(String(e1.message||e1).includes('20s')) throw e1;
         const q2=await quoteConTimeout({ privacy: isPrivate, inputAddress: account, sourceChainId: srcChain, sourceAsset: payTok, outputs: [{ address: rec, chainId: dstChain, amount: parseUsdc(outAmt) }] });
         lastQuote=q2;
@@ -240,7 +252,7 @@ if(payChainEl) payChainEl.addEventListener('change',()=>{
 <script>
 // CALCULO APARTE - NO DEPENDE DE LA CONEXION, ASI SIEMPRE CALCULA
 (function(){
-  var PRICES={USDT:1,USDC:1,DAI:1,USD1:1,BTC:95000,ETH:3500,WETH:3500,BNB:650,WBNB:650,SOL:180,LTC:110,TRX:0.28,TON:2.5,POL:0.25,AVAX:35,FTM:0.8};
+  var PRICES={USDT:1,USDC:1,DAI:1,USD1:1,USDm:1,USDTO:1,BTC:95000,ETH:3500,WETH:3500,BNB:650,WBNB:650,SOL:180,LTC:110,TRX:0.28,TON:2.5,POL:0.25,AVAX:35,FTM:0.8,SQGROW:0.004278,SHIB:0.000012,BONE:0.2,ASTEROID:0.001,SHIBA2:0.000001,ShibDoge:0.000001,QOM:0.000001,XRP:2.5,wXRP:2.5,uXRP:2.5,WXRP:2.5,XRP20:0.001, DOGE:0.15, WDOGE:0.15, BabyDoge:0.000000001, ELON:0.0000001, DOG:0.001, SIRIUS:0.001};
   function fmt(n){ return n.toLocaleString('en-US',{minimumFractionDigits:2,maximumFractionDigits:2}); }
   function fmtInt(n){ return n.toLocaleString('en-US',{maximumFractionDigits:4}); }
   function calc(){
