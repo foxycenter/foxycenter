@@ -85,7 +85,7 @@ body{background:#0a0a0f;color:#fff;font-family:Inter,system-ui,-apple-system,san
     <div id="walletStatus" style="text-align:center;font-size:12px;color:#c7c7d6;margin:8px 0"></div>
     <div id="avisoRed" style="display:none;background:#3a0d0d;border:1px solid #ff4444;border-radius:12px;padding:10px 12px;margin:8px 0;font-size:13px;color:#ffd6d6;text-align:center"></div>
     <div id="avisoAmarillo" style="display:none;background:#3a2a0d;border:1px solid #ffaa00;border-radius:12px;padding:10px 12px;margin:8px 0;font-size:13px;color:#ffe9b0;text-align:center"></div>
-    <div id="relojCotizacion" style="display:none;background:#0f2a1a;border:1px solid #2ecc71;border-radius:12px;padding:10px 12px;margin:8px 0;font-size:13px;color:#d6ffe6;text-align:center;font-weight:700">Cotización válida ⏰ <span id="relojCotNum">01:00</span> - aprieta Swap antes que se acabe - tienes 60 segundos</div>
+    <div id="relojCotizacion" style="display:none;background:#0f2a1a;border:1px solid #2ecc71;border-radius:12px;padding:10px 12px;margin:8px 0;font-size:13px;color:#d6ffe6;text-align:center;font-weight:700">Cotización válida ⏰ <span id="relojCotNum">00:30</span> - aprueba en Trust antes que se acabe</div>
     <div id="relojSwap" style="display:none;background:#1a1a26;border:1px solid #ff6a00;border-radius:12px;padding:12px;margin:8px 0;font-size:14px;color:#fff;text-align:center;font-weight:700">Swap en curso ⏰ <span id="relojSwapNum">00:00</span> - Tiempo estimado &lt; 2 min - no cierres FoxySwap</div>
     <div id="anuncioTrust" style="display:none;background:#ff6a00;color:#000;border-radius:14px;padding:14px 12px;margin:8px 0;font-size:15px;font-weight:800;text-align:center">📱 ANDA A TU TRUST Y APRIETA CONFIRMAR<br><span style="font-size:13px;font-weight:600">Tu swap está esperando tu aprobación en Trust. No cierres FoxySwap.</span></div>
 
@@ -208,8 +208,8 @@ function iniciarRelojCotizacion(){
   const box=document.getElementById('relojCotizacion'); const num=document.getElementById('relojCotNum');
   if(!box||!num) return;
   if(relojCotInterval) clearInterval(relojCotInterval);
-  let s=60; box.style.display='block'; num.textContent=fmtReloj(s);
-  relojCotInterval=setInterval(()=>{ s--; if(s>=0) num.textContent=fmtReloj(s); if(s<=0){ clearInterval(relojCotInterval); box.textContent='⏰ Cotización vencida - pide otra cotización.'; } },1000);
+  let s=30; box.style.display='block'; num.textContent=fmtReloj(s);
+  relojCotInterval=setInterval(()=>{ s--; if(s>=0) num.textContent=fmtReloj(s); if(s<=0){ clearInterval(relojCotInterval); box.textContent='⏰ Cotización vencida - aprieta Hacer Swap de nuevo para otra cotización.'; } },1000);
 }
 function iniciarRelojSwap(){
   const box=document.getElementById('relojSwap'); const num=document.getElementById('relojSwapNum');
@@ -255,16 +255,16 @@ document.getElementById('swapBtn').addEventListener('click', async()=>{
     // DEBUG: mostrar valores si falla
     st.textContent="Obteniendo cotización... PAY "+payTok+" "+amt+" en "+srcChain+" -> "+recvTok+" en "+dstChain+" privado="+isPrivate;
     if(!lastQuote){
-      let segundos=60;
+      let segundos=20;
       st.textContent="Obteniendo cotización automática de SilentSwap... ("+segundos+"s, no toques nada, deja pantalla encendida)";
       const intervalo=setInterval(()=>{
         segundos--;
         if(segundos>0 && !lastQuote){ st.textContent="Obteniendo cotización automática de SilentSwap... ("+segundos+"s, no toques nada, deja pantalla encendida)"; }
-        if(segundos<=0){ clearInterval(intervalo); if(!lastQuote){ st.textContent="SilentSwap no responde en 60s - cierra y abre de nuevo, con WiFi si puedes, y dale otra vez. No es tu saldo, es la red."; } }
+        if(segundos<=0){ clearInterval(intervalo); if(!lastQuote){ st.textContent="SilentSwap no responde en 20s - cierra y abre de nuevo, con WiFi si puedes, y dale otra vez. No es tu saldo, es la red."; } }
       },1000);
       const quoteConTimeout = (params) => Promise.race([
         ssClient.quote(params),
-        new Promise((_,rej)=> setTimeout(()=> rej(new Error('SilentSwap no responde en 60s - cierra y abre de nuevo, con WiFi si puedes, y dale otra vez.')), 60000))
+        new Promise((_,rej)=> setTimeout(()=> rej(new Error('SilentSwap no responde en 20s - cierra y abre de nuevo, con WiFi si puedes, y dale otra vez.')), 20000))
       ]);
       try{
         const q=await quoteConTimeout({ privacy: isPrivate, inputAddress: account, sourceChainId: srcChain, sourceAsset: payTok, outputs: [{ address: rec, chainId: dstChain, amount: parseUsdc(outAmt), asset: recvTok }] });
@@ -272,18 +272,22 @@ document.getElementById('swapBtn').addEventListener('click', async()=>{
         clearInterval(intervalo);
       }catch(e1){
         clearInterval(intervalo);
-        if(String(e1.message||e1).includes('60s')) throw e1;
+        if(String(e1.message||e1).includes('20s')) throw e1;
         const q2=await quoteConTimeout({ privacy: isPrivate, inputAddress: account, sourceChainId: srcChain, sourceAsset: payTok, outputs: [{ address: rec, chainId: dstChain, amount: parseUsdc(outAmt) }] });
         lastQuote=q2;
       }
     }
-    st.textContent="Cotización automática lista. Enviando swap... aprueba en Trust"; iniciarRelojCotizacion(); iniciarRelojSwap();
+    st.textContent="Cotización automática lista. Enviando swap... aprueba en Trust";
+    // SWAP AUTOMATICO: no pedir apretar Swap de nuevo, solo reloj de swap + anuncio Trust
+    const _rc=document.getElementById('relojCotizacion'); if(_rc) _rc.style.display='none';
+    const _sb=document.getElementById('swapBtn'); if(_sb){ _sb.textContent='Esperando aprobación en Trust... ⏰'; _sb.disabled=true; _sb.style.opacity='0.7'; }
+    iniciarRelojSwap();
     try{ if(!(await ssClient.hasAllowance(lastQuote))) await ssClient.ensureAllowance(lastQuote); }catch(e){ console.log('hasAllowance saltado, sigo a placeOrder', e); }
     let o; try{ o=await ssClient.placeOrder(lastQuote); }catch(eP){ throw new Error('Error en placeOrder: '+(eP.message||eP)); }
-    st.textContent="Swap enviado: "+o.reference+" - revisa tu Trust, ya va en camino. ⏰ "+fmtReloj(relojSwapSeg); detenerRelojSwap();
+    st.textContent="Swap enviado: "+o.reference+" - revisa tu Trust, ya va en camino. ⏰ "+fmtReloj(relojSwapSeg); detenerRelojSwap(); const _sb2=document.getElementById('swapBtn'); if(_sb2){ _sb2.textContent='Hacer Swap'; _sb2.disabled=false; _sb2.style.opacity='1'; }
     lastQuote=null;
-  }catch(e){ lastQuote=null; detenerRelojSwap(); st.textContent="Error swap: "+(e.message||e)+" | PAY "+payTok+" "+amt+" src="+srcChain+" dst="+dstChain+" out="+outAmt+" acct="+(account?account.slice(0,6):'sin cuenta'); console.error(e);
-    const aviso=document.getElementById('avisoRed'); if(aviso){ aviso.style.display='block'; if(String(e.message||e).includes('60s')) aviso.textContent='⚠️ SilentSwap no responde en 60s en esta red - prueba con otra red o con PRIVATE OFF. No es tu saldo, es la red.'; else aviso.textContent='⚠️ Swap no disponible en esta red - '+ (e.message||e); } }
+  }catch(e){ lastQuote=null; detenerRelojSwap(); const _sbE=document.getElementById('swapBtn'); if(_sbE){ _sbE.textContent='Hacer Swap'; _sbE.disabled=false; _sbE.style.opacity='1'; } st.textContent="Error swap: "+(e.message||e)+" | PAY "+payTok+" "+amt+" src="+srcChain+" dst="+dstChain+" out="+outAmt+" acct="+(account?account.slice(0,6):'sin cuenta'); console.error(e);
+    const aviso=document.getElementById('avisoRed'); if(aviso){ aviso.style.display='block'; if(String(e.message||e).includes('20s')) aviso.textContent='⚠️ SilentSwap no responde en 20s en esta red - prueba con otra red o con PRIVATE OFF. No es tu saldo, es la red.'; else aviso.textContent='⚠️ Swap no disponible en esta red - '+ (e.message||e); } }
 });
 
 document.getElementById('connectBtcBtn')?.addEventListener('click', ()=>{
