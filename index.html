@@ -103,8 +103,8 @@ body{background:#0a0a0f;color:#fff;font-family:Inter,system-ui,-apple-system,san
 <script type="module">
 import { EthereumProvider } from "https://esm.sh/@walletconnect/ethereum-provider@2.21.0";
 import { createSilentSwapClient, parseUsdc } from "https://cdn.jsdelivr.net/npm/@silentswap/sdk@2.3.0/+esm";
-import { createWalletClient, custom } from "https://cdn.jsdelivr.net/npm/viem@2.21.55/+esm";
-import { mainnet, bsc, polygon, base, arbitrum, optimism, defineChain } from "https://cdn.jsdelivr.net/npm/viem@2.21.55/chains/+esm";
+import { createWalletClient, custom, defineChain } from "https://cdn.jsdelivr.net/npm/viem@2.21.55/+esm";
+import { mainnet, bsc, polygon, base, arbitrum, optimism } from "https://cdn.jsdelivr.net/npm/viem@2.21.55/chains/+esm";
 const katana = defineChain({ id: 747474, name: 'Katana', nativeCurrency: { name: 'Ether', symbol: 'ETH', decimals: 18 }, rpcUrls: { default: { http: ['https://rpc.katana.network'] } } });
 const modeChain = defineChain({ id: 34443, name: 'Mode', nativeCurrency: { name: 'Ether', symbol: 'ETH', decimals: 18 }, rpcUrls: { default: { http: ['https://mainnet.mode.network'] } } });
 const manta = defineChain({ id: 169, name: 'Manta Pacific', nativeCurrency: { name: 'Ether', symbol: 'ETH', decimals: 18 }, rpcUrls: { default: { http: ['https://pacific-rpc.manta.network/http'] } } });
