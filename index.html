@@ -58,9 +58,9 @@ body{background:#0a0a0f;color:#fff;font-family:Inter,system-ui,-apple-system,san
 .row input.big{font-size:22px} @media (max-width:480px){.row input{font-size:28px}} 
 
   .buscarBtn{background:#1a1a26;color:#fff;border:1px solid #2a2a3a;border-radius:999px;padding:7px 14px;font-size:12px;cursor:pointer}
-  .modal{position:fixed;inset:0;background:rgba(0,0,0,.85);display:none;align-items:flex-end;justify-content:center;z-index:999}
+  .modal{position:fixed;inset:0;background:rgba(0,0,0,.45);display:flex;align-items:flex-end;justify-content:center;padding:0 10px 10px;display:none;align-items:flex-end;justify-content:center;z-index:999}
   .modal.open{display:flex}
-  .modalBox{background:#f5f5f5;color:#111;width:100%;max-width:480px;max-height:88vh;border-radius:18px 18px 0 0;overflow:hidden;display:flex;flex-direction:column;padding:14px 14px 20px}
+  .modalBox{background:#fff;border-radius:20px;padding:12px 14px;max-height:48vh;width:100%;max-width:420px;overflow-y:auto;box-shadow:0 -4px 24px rgba(0,0,0,.25)}
   .modalHead{display:flex;justify-content:space-between;align-items:center;margin-bottom:12px}
   .modalHead b{font-size:20px}
   .modalClose{background:#fff;border:1px solid #ccc;border-radius:10px;width:40px;height:40px;font-size:18px;cursor:pointer}
@@ -71,7 +71,7 @@ body{background:#0a0a0f;color:#fff;font-family:Inter,system-ui,-apple-system,san
   .chip.active{background:#111;color:#fff}
   .tokList{overflow-y:auto;flex:1}
   .tokRow{display:flex;align-items:center;gap:12px;padding:12px 4px;border-bottom:1px solid #e5e5e5;cursor:pointer;text-align:left;width:100%;background:transparent;border-top:0;border-left:0;border-right:0}
-  .tokIcon{width:44px;height:44px;border-radius:50%;background:#ddd;color:#fff;display:flex;align-items:center;justify-content:center;font-size:18px;font-weight:800;flex-shrink:0}
+  .tokIcon{width:36px;height:36px;border-radius:50%;background:#ddd;color:#fff;display:flex;align-items:center;justify-content:center;font-size:18px;font-weight:800;flex-shrink:0}
   .tokRow b{font-size:17px}
   .tokRow small{color:#666;font-size:13px}
   .tokRow .sel{color:#888;font-size:12px;letter-spacing:1px}
@@ -340,6 +340,7 @@ if(payChainEl) payChainEl.addEventListener('change',()=>{
 // BUSCADOR - limpio, sin tocar conexion ni cotizacion, solo elige moneda + cadena
 (function(){
   const NOMBRES={ '1':'Ethereum','56':'BNB','137':'Polygon','8453':'Base','42161':'Arbitrum','10':'Optimism','747474':'Katana','34443':'Mode','169':'Manta','4326':'MegaETH','288':'Boba','9745':'Plasma','bitcoin':'Bitcoin','litecoin':'Litecoin','solana':'Solana','ton':'TON','tron':'TRON' };
+  const NOMBRES_TOKEN={ SQGROW:'SquidGrow Squid Grow', SHIB:'Shiba Inu Shiba', BONE:'Bone ShibaSwap', USDT:'Tether', USDC:'USD Coin', BTC:'Bitcoin', WBTC:'Wrapped Bitcoin', ETH:'Ethereum', WETH:'Wrapped Ethereum', BNB:'Binance', WBNB:'Wrapped BNB', DAI:'Dai', SOL:'Solana', LTC:'Litecoin', TRX:'Tron', TON:'Toncoin', POL:'Polygon', XRP:'XRP Ripple', DOGE:'Dogecoin Doge', BabyDoge:'Baby Doge', ELON:'Dogelon', SHIBA2:'Shiba2', ShibDoge:'Shib Doge', QOM:'Shiba Predator', ASTEROID:'Asteroid', SIRIUS:'Sirius', DOG:'Dog', USD1:'USD1', USDm:'USDm', USDTO:'USDTO' };
   const CHAINS_LIST=['all','56','8453','1','137','42161','10','747474','34443','169','4326','288','9745'];
   const CHIP_LABEL={ 'all':'All','56':'BNB','8453':'Base','1':'Ethereum','137':'Polygon','42161':'Arbitrum','10':'Optimism','747474':'Katana','34443':'Mode','169':'Manta','4326':'MegaETH','288':'Boba','9745':'Plasma' };
   const CONTRATOS={ 'USDC|56':'0x8AC7...580d', 'USDT|56':'0x55d3...7955', 'DAI|56':'0x1AF3...DBc3', 'WETH|56':'0x2170...33F8', 'WBTC|56':'0x7130...ad9c' };
@@ -359,14 +360,15 @@ if(payChainEl) payChainEl.addEventListener('change',()=>{
     const nombreChain = NOMBRES[chainMostrar]||chainMostrar;
     listEl.innerHTML='';
     tokens.forEach(tok=>{
-      const hay = tok.toLowerCase().includes(q) || nombreChain.toLowerCase().includes(q) || chainMostrar.includes(q);
+      const nombreTok = (NOMBRES_TOKEN[tok]||'').toLowerCase();
+      const hay = tok.toLowerCase().includes(q) || nombreTok.includes(q) || q.includes(tok.toLowerCase()) || nombreChain.toLowerCase().includes(q) || chainMostrar.includes(q);
       if(q && !hay) return;
       const esNativo = (tok==='ETH' && chainMostrar==='1') || (tok==='BNB' && chainMostrar==='56') || (tok==='POL' && chainMostrar==='137');
       const contratoConocido = CONTRATOS[tok+'|'+chainMostrar] || '';
       const contrato = esNativo ? '0x0000...0000' : contratoConocido;
       const lineaChica = contrato ? (nombreChain+' · '+contrato) : nombreChain;
       const btn=document.createElement('button'); btn.type='button'; btn.className='tokRow';
-      btn.innerHTML='<span class="tokIcon" style="background:'+COLORES[tok]+'">'+tok.slice(0,1)+'</span><span style="flex:1"><b>'+tok+'</b><br><small>'+lineaChica+'</small></span>';
+      const nombreMostrar = NOMBRES_TOKEN[tok] ? NOMBRES_TOKEN[tok].split(' ')[0] : ''; btn.innerHTML='<span class="tokIcon" style="background:'+COLORES[tok]+'">'+tok.slice(0,1)+'</span><span style="flex:1"><b>'+tok+'</b>'+(nombreMostrar && nombreMostrar.toLowerCase()!==tok.toLowerCase() ? ' <span style="color:#888;font-weight:400;font-size:13px">'+nombreMostrar+'</span>' : '')+'<br><small>'+lineaChica+'</small></span>';
       btn.onclick=()=>{
         const selTok = target==='pay' ? document.getElementById('payToken') : document.getElementById('recvToken');
         const selChain = target==='pay' ? document.getElementById('payChain') : document.getElementById('recvChain');
