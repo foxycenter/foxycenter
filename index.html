@@ -57,27 +57,24 @@ body{background:#0a0a0f;color:#fff;font-family:Inter,system-ui,-apple-system,san
   .btn{max-width:480px;margin-left:auto;margin-right:auto}
 .row input.big{font-size:22px} @media (max-width:480px){.row input{font-size:28px}} 
 
-  .buscarBtn{background:#1a1a26;color:#fff;border:1px solid #2a2a3a;border-radius:999px;padding:7px 14px;font-size:12px;cursor:pointer}
-  .modal{position:fixed;inset:0;background:rgba(0,0,0,.45);display:flex;align-items:flex-end;justify-content:center;padding:0 10px 10px;display:none;align-items:flex-end;justify-content:center;z-index:999}
+  .buscarBtn{background:#1a1a26;color:#fff;border:1px solid #2a2a3a;border-radius:999px;padding:6px 12px;font-size:12px;cursor:pointer;margin-left:8px}
+  .modal{position:fixed;inset:0;background:rgba(0,0,0,.7);display:none;align-items:flex-end;justify-content:center;z-index:999}
   .modal.open{display:flex}
-  .tokList{flex:1;padding-top:2px;overflow-y:auto;padding-bottom:6px}.modalHead{flex-shrink:0}.modalSearch{flex-shrink:0}.chips{flex-shrink:0}.modalBox{background:#fff;border-radius:20px;padding:12px 14px 8px;width:100%;max-width:420px;height:52vh;max-height:52vh;display:flex;flex-direction:column;overflow:hidden;box-shadow:0 -4px 24px rgba(0,0,0,.25)}
+  .modalBox{background:#f5f5f5;color:#111;width:100%;max-width:480px;max-height:82vh;border-radius:18px 18px 0 0;overflow:hidden;display:flex;flex-direction:column;padding:14px 14px 20px}
   .modalHead{display:flex;justify-content:space-between;align-items:center;margin-bottom:12px}
   .modalHead b{font-size:20px}
   .modalClose{background:#fff;border:1px solid #ccc;border-radius:10px;width:40px;height:40px;font-size:18px;cursor:pointer}
   .modalSearch{display:flex;align-items:center;gap:8px;border:1.5px solid #111;border-radius:14px;padding:12px;background:#fff;margin-bottom:12px}
   .modalSearch input{border:0;outline:none;font-size:16px;width:100%;color:#111}
-  .chips{display:flex;gap:8px;overflow-x:auto;padding:4px 4px 10px 2px;margin-bottom:8px;scrollbar-width:none}
-  .chip{flex-shrink:0;background:#fff;border:1.5px solid #ccc;border-radius:999px;padding:9px 15px;font-size:14px;cursor:pointer;display:flex;align-items:center;gap:6px;white-space:nowrap}
+  .chips{display:flex;gap:8px;overflow-x:auto;padding-bottom:8px;margin-bottom:8px}
+  .chip{flex-shrink:0;background:#fff;border:1px solid #ccc;border-radius:999px;padding:8px 14px;font-size:14px;cursor:pointer;display:flex;align-items:center;gap:6px}
   .chip.active{background:#111;color:#fff}
   .tokList{overflow-y:auto;flex:1}
   .tokRow{display:flex;align-items:center;gap:12px;padding:12px 4px;border-bottom:1px solid #e5e5e5;cursor:pointer;text-align:left;width:100%;background:transparent;border-top:0;border-left:0;border-right:0}
-  .tokIcon{width:36px;height:36px;border-radius:50%;background:#ddd;color:#fff;display:flex;align-items:center;justify-content:center;font-size:18px;font-weight:800;flex-shrink:0}
+  .tokIcon{width:44px;height:44px;border-radius:50%;background:#ddd;display:flex;align-items:center;justify-content:center;font-size:18px;font-weight:800;flex-shrink:0}
   .tokRow b{font-size:17px}
   .tokRow small{color:#666;font-size:13px}
   .tokRow .sel{color:#888;font-size:12px;letter-spacing:1px}
-
-  .tokenBtn{background:#1a1a26;color:#fff;border:1px solid #2a2a3a;border-radius:999px;padding:8px 12px;font-weight:600;font-size:14px;cursor:pointer;white-space:nowrap}
-  .tokenSelectHidden{display:none}
 </style>
 </head>
 <body>
@@ -97,9 +94,9 @@ body{background:#0a0a0f;color:#fff;font-family:Inter,system-ui,-apple-system,san
       <span>&rarr;</span>
       <select id="recvChain"><optgroup label="EVM - con QR / Trust"><option value="56">BNB Chain (56)</option><option value="1">Ethereum (1)</option><option value="137">Polygon (137)</option><option value="8453" selected>Base (8453)</option><option value="42161">Arbitrum (42161)</option><option value="10">Optimism (10)</option><option value="747474">Katana (747474)</option><option value="34443">Mode (34443)</option><option value="169">Manta Pacific (169)</option><option value="4326">MegaETH (4326)</option><option value="288">Boba Network (288)</option><option value="9745">Plasma (9745)</option></optgroup><optgroup label="No-EVM - por dirección"><option value="bitcoin">Bitcoin - BTC</option><option value="litecoin">Litecoin - LTC</option><option value="solana">Solana - SOL</option><option value="ton">TON - TON</option><option value="tron">TRON - TRX</option></optgroup></select>
     </div>
-    <div class="box"><label>PAY</label><div class="row"><input id="payAmount" value="" placeholder="0.00"><button type="button" class="tokenBtn" id="payTokenBtn">USDT ▼</button><select id="payToken" class="token tokenSelectHidden"><option>USDT</option><option>USDC</option><option>BTC</option><option>ETH</option><option>WETH</option><option>BNB</option><option>WBNB</option><option>USD1</option><option>DAI</option><option>USDm</option><option>USDTO</option><option>SOL</option><option>LTC</option><option>TRX</option><option>TON</option><option>POL</option><option>SQGROW</option><option>SHIB</option><option>BONE</option><option>ASTEROID</option><option>SHIBA2</option><option>ShibDoge</option><option>QOM</option><option>XRP</option><option>wXRP</option><option>uXRP</option><option>WXRP</option><option>XRP20</option><option>DOGE</option><option>WDOGE</option><option>BabyDoge</option><option>ELON</option><option>DOG</option><option>SIRIUS</option></select></div><div style="text-align:right;color:#8b8ba3;font-size:13px"><span id="payUsd">&asymp; $0.00 USD</span></span></div></div>
+    <div class="box"><label>PAY</label><div class="row"><input id="payAmount" value="" placeholder="0.00"><button type="button" class="buscarBtn" id="buscarPayBtn">🔍 Buscar</button><select id="payToken" class="token"><option>USDT</option><option>USDC</option><option>BTC</option><option>ETH</option><option>WETH</option><option>BNB</option><option>WBNB</option><option>USD1</option><option>DAI</option><option>USDm</option><option>USDTO</option><option>SOL</option><option>LTC</option><option>TRX</option><option>TON</option><option>POL</option><option>SQGROW</option><option>SHIB</option><option>BONE</option><option>ASTEROID</option><option>SHIBA2</option><option>ShibDoge</option><option>QOM</option><option>XRP</option><option>wXRP</option><option>uXRP</option><option>WXRP</option><option>XRP20</option><option>DOGE</option><option>WDOGE</option><option>BabyDoge</option><option>ELON</option><option>DOG</option><option>SIRIUS</option></select></div><div style="text-align:right;color:#8b8ba3;font-size:13px"><span id="payUsd">&asymp; $0.00 USD</span></span></div></div>
     <div class="arrow"><span>&darr;</span></div>
-    <div class="box"><label>RECEIVE</label><div class="row"><input id="receiveAmount" value="0.00" readonly style="color:#8b8ba3"><button type="button" class="tokenBtn" id="recvTokenBtn">USDT ▼</button><select id="recvToken" class="token tokenSelectHidden"><option>USDT</option><option>USDC</option><option>BTC</option><option>ETH</option><option>WETH</option><option>BNB</option><option>WBNB</option><option>USD1</option><option>DAI</option><option>USDm</option><option>USDTO</option><option>SOL</option><option>LTC</option><option>TRX</option><option>TON</option><option>POL</option><option>SQGROW</option><option>SHIB</option><option>BONE</option><option>ASTEROID</option><option>SHIBA2</option><option>ShibDoge</option><option>QOM</option><option>XRP</option><option>wXRP</option><option>uXRP</option><option>WXRP</option><option>XRP20</option><option>DOGE</option><option>WDOGE</option><option>BabyDoge</option><option>ELON</option><option>DOG</option><option>SIRIUS</option></select></div><div style="text-align:right;color:#8b8ba3;font-size:13px"><span id="recvUsd">&asymp; $0.00 USD</span></div></div>
+    <div class="box"><label>RECEIVE</label><div class="row"><input id="receiveAmount" value="0.00" readonly style="color:#8b8ba3"><button type="button" class="buscarBtn" id="buscarRecvBtn">🔍 Buscar</button><select id="recvToken" class="token"><option>USDT</option><option>USDC</option><option>BTC</option><option>ETH</option><option>WETH</option><option>BNB</option><option>WBNB</option><option>USD1</option><option>DAI</option><option>USDm</option><option>USDTO</option><option>SOL</option><option>LTC</option><option>TRX</option><option>TON</option><option>POL</option><option>SQGROW</option><option>SHIB</option><option>BONE</option><option>ASTEROID</option><option>SHIBA2</option><option>ShibDoge</option><option>QOM</option><option>XRP</option><option>wXRP</option><option>uXRP</option><option>WXRP</option><option>XRP20</option><option>DOGE</option><option>WDOGE</option><option>BabyDoge</option><option>ELON</option><option>DOG</option><option>SIRIUS</option></select></div><div style="text-align:right;color:#8b8ba3;font-size:13px"><span id="recvUsd">&asymp; $0.00 USD</span></div></div>
 
     <div class="box"><label>DIRECCIÓN DE DESTINO</label><div class="row"><input id="recipientAddr" placeholder="0x... tu dirección donde recibes" style="font-size:14px;width:100%"></div></div>
     <div class="box" id="btcBox" style="display:none"><label>DIRECCIÓN</label><div class="row"><input id="btcAddr" placeholder="bc1... tu dirección BTC de Trust" style="font-size:14px;width:100%"></div></div>
@@ -253,13 +250,17 @@ document.getElementById('swapBtn').addEventListener('click', async()=>{
         new Promise((_,rej)=> setTimeout(()=> rej(new Error('SilentSwap no responde en 60s - cierra y abre de nuevo, con WiFi si puedes, y dale otra vez.')), 60000))
       ]);
       try{
-        const q=await quoteConTimeout({ privacy: isPrivate, inputAddress: account, sourceChainId: srcChain, sourceAsset: payTok, outputs: [{ address: rec, chainId: dstChain, amount: parseUsdc(outAmt), asset: recvTok }] });
+        const CONTRATOS_DEST={'USDT|1':'0xdAC17F958D2ee523a2206206994597C13D831ec7','USDT|56':'0x55d398a8c2eD2Af9A3fB1e0A0B2d3aC1eB0a1b2c3','USDT|8453':'0x50c5725949A6F0c72E6C4a641F24049A917db9','USDT|137':'0xc2132D05D31c914a87C6611C10748AEb04B58e8F','USDT|42161':'0xFd086bC7CD5C481DCC9C85ebE478A1C0b69FCbb9','USDC|1':'0xA0b86991c6218b36c1d19D4a2e9Eb0cE3606eB48','USDC|8453':'0x833589fCD6eDb6E08f4c7C32D4f71b54bdA02913'};
+        const destObj = (recvTok==='USDC') ? undefined : { kind:'evm', chainId: dstChain, assetId: (CONTRATOS_DEST[recvTok+'|'+dstChain]||''), assetSymbol: recvTok, assetDecimals: 6, slippageBps: 100 };
+        const outBase={ address: rec, chainId: dstChain, amount: parseUsdc(outAmt) };
+        if(destObj) outBase.dest=destObj;
+        const q=await quoteConTimeout({ privacy: isPrivate, inputAddress: account, sourceChainId: srcChain, sourceAsset: payTok, outputs: [outBase] });
         lastQuote=q;
         clearInterval(intervalo);
       }catch(e1){
         clearInterval(intervalo);
         if(String(e1.message||e1).includes('60s')) throw e1;
-        const q2=await quoteConTimeout({ privacy: isPrivate, inputAddress: account, sourceChainId: srcChain, sourceAsset: payTok, outputs: [{ address: rec, chainId: dstChain, amount: parseUsdc(outAmt) }] });
+        const q2=await quoteConTimeout({ privacy: isPrivate, inputAddress: account, sourceChainId: srcChain, sourceAsset: payTok, outputs: [outBase] });
         lastQuote=q2;
       }
     }
@@ -271,7 +272,7 @@ document.getElementById('swapBtn').addEventListener('click', async()=>{
     let o; try{ o=await ssClient.placeOrder(lastQuote); }catch(eP){ throw new Error('Error en placeOrder: '+(eP.message||eP)); }
     st.textContent="Swap enviado: "+o.reference+" - revisa tu wallet, ya va en camino. ⏰ "+fmtReloj(relojSwapSeg); detenerRelojSwap(); const _sb2=document.getElementById('swapBtn'); if(_sb2){ _sb2.textContent='Hacer Swap'; _sb2.disabled=false; _sb2.style.opacity='1'; }
     lastQuote=null;
-  }catch(e){ lastQuote=null; st.textContent="Error swap: "+(e.message||e); console.error(e); }
+  }catch(e){ lastQuote=null; st.textContent="Error swap: "+(e.message||e)+" | PAY "+payTok+" "+amt+" src="+srcChain+" dst="+dstChain+" out="+outAmt+" acct="+(account?account.slice(0,6):'sin cuenta'); console.error(e); }
 });
 
 document.getElementById('connectBtcBtn')?.addEventListener('click', ()=>{
@@ -340,11 +341,9 @@ if(payChainEl) payChainEl.addEventListener('change',()=>{
 // BUSCADOR - limpio, sin tocar conexion ni cotizacion, solo elige moneda + cadena
 (function(){
   const NOMBRES={ '1':'Ethereum','56':'BNB','137':'Polygon','8453':'Base','42161':'Arbitrum','10':'Optimism','747474':'Katana','34443':'Mode','169':'Manta','4326':'MegaETH','288':'Boba','9745':'Plasma','bitcoin':'Bitcoin','litecoin':'Litecoin','solana':'Solana','ton':'TON','tron':'TRON' };
-  const NOMBRES_TOKEN={ SQGROW:'SquidGrow Squid Grow', SHIB:'Shiba Inu Shiba', BONE:'Bone ShibaSwap', USDT:'Tether', USDC:'USD Coin', BTC:'Bitcoin', WBTC:'Wrapped Bitcoin', ETH:'Ethereum', WETH:'Wrapped Ethereum', BNB:'Binance', WBNB:'Wrapped BNB', DAI:'Dai', SOL:'Solana', LTC:'Litecoin', TRX:'Tron', TON:'Toncoin', POL:'Polygon', XRP:'XRP Ripple', DOGE:'Dogecoin Doge', BabyDoge:'Baby Doge', ELON:'Dogelon', SHIBA2:'Shiba2', ShibDoge:'Shib Doge', QOM:'Shiba Predator', ASTEROID:'Asteroid', SIRIUS:'Sirius', DOG:'Dog', USD1:'USD1', USDm:'USDm', USDTO:'USDTO' };
   const CHAINS_LIST=['all','56','8453','1','137','42161','10','747474','34443','169','4326','288','9745'];
   const CHIP_LABEL={ 'all':'All','56':'BNB','8453':'Base','1':'Ethereum','137':'Polygon','42161':'Arbitrum','10':'Optimism','747474':'Katana','34443':'Mode','169':'Manta','4326':'MegaETH','288':'Boba','9745':'Plasma' };
   const CONTRATOS={ 'USDC|56':'0x8AC7...580d', 'USDT|56':'0x55d3...7955', 'DAI|56':'0x1AF3...DBc3', 'WETH|56':'0x2170...33F8', 'WBTC|56':'0x7130...ad9c' };
-  const COLORES={ USDT:'#26a17b', USDC:'#2775ca', BTC:'#f7931a', ETH:'#627eea', WETH:'#627eea', BNB:'#f0b90b', WBNB:'#f0b90b', DAI:'#f5ac37', SOL:'#9945ff', LTC:'#a6b9d0', TRX:'#ff060a', TON:'#0098ea', POL:'#8247e5', SQGROW:'#ff6a00', SHIB:'#ff6a00', BONE:'#ff6a00', XRP:'#23292f', DOGE:'#c2a633', USD1:'#111', USDm:'#111', USDTO:'#111' };
   let target='pay'; let filtro='all';
   const modal=document.getElementById('tokenModal');
   const input=document.getElementById('tokenSearchInput');
@@ -360,21 +359,18 @@ if(payChainEl) payChainEl.addEventListener('change',()=>{
     const nombreChain = NOMBRES[chainMostrar]||chainMostrar;
     listEl.innerHTML='';
     tokens.forEach(tok=>{
-      const nombreTok = (NOMBRES_TOKEN[tok]||'').toLowerCase();
-      const hay = tok.toLowerCase().includes(q) || nombreTok.includes(q) || q.includes(tok.toLowerCase()) || nombreChain.toLowerCase().includes(q) || chainMostrar.includes(q);
+      const hay = tok.toLowerCase().includes(q) || nombreChain.toLowerCase().includes(q) || chainMostrar.includes(q);
       if(q && !hay) return;
       const esNativo = (tok==='ETH' && chainMostrar==='1') || (tok==='BNB' && chainMostrar==='56') || (tok==='POL' && chainMostrar==='137');
-      const contratoConocido = CONTRATOS[tok+'|'+chainMostrar] || '';
-      const contrato = esNativo ? '0x0000...0000' : contratoConocido;
-      const lineaChica = contrato ? (nombreChain+' · '+contrato) : nombreChain;
+      const contrato = esNativo ? '0x0000...0000' : (CONTRATOS[tok+'|'+chainMostrar] || (nombreChain+' · '+tok));
       const btn=document.createElement('button'); btn.type='button'; btn.className='tokRow';
-      const nombreMostrar = NOMBRES_TOKEN[tok] ? NOMBRES_TOKEN[tok].split(' ')[0] : ''; btn.innerHTML='<span class="tokIcon" style="background:'+COLORES[tok]+'">'+tok.slice(0,1)+'</span><span style="flex:1"><b>'+tok+'</b>'+(nombreMostrar && nombreMostrar.toLowerCase()!==tok.toLowerCase() ? ' <span style="color:#888;font-weight:400;font-size:13px">'+nombreMostrar+'</span>' : '')+'<br><small>'+lineaChica+'</small></span>';
+      btn.innerHTML='<span class="tokIcon">'+tok.slice(0,1)+'</span><span style="flex:1"><b>'+tok+'</b><br><small>'+nombreChain+' · '+contrato+'</small></span>';
       btn.onclick=()=>{
         const selTok = target==='pay' ? document.getElementById('payToken') : document.getElementById('recvToken');
         const selChain = target==='pay' ? document.getElementById('payChain') : document.getElementById('recvChain');
         if(selTok) selTok.value=tok;
         if(selChain && filtro!=='all') selChain.value=chainMostrar;
-        selTok?.dispatchEvent(new Event('change')); selChain?.dispatchEvent(new Event('change')); setTimeout(()=>{ const pb=document.getElementById('payTokenBtn'); if(pb) pb.textContent=(document.getElementById('payToken')?.value||'USDT')+' ▼'; const rb=document.getElementById('recvTokenBtn'); if(rb) rb.textContent=(document.getElementById('recvToken')?.value||'USDT')+' ▼'; },50);
+        selTok?.dispatchEvent(new Event('change')); selChain?.dispatchEvent(new Event('change'));
         document.getElementById('payAmount')?.dispatchEvent(new Event('input'));
         modal.classList.remove('open');
       };
@@ -382,18 +378,8 @@ if(payChainEl) payChainEl.addEventListener('change',()=>{
     });
   }
   function abrir(t){ target=t; filtro='all'; if(input) input.value=''; renderChips(); renderList(); modal.classList.add('open'); setTimeout(()=>input?.focus(),100); }
-  // Directo: apretar donde dice la moneda abre el buscador, sin boton Buscar aparte
-  function syncTokenBtns(){
-    const p=document.getElementById('payToken')?.value||'USDT'; const r=document.getElementById('recvToken')?.value||'USDT';
-    const pb=document.getElementById('payTokenBtn'); if(pb) pb.textContent=p+' ▼';
-    const rb=document.getElementById('recvTokenBtn'); if(rb) rb.textContent=r+' ▼';
-  }
-  document.getElementById('payTokenBtn')?.addEventListener('click',()=>abrir('pay'));
-  document.getElementById('recvTokenBtn')?.addEventListener('click',()=>abrir('recv'));
-  // Sincronizar cuando cambia por buscador o por otro lado
-  document.getElementById('payToken')?.addEventListener('change',syncTokenBtns);
-  document.getElementById('recvToken')?.addEventListener('change',syncTokenBtns);
-  setTimeout(syncTokenBtns,300);
+  document.getElementById('buscarPayBtn')?.addEventListener('click',()=>abrir('pay'));
+  document.getElementById('buscarRecvBtn')?.addEventListener('click',()=>abrir('recv'));
   document.getElementById('modalCloseBtn')?.addEventListener('click',()=>modal.classList.remove('open'));
   modal?.addEventListener('click',(e)=>{ if(e.target===modal) modal.classList.remove('open'); });
   input?.addEventListener('input',renderList);
