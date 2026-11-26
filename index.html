@@ -46,11 +46,11 @@ body{background:#0a0a0f;color:#fff;font-family:Inter,system-ui,-apple-system,san
 <div class="logo"><b>FOXYCENTER</b></div>
 <div class="hero"><h1><span>Privacidad</span> es la necesidad.</h1><p>Swap privado &bull; Seguro &bull; Sin rastreo</p><p style="color:#c7c7d6;font-size:13px;margin-top:8px">Usas tus propios fondos. FOXYCENTER no custodia fondos.</p></div>
 <div class="card">
-<div class="chainrow"><select id="payChain"><option value="56">BNB Chain (56)</option><option value="8453" selected>Base (8453)</option><option value="1">Ethereum (1)</option></select><span>&rarr;</span><select id="recvChain"><option value="56">BNB Chain (56)</option><option value="8453">Base (8453)</option><option value="1" selected>Ethereum (1)</option></select></div>
-<div class="box"><label>PAY</label><div class="row"><input id="payAmount" placeholder="0.00"><select id="payToken" class="token"><option>BNB</option><option>USDC</option><option>USDT</option><option>WETH</option><option>DAI</option><option>WBTC</option><option>CAKE</option><option>FDUSD</option><option>ETH</option><option>cbBTC</option><option>AERO</option><option>cbETH</option><option>SQGROW</option><option>SHIB</option></select></div><div style="text-align:right;color:#8b8ba3;font-size:13px"><span id="payUsd">&asymp; $0.00 USD</span></div></div>
+<div class="chainrow"><select id="payChain"><option value="56">BNB Chain (56)</option><option value="8453" selected>Base (8453)</option><option value="1">Ethereum (1)</option><option value="bitcoin">Bitcoin - BTC</option><option value="litecoin">Litecoin - LTC</option><option value="solana">Solana - SOL</option><option value="ton">TON - TON</option><option value="tron">TRON - TRX</option></select><span>&rarr;</span><select id="recvChain"><option value="56">BNB Chain (56)</option><option value="8453">Base (8453)</option><option value="1" selected>Ethereum (1)</option><option value="bitcoin">Bitcoin - BTC</option><option value="litecoin">Litecoin - LTC</option><option value="solana">Solana - SOL</option><option value="ton">TON - TON</option><option value="tron">TRON - TRX</option></select></div>
+<div class="box"><label>PAY</label><div class="row"><input id="payAmount" placeholder="0.00"><select id="payToken" class="token"><option>ETH</option><option>BNB</option><option>USDC</option><option>USDT</option><option>WETH</option><option>DAI</option><option>WBTC</option><option>CAKE</option><option>FDUSD</option><option>cbBTC</option><option>AERO</option><option>cbETH</option><option>SQGROW</option><option>SHIB</option><option>BTC</option><option>LTC</option><option>SOL</option><option>TON</option><option>TRX</option></select></div><div style="text-align:right;color:#8b8ba3;font-size:13px"><span id="payUsd">&asymp; $0.00 USD</span></div></div>
 <div class="arrow"><span>&darr;</span></div>
-<div class="box"><label>RECEIVE</label><div class="row"><input id="receiveAmount" value="0.00" readonly style="color:#8b8ba3"><select id="recvToken" class="token"><option>BNB</option><option>USDC</option><option>USDT</option><option>WETH</option><option>DAI</option><option>WBTC</option><option>CAKE</option><option>FDUSD</option><option>ETH</option><option>cbBTC</option><option>AERO</option><option>cbETH</option><option>SQGROW</option><option>SHIB</option></select></div><div style="text-align:right;color:#8b8ba3;font-size:13px"><span id="recvUsd">&asymp; $0.00 USD</span></div></div>
-<div class="box"><label>DIRECCI&Oacute;N DE DESTINO</label><div class="row"><input id="recipientAddr" placeholder="0x... tu direcci&oacute;n donde recibes" style="font-size:14px;width:100%"></div></div>
+<div class="box"><label>RECEIVE</label><div class="row"><input id="receiveAmount" value="0.00" readonly style="color:#8b8ba3"><select id="recvToken" class="token"><option>ETH</option><option>BNB</option><option>USDC</option><option>USDT</option><option>WETH</option><option>DAI</option><option>WBTC</option><option>CAKE</option><option>FDUSD</option><option>cbBTC</option><option>AERO</option><option>cbETH</option><option>SQGROW</option><option>SHIB</option><option>BTC</option><option>LTC</option><option>SOL</option><option>TON</option><option>TRX</option></select></div><div style="text-align:right;color:#8b8ba3;font-size:13px"><span id="recvUsd">&asymp; $0.00 USD</span></div></div>
+<div class="box"><label>DIRECCI&Oacute;N DE DESTINO</label><div class="row"><input id="recipientAddr" placeholder="0x... tu direcci&oacute;n donde recibes" style="font-size:14px;width:100%"></div></div><div class="box" id="nonEvmBox" style="display:none"><label id="nonEvmLabel">DIRECCI&Oacute;N NO-EVM</label><div class="row"><input id="nonEvmAddr" placeholder="Pega tu direcci&oacute;n BTC / SOL / LTC / TON / TRX de Trust" style="font-size:14px;width:100%"></div></div>
 <div id="walletStatus"></div>
 <div id="avisoRed"></div>
 <div id="relojCotizacion">Cotizaci&oacute;n v&aacute;lida ⏰ <span id="relojCotNum">01:00</span> - aprueba en tu wallet antes que se acabe</div>
@@ -104,10 +104,27 @@ const TOKENS_SS = {
     "DAI": { address: "0x6B175474E89094C44Da98b954EedeAC495271d0F", decimals: 18, isNative: false },
     "WETH": { address: "0xC02aaA39b223FE8D0A0e5C4F27eAD9083C756Cc2", decimals: 18, isNative: false },
     "SHIB": { address: "0x95aD61b0a150d79219dCF64E1E6Cc01f0B64C4cE", decimals: 18, isNative: false }
+  },
+  "bitcoin": {
+    "BTC": { address: "native", decimals: 8, isNative: true }
+  },
+  "litecoin": {
+    "LTC": { address: "native", decimals: 8, isNative: true }
+  },
+  "solana": {
+    "SOL": { address: "11111111111111111111111111111111", decimals: 9, isNative: true },
+    "USDC": { address: "EPjFWdd5AufqSSqeM2qN1xzybapC8G4wEGGkZwyTDt1v", decimals: 6, isNative: false }
+  },
+  "ton": {
+    "TON": { address: "native", decimals: 9, isNative: true }
+  },
+  "tron": {
+    "TRX": { address: "native", decimals: 6, isNative: true },
+    "USDT": { address: "TR7NHqjeKQxGTCi8q8ZY4pL8otSzgjLj6t", decimals: 6, isNative: false }
   }
 };
 function getTokenInfo(chainId, symbol){ const c=TOKENS_SS[String(chainId)]; return c ? c[symbol] : null; }
-const PRICES = {BNB:650, USDC:1, USDT:1, WETH:1686, DAI:1, WBTC:95000, CAKE:2.5, FDUSD:1, ETH:1686, cbBTC:95000, AERO:0.8, cbETH:1700, SQGROW:0.00422, SHIB:0.000012};
+const PRICES = {ETH:1686, BNB:650, USDC:1, USDT:1, WETH:1686, DAI:1, WBTC:95000, CAKE:2.5, FDUSD:1, cbBTC:95000, AERO:0.8, cbETH:1700, SQGROW:0.00422, SHIB:0.000012, BTC:95000, LTC:110, SOL:180, TON:2.5, TRX:0.28};
 function fmt(n){ return n.toLocaleString('en-US',{minimumFractionDigits:2,maximumFractionDigits:2}); }
 function fmtInt(n){ return n.toLocaleString('en-US',{maximumFractionDigits:4}); }
 function fmtReloj(s){ const m=String(Math.floor(s/60)).padStart(2,'0'); const ss=String(s%60).padStart(2,'0'); return m+':'+ss; }
@@ -224,6 +241,23 @@ document.getElementById('swapBtn').addEventListener('click', async()=>{
     console.error(e);
   }
 });
+
+// Mostrar caja no-EVM cuando PAY o RECEIVE es no-EVM
+const NON_EVM = ['bitcoin','litecoin','solana','ton','tron'];
+function actualizarCajaNonEvm(){
+  const pc=document.getElementById('payChain')?.value||'8453';
+  const rc=document.getElementById('recvChain')?.value||'1';
+  const esNonEvm = NON_EVM.includes(pc) || NON_EVM.includes(rc);
+  const box=document.getElementById('nonEvmBox');
+  const lbl=document.getElementById('nonEvmLabel');
+  if(box) box.style.display = esNonEvm ? 'block' : 'none';
+  if(lbl && esNonEvm){
+    const cual = NON_EVM.includes(rc) ? rc.toUpperCase() : pc.toUpperCase();
+    lbl.textContent='DIRECCIÓN '+cual+' - por dirección (no-EVM)';
+  }
+}
+document.getElementById('payChain')?.addEventListener('change', actualizarCajaNonEvm);
+document.getElementById('recvChain')?.addEventListener('change', actualizarCajaNonEvm);
 </script>
 </body>
 </html>
