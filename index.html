@@ -1,396 +1,256 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>FOXYCENTER - Swap Privado - BUSCADOR + RELOJ + MISMA RED</title>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>FOXYCENTER - FoxySwap</title>
 <style>
-*{box-sizing:border-box;margin:0;padding:0}
-body{background:#0a0a0f;color:#fff;font-family:Inter,system-ui,-apple-system,sans-serif;min-height:100vh;overflow-x:hidden;width:100%}
-.top{max-width:480px;width:100%;margin:0 auto;padding:16px 16px 0;box-sizing:border-box;overflow:hidden}
-.logo{display:flex;align-items:center;gap:12px}
-.fox{width:56px;height:56px;flex-shrink:0}
-.logo b{font-size:26px;letter-spacing:-0.5px;white-space:nowrap}
-.hero{margin:20px 0 16px;overflow:hidden;width:100%;text-align:center}
-.hero h1{font-size:32px;line-height:1.05;letter-spacing:-0.5px;word-break:break-word;overflow-wrap:break-word}
-.hero h1 span{color:#ff6a00}
-.hero p{color:#8b8ba3;margin-top:10px;font-size:15px}
-.hero .funds{color:#c7c7d6;font-size:13px;margin-top:8px}
-.card{background:#13131c;border:1px solid #23232f;border-radius:20px;padding:16px;width:100%;box-sizing:border-box;overflow:hidden}
-.chainrow{display:flex;gap:8px;margin-bottom:12px;align-items:center;width:100%;box-sizing:border-box}
-.chainrow select{flex:1;min-width:0;background:#0c0c12;color:#fff;border:1px solid #23232f;border-radius:10px;padding:10px;font-size:12px;outline:none;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
-.chainrow span{color:#ff6a00;font-weight:700}
-.box{background:#0c0c12;border:1px solid #23232f;border-radius:14px;padding:14px;margin-bottom:12px}
-.box label{font-size:12px;color:#8b8ba3;letter-spacing:.5px}
-.row{display:flex;justify-content:space-between;align-items:center;gap:12px;margin-top:6px}
-.row input{background:transparent;border:0;color:#fff;font-size:32px;font-weight:700;flex:1;min-width:0;width:100%;outline:none;overflow:hidden;text-overflow:ellipsis}
-.token{background:#1a1a26;color:#fff;border:1px solid #2a2a3a;border-radius:999px;padding:8px 12px;font-weight:600;outline:none;font-size:14px}
-.arrow{text-align:center;margin:-4px 0 8px}
-.arrow span{background:#1a1a26;border:1px solid #2a2a3a;width:36px;height:36px;display:inline-flex;align-items:center;justify-content:center;border-radius:50%;color:#ff6a00;font-size:18px}
-.priv{display:flex;justify-content:space-between;align-items:center;padding:12px 4px;border-top:1px solid #23232f;margin-top:4px}
-.priv b{color:#2ecc71}
-.switch{width:52px;height:28px;background:#2ecc71;border-radius:999px;position:relative}
-.switch:after{content:"";position:absolute;right:4px;top:4px;width:20px;height:20px;background:#fff;border-radius:50%}
-.fees{border-top:1px solid #23232f;padding-top:12px}
-.fees h4{font-size:13px;color:#8b8ba3;text-align:center;margin-bottom:10px;font-weight:500}
-.fee{display:flex;justify-content:space-between;padding:8px 0;font-size:14px;color:#c7c7d6}
-.fee b{color:#fff}
-.fee .green{color:#2ecc71}
-.btn{width:100%;background:#ff6a00;color:#000;border:0;border-radius:14px;padding:16px;font-size:16px;font-weight:700;margin-top:16px;cursor:pointer}
-.powered{text-align:center;color:#8b8ba3;font-size:13px;margin-top:14px;letter-spacing:.3px}
-.powered b{color:#fff}
-.footer{text-align:center;color:#666;font-size:12px;padding:16px 0 30px}
-
-  .upg{display:flex;gap:8px;align-items:center;justify-content:center;background:#0f2a1a;border:1px solid #2ecc71;border-radius:999px;padding:8px 12px;margin:14px 0 0;font-size:12px;color:#2ecc71;font-weight:700}
-  .dot{width:9px;height:9px;background:#2ecc71;border-radius:50%;box-shadow:0 0 0 4px rgba(46,204,113,.25)}
-  .upgBox{background:#0c0c12;border:1px solid #2ecc71;border-radius:14px;padding:12px;margin-bottom:12px}
-  .upgBox b{color:#2ecc71}
-@media (max-width:480px){.top{padding:12px 12px 0}.logo b{font-size:22px}.fox{width:48px;height:48px}.hero h1{font-size:28px}.chainrow{flex-direction:column}.chainrow select{width:100%;flex:none}.chainrow span{transform:rotate(90deg)}.row input{font-size:28px;width:80px}.card{padding:14px}}
-
-  body{display:flex;flex-direction:column;align-items:center;justify-content:flex-start}
-  .top{width:100%;max-width:480px;margin:0 auto !important;padding:16px 16px 0;box-sizing:border-box;display:flex;flex-direction:column;align-items:center}
-  .logo{width:100%;justify-content:center}
-  .hero{width:100%;text-align:center}
-  .hero h1,.hero p{ text-align:center}
-  .card{width:100%;max-width:480px;margin:0 auto;box-sizing:border-box}
-  .powered,.footer{width:100%;text-align:center}
-  .btn{max-width:480px;margin-left:auto;margin-right:auto}
-.row input.big{font-size:22px} @media (max-width:480px){.row input{font-size:28px}} 
-
-  .buscarBtn{background:#1a1a26;color:#fff;border:1px solid #2a2a3a;border-radius:999px;padding:6px 12px;font-size:12px;cursor:pointer;margin-left:8px}
-  .modal{position:fixed;inset:0;background:rgba(0,0,0,.7);display:none;align-items:flex-end;justify-content:center;z-index:999}
-  .modal.open{display:flex}
-  .modalBox{background:#f5f5f5;color:#111;width:100%;max-width:480px;max-height:82vh;border-radius:18px 18px 0 0;overflow:hidden;display:flex;flex-direction:column;padding:14px 14px 20px}
-  .modalHead{display:flex;justify-content:space-between;align-items:center;margin-bottom:12px}
-  .modalHead b{font-size:20px}
-  .modalClose{background:#fff;border:1px solid #ccc;border-radius:10px;width:40px;height:40px;font-size:18px;cursor:pointer}
-  .modalSearch{display:flex;align-items:center;gap:8px;border:1.5px solid #111;border-radius:14px;padding:12px;background:#fff;margin-bottom:12px}
-  .modalSearch input{border:0;outline:none;font-size:16px;width:100%;color:#111}
-  .chips{display:flex;gap:8px;overflow-x:auto;padding-bottom:8px;margin-bottom:8px}
-  .chip{flex-shrink:0;background:#fff;border:1px solid #ccc;border-radius:999px;padding:8px 14px;font-size:14px;cursor:pointer;display:flex;align-items:center;gap:6px}
-  .chip.active{background:#111;color:#fff}
-  .tokList{overflow-y:auto;flex:1}
-  .tokRow{display:flex;align-items:center;gap:12px;padding:12px 4px;border-bottom:1px solid #e5e5e5;cursor:pointer;text-align:left;width:100%;background:transparent;border-top:0;border-left:0;border-right:0}
-  .tokIcon{width:44px;height:44px;border-radius:50%;background:#ddd;display:flex;align-items:center;justify-content:center;font-size:18px;font-weight:800;flex-shrink:0}
-  .tokRow b{font-size:17px}
-  .tokRow small{color:#666;font-size:13px}
-  .tokRow .sel{color:#888;font-size:12px;letter-spacing:1px}
+*{box-sizing:border-box} body{margin:0;background:#0b0b12;color:#fff;font-family:system-ui,-apple-system,Segoe UI,Roboto,sans-serif}
+.wrap{max-width:520px;margin:0 auto;padding:16px 12px 28px}
+.logo{text-align:center;font-size:30px;font-weight:900;letter-spacing:2px} .logo span{color:#ff6a00}
+.sub{text-align:center;color:#aaa;font-size:12px;margin-bottom:12px}
+.card{background:#15151f;border:1px solid #26262f;border-radius:16px;padding:14px;margin-bottom:10px}
+.lbl{font-size:11px;letter-spacing:1px;color:#9a9aad;margin-bottom:6px}
+.row{display:flex;gap:8px;align-items:center}
+input[type=text],input[type=number]{flex:1;background:#0e0e16;border:1px solid #2a2a36;color:#fff;border-radius:12px;padding:12px;font-size:20px;outline:none;width:100%}
+select{background:#0e0e16;border:1px solid #2a2a36;color:#fff;border-radius:12px;padding:10px;font-size:15px;outline:none}
+.usd{font-size:12px;color:#8b8ba3;margin-top:6px}
+.dest{width:100%;background:#0e0e16;border:1px solid #2a2a36;color:#fff;border-radius:12px;padding:11px;font-size:13px;outline:none;word-break:break-all}
+.priv{display:flex;justify-content:space-between;align-items:center;background:#15151f;border:1px solid #26262f;border-radius:16px;padding:12px 14px;margin-bottom:10px;cursor:pointer}
+.switch{width:48px;height:26px;background:#333;border-radius:999px;position:relative;flex-shrink:0} .switch:after{content:"";position:absolute;top:3px;left:3px;width:20px;height:20px;background:#fff;border-radius:50%;transition:.2s} .priv.on .switch{background:#1db954} .priv.on .switch:after{left:25px}
+.btn{width:100%;padding:14px;border:0;border-radius:14px;font-size:16px;font-weight:800;cursor:pointer;margin-top:8px}
+.btn-connect{background:#ff6a00;color:#fff} .btn-swap{background:#23232f;color:#fff;border:1px solid #ff6a00}
+.status{text-align:center;font-size:13px;color:#ffcc88;margin-top:10px;min-height:18px;word-break:break-word}
+.fee{font-size:12px;color:#aaa} .fee b{color:#fff}
+.powered{text-align:center;font-size:11px;color:#666;margin-top:14px} .footer{text-align:center;font-size:11px;color:#555;margin-top:6px}
+.small{font-size:11px;color:#888;text-align:center;margin-top:8px}
 </style>
 </head>
 <body>
-<div class="top">
-  <div class="logo">
-    <svg class="fox" viewBox="0 0 120 120"><defs><linearGradient id="lens" x1="0" y1="0" x2="0" y2="1"><stop offset="0%" stop-color="#2b2b2b"/><stop offset="100%" stop-color="#000"/></linearGradient></defs><path d="M18 38 L32 8 L52 30 Z" fill="#ff7a1a"/><path d="M24 30 L32 14 L42 28 Z" fill="#ffe6c7"/><path d="M102 38 L88 8 L68 30 Z" fill="#ff7a1a"/><path d="M96 30 L88 14 L78 28 Z" fill="#ffe6c7"/><ellipse cx="60" cy="68" rx="46" ry="40" fill="#ff7a1a"/><ellipse cx="60" cy="82" rx="32" ry="20" fill="#fff5e6"/><ellipse cx="60" cy="76" rx="6" ry="4.5" fill="#111"/><path d="M52 84 Q60 88 68 84" stroke="#111" stroke-width="1.5" fill="none" stroke-linecap="round"/><g><rect x="14" y="52" width="44" height="28" rx="10" fill="url(#lens)" stroke="#111" stroke-width="2.5"/><rect x="62" y="52" width="44" height="28" rx="10" fill="url(#lens)" stroke="#111" stroke-width="2.5"/><rect x="56" y="58" width="8" height="5" rx="2" fill="#111"/><line x1="22" y1="58" x2="34" y2="74" stroke="#fff" stroke-width="2.5" opacity="0.7" stroke-linecap="round"/><line x1="70" y1="58" x2="82" y2="74" stroke="#fff" stroke-width="2.5" opacity="0.7" stroke-linecap="round"/><line x1="14" y1="60" x2="6" y2="58" stroke="#111" stroke-width="3" stroke-linecap="round"/><line x1="106" y1="60" x2="114" y2="58" stroke="#111" stroke-width="3" stroke-linecap="round"/></g></svg>
-    <b>FOXYCENTER</b>
-  </div>
-  <div class="hero">
-    <h1><span>Privacidad</span> es la necesidad.</h1>
-    <p>Swap privado &bull; Seguro &bull; Sin rastreo</p>
-    <p class="funds">Usas tus propios fondos. FOXYCENTER no custodia fondos.</p>
-  </div>
-  <div class="card">
-    <div class="chainrow">
-      <select id="payChain" style="display:none;"><optgroup label="EVM - con QR / Trust"><option value="56">BNB Chain (56) - para SS</option><option value="1">Ethereum (1)</option><option value="137">Polygon (137)</option><option value="8453" selected>Base (8453)</option><option value="42161">Arbitrum (42161)</option><option value="10">Optimism (10)</option><option value="747474">Katana (747474)</option><option value="34443">Mode (34443)</option><option value="169">Manta Pacific (169)</option><option value="4326">MegaETH (4326)</option><option value="288">Boba Network (288)</option><option value="9745">Plasma (9745)</option></optgroup><optgroup label="No-EVM - "><option value="bitcoin">Bitcoin - BTC</option><option value="litecoin">Litecoin - LTC</option><option value="solana">Solana - SOL</option><option value="ton">TON - TON</option><option value="tron">TRON - TRX</option></optgroup></select>
-      <span>&rarr;</span>
-      <select id="recvChain" style="display:none;"><optgroup label="EVM - con QR / Trust"><option value="56">BNB Chain (56)</option><option value="1">Ethereum (1)</option><option value="137">Polygon (137)</option><option value="8453" selected>Base (8453)</option><option value="42161">Arbitrum (42161)</option><option value="10">Optimism (10)</option><option value="747474">Katana (747474)</option><option value="34443">Mode (34443)</option><option value="169">Manta Pacific (169)</option><option value="4326">MegaETH (4326)</option><option value="288">Boba Network (288)</option><option value="9745">Plasma (9745)</option></optgroup><optgroup label="No-EVM - por dirección"><option value="bitcoin">Bitcoin - BTC</option><option value="litecoin">Litecoin - LTC</option><option value="solana">Solana - SOL</option><option value="ton">TON - TON</option><option value="tron">TRON - TRX</option></optgroup></select>
-    </div>
-    <div class="box"><label>PAY</label><div class="row"><input id="payAmount" value="" placeholder="0.00"><select id="payToken" class="token"><option>USDT</option><option>USDC</option><option>ETH</option><option>WETH</option><option>BNB</option><option>WBNB</option><option>DAI</option><option>POL</option><option>SQGROW</option><option>SHIB</option><option>BONE</option><option>XRP</option><option>DOGE</option></select></div><div style="text-align:right;color:#8b8ba3;font-size:13px"><span id="payUsd">&asymp; $0.00 USD</span></span></div></div>
-    <div class="arrow"><span>&darr;</span></div>
-    <div class="box"><label>RECEIVE</label><div class="row"><input id="receiveAmount" value="0.00" readonly style="color:#8b8ba3"><select id="recvToken" class="token"><option>USDT</option><option>USDC</option><option>ETH</option><option>WETH</option><option>BNB</option><option>WBNB</option><option>DAI</option><option>POL</option><option>SQGROW</option><option>SHIB</option><option>BONE</option><option>XRP</option><option>DOGE</option></select></div><div style="text-align:right;color:#8b8ba3;font-size:13px"><span id="recvUsd">&asymp; $0.00 USD</span></div></div>
+<div class="wrap">
+<div class="logo">FOXY<span>CENTER</span></div>
+<div class="sub">FoxySwap - Privado, simple, por SilentSwap</div>
 
-    <div class="box"><label>DIRECCIÓN DE DESTINO</label><div class="row"><input id="recipientAddr" placeholder="0x... tu dirección donde recibes" style="font-size:14px;width:100%"></div></div>
-    <div class="box" id="btcBox" style="display:none"><label>DIRECCIÓN</label><div class="row"><input id="btcAddr" placeholder="bc1... tu dirección BTC de Trust" style="font-size:14px;width:100%"></div></div>
-    
-    <div id="walletStatus" style="text-align:center;font-size:12px;color:#c7c7d6;margin:8px 0"></div>
-    <div id="avisoRed" style="display:none;background:#3a0d0d;border:1px solid #ff4444;border-radius:12px;padding:10px 12px;margin:8px 0;font-size:13px;color:#ffd6d6;text-align:center"></div>
-    <div id="relojCotizacion" style="display:none;background:#0f2a1a;border:1px solid #2ecc71;border-radius:12px;padding:10px 12px;margin:8px 0;font-size:13px;color:#d6ffe6;text-align:center;font-weight:700">Cotización válida ⏰ <span id="relojCotNum">01:00</span> - aprueba en tu wallet antes que se acabe - tienes 60 segundos</div>
-    <div id="relojSwap" style="display:none;background:#1a1a26;border:1px solid #ff6a00;border-radius:12px;padding:12px;margin:8px 0;font-size:14px;color:#fff;text-align:center;font-weight:700">Swap en curso ⏰ <span id="relojSwapNum">00:00</span> - Tiempo estimado &lt; 2 min - no cierres FoxySwap</div>
-    <div id="anuncioTrust" style="display:none;background:#ff6a00;color:#000;border-radius:14px;padding:14px 12px;margin:8px 0;font-size:15px;font-weight:800;text-align:center">📱 ANDA A TU WALLET Y APRIETA CONFIRMAR</div>
+<div class="card">
+<div class="lbl">PAY - TU PAGAS</div>
+<div class="row">
+<input id="payAmount" type="text" inputmode="decimal" placeholder="0.00" value="16.5">
+<select id="payToken"><option value="USDC">USDC - Base</option><option value="ETH">ETH - Base</option><option value="USDT">USDT - Base</option></select>
+</div>
+<div class="usd" id="payUsd">≈ $16.50 USD - Estimación local, no es cotización SS</div>
+<!-- Cadenas ocultas, no confunden. Por dentro: PAY Base 8453, RECEIVE Ethereum 1. No se borraron, solo se ocultan. -->
+<select id="payChain" style="display:none;"><option value="8453" selected>Base</option></select>
+<select id="recvChain" style="display:none;"><option value="1" selected>Ethereum</option></select>
+</div>
 
-    <div class="priv"><b>🛡️ PRIVATE</b><div class="switch"></div></div>
-    <div class="fees">
-      <h4>Fee breakdown - Fee según cotización ETH-&gt;USDT</h4>
-      <div class="fee"><span>FEE</span><b>~$0.73</b></div>
-      <div class="fee"><span>PRICE IMPACT</span><b class="green">&lt;0.01%</b></div>
-      <div class="fee"><span>NETWORK COST</span><b>~$0.72</b></div>
-      <div class="fee"><span>MAX SLIPPAGE</span><b>Auto &bull; 0.5%</b></div>
-    </div>
-  </div>
-  <button class="btn" id="connectBtn">Conectar billetera - Trust / WalletConnect</button>
-  
-  <button class="btn" id="swapBtn" style="background:#23232f;color:#fff;border:1px solid #ff6a00">Hacer Swap</button>
-  <div id="swapStatus" style="text-align:center;font-size:13px;color:#ffcc88;margin-top:10px;min-height:18px;word-break:break-all"></div>
-  <div class="powered">Powered by <b>SilentSwap</b></div>
-  <div class="footer">&copy; 2026 FOXYCENTER - Todos los derechos reservados</div>
+<div class="card">
+<div class="lbl">RECEIVE - TU RECIBES</div>
+<div class="row">
+<input id="receiveAmount" type="text" readonly placeholder="—" value="">
+<select id="recvToken"><option value="ETH" selected>ETH - Ethereum</option><option value="USDC">USDC - Ethereum</option><option value="USDT">USDT - Ethereum</option></select>
+</div>
+<div class="usd" id="recvUsd">Esperando cotización real de SilentSwap...</div>
+</div>
+
+<div class="card">
+<div class="lbl">DIRECCIÓN DE DESTINO - DONDE RECIBES</div>
+<input id="recipientAddr" class="dest" type="text" placeholder="0x... tu wallet donde recibes">
+<div class="small">Si recibes ETH, pon tu dirección ETH. Si recibes USDC, pon tu dirección donde quieres USDC.</div>
+</div>
+
+<div class="priv" id="privBox">
+<div><b>PRIVATE</b><div style="font-size:11px;color:#aaa">Si está ON, el swap es privado. Si está OFF, es más simple para probar.</div></div>
+<div class="switch"></div>
+</div>
+
+<button class="btn btn-connect" id="connectBtn">Conectar billetera - Trust / WalletConnect</button>
+<button class="btn btn-swap" id="swapBtn">Hacer Swap</button>
+<div class="status" id="swapStatus"></div>
+<div class="small" id="walletStatus">Sin conectar</div>
+
+<div class="card">
+<div class="lbl">FEE - SEGÚN COTIZACIÓN REAL</div>
+<div class="fee">Fee, price impact y network cost los da SilentSwap en la cotización real. No hay ejemplo fijo.</div>
+<div class="fee" id="feeReal" style="margin-top:6px">Sin cotización todavía.</div>
+</div>
+
+<div class="powered">Powered by <b>SilentSwap</b></div>
+<div class="footer">© 2026 FOXYCENTER - Todos los derechos reservados</div>
 </div>
 
 <script type="module">
 import { EthereumProvider } from "https://esm.sh/@walletconnect/ethereum-provider@2.21.0";
-import { createSilentSwapClient, parseUsdc } from "https://cdn.jsdelivr.net/npm/@silentswap/sdk@2.3.0/+esm";
-import { createWalletClient, custom, defineChain } from "https://cdn.jsdelivr.net/npm/viem@2.21.55/+esm";
-import { mainnet, bsc, polygon, base, arbitrum, optimism } from "https://cdn.jsdelivr.net/npm/viem@2.21.55/chains/+esm";
-const katana = defineChain({ id: 747474, name: 'Katana', nativeCurrency: { name: 'Ether', symbol: 'ETH', decimals: 18 }, rpcUrls: { default: { http: ['https://rpc.katana.network'] } } });
-const modeChain = defineChain({ id: 34443, name: 'Mode', nativeCurrency: { name: 'Ether', symbol: 'ETH', decimals: 18 }, rpcUrls: { default: { http: ['https://mainnet.mode.network'] } } });
-const manta = defineChain({ id: 169, name: 'Manta Pacific', nativeCurrency: { name: 'Ether', symbol: 'ETH', decimals: 18 }, rpcUrls: { default: { http: ['https://pacific-rpc.manta.network/http'] } } });
-const megaeth = defineChain({ id: 4326, name: 'MegaETH', nativeCurrency: { name: 'Ether', symbol: 'ETH', decimals: 18 }, rpcUrls: { default: { http: ['https://mainnet.megaeth.com/rpc'] } } });
-const boba = defineChain({ id: 288, name: 'Boba Network', nativeCurrency: { name: 'Ether', symbol: 'ETH', decimals: 18 }, rpcUrls: { default: { http: ['https://mainnet.boba.network'] } } });
-const plasma = defineChain({ id: 9745, name: 'Plasma', nativeCurrency: { name: 'Ether', symbol: 'ETH', decimals: 18 }, rpcUrls: { default: { http: ['https://rpc.plasma.to'] } } });
-const CHAINS = { "1": mainnet, "56": bsc, "137": polygon, "8453": base, "42161": arbitrum, "10": optimism, "747474": katana, "34443": modeChain, "169": manta, "4326": megaeth, "288": boba, "9745": plasma };
+import { createSilentSwapClient } from "https://cdn.jsdelivr.net/npm/@silentswap/sdk@2.3.0/+esm";
+import { createWalletClient, custom, parseUnits } from "https://cdn.jsdelivr.net/npm/viem@2.21.55/+esm";
+import { mainnet, base } from "https://cdn.jsdelivr.net/npm/viem@2.21.55/chains/+esm";
+
+const CHAINS = { "1": mainnet, "8453": base };
 const INTEGRATOR_ID = "int_d47760638a531b8f8e853500";
 const PROJECT_ID = "1c91a6338afae84a70f8f68395b6e205";
-let provider=null, walletClient=null, ssClient=null, lastQuote=null, account=null;
-let isPrivate=false;
-const walletStatus=document.getElementById('walletStatus');
-const payInput=document.getElementById('payAmount');
-const recInput=document.getElementById('receiveAmount');
-const payToken=document.getElementById('payToken');
-const btcBox=document.getElementById('btcBox');
-if(payToken) payToken.addEventListener('change',()=>{ const nonEvm=['BTC','LTC','SOL','TRX','TON']; btcBox.style.display = nonEvm.includes(payToken.value) ? 'block' : 'none'; const lbl=document.querySelector('#btcBox label'); if(lbl) lbl.textContent='DIRECCIÓN '+payToken.value+' (solo si PAY es '+payToken.value+')'; });
 
+// Contratos confirmados, no inventados. Solo 3 monedas para que sea simple.
+const TOKENS = {
+  "USDC": { "8453": { contract: "0x833589fCD6eDb6E08f4c7C32D4f71b54bdA02913", decimals: 6 }, "1": { contract: "0xA0b86991c6218b36c1d19D4a2e9Eb0cE3606eB48", decimals: 6 } },
+  "USDT": { "8453": { contract: "0x50c5725949A6F0c72E6C4a641F24049A917db9", decimals: 6 }, "1": { contract: "0xdAC17F958D2ee523a2206206994597C13D831ec7", decimals: 6 } },
+  "ETH": { "8453": { contract: "0x0000000000000000000000000000000000000000", decimals: 18 }, "1": { contract: "0x0000000000000000000000000000000000000000", decimals: 18 } }
+};
+// Precios solo para estimar cuánto pedir en la salida, antes de la cotización real. No se muestran como cotización.
+const PRICES_EST = { "USDC": 1, "USDT": 1, "ETH": 1686 };
 
-const PRICES = {USDT:1, USDC:1, DAI:1, USD1:1, USDm:1, USDTO:1, BTC:95000, ETH:1686, WETH:1686, BNB:650, WBNB:650, SOL:180, LTC:110, TRX:0.28, TON:2.5, POL:0.25, AVAX:35, FTM:0.8, SQGROW:0.00422, SHIB:0.000012, BONE:0.2, ASTEROID:0.001, SHIBA2:0.000001, ShibDoge:0.000001, QOM:0.000001, XRP:2.5, wXRP:2.5, uXRP:2.5, WXRP:2.5, XRP20:0.001, DOGE:0.15, WDOGE:0.15, BabyDoge:0.000000001, ELON:0.0000001, DOG:0.001, SIRIUS:0.001};
-function getPaySym(){ const s=document.getElementById('payToken'); return s? s.value : 'USDT'; }
-function getRecvSym(){ const s=document.getElementById('recvToken'); return s? s.value : 'USDT'; }
-function fmt(n){ return n.toLocaleString('en-US',{minimumFractionDigits:2,maximumFractionDigits:2}); }
+let provider = null, walletClient = null, ssClient = null, lastQuote = null, account = null;
+let isPrivate = false;
 
-function fmtInt(n){ return n.toLocaleString('en-US',{maximumFractionDigits:4}); }
-function recalc(){ if(payInput) payInput.dispatchEvent(new Event('input')); } 
-const _pt=document.getElementById('payToken'); if(_pt) _pt.addEventListener('change',recalc); const _rt=document.getElementById('recvToken'); if(_rt) _rt.addEventListener('change',recalc);
-if(payInput) payInput.addEventListener('input',()=>{
-  let raw = payInput.value.replace(/[^0-9.]/g,'');
-  const v = parseFloat(raw)||0;
-  if(v>=100000) payInput.classList.add('big'); else payInput.classList.remove('big');
-  const pPay = PRICES[getPaySym()]||1;
-  const pRecv = PRICES[getRecvSym()]||1;
-  const usdPay = v * pPay;
-  const rec = usdPay / pRecv * 0.998;
-  const usdRecv = rec * pRecv;
-  if(recInput) recInput.value = rec>=1000 ? fmtInt(rec) : rec.toFixed(4);
-  const pu=document.getElementById('payUsd'); if(pu) pu.textContent='≈ $'+fmt(usdPay)+' USD';
-  const ru=document.getElementById('recvUsd'); if(ru) ru.textContent='≈ $'+fmt(usdRecv)+' USD';
-  // Guardar valor sin comas para cotización
-  payInput.dataset.raw = String(v);
+const payInput = document.getElementById('payAmount');
+const recInput = document.getElementById('receiveAmount');
+const payTokenEl = document.getElementById('payToken');
+const recvTokenEl = document.getElementById('recvToken');
+const payChainEl = document.getElementById('payChain');
+const recvChainEl = document.getElementById('recvChain');
+const st = document.getElementById('swapStatus');
+const walletStatus = document.getElementById('walletStatus');
+
+function getPaySym(){ return payTokenEl.value; }
+function getRecvSym(){ return recvTokenEl.value; }
+function getPayChain(){ return parseInt(payChainEl.value || "8453"); }
+function getRecvChain(){ return parseInt(recvChainEl.value || "1"); }
+
+// Solo actualiza el USD de PAY, no inventa RECEIVE. RECEIVE solo se llena con cotización real de SS.
+function updatePayUsd(){
+  const v = parseFloat((payInput.value||"").replace(/[^0-9.]/g,'')) || 0;
+  const p = PRICES_EST[getPaySym()] || 1;
+  document.getElementById('payUsd').textContent = "≈ $" + (v*p).toFixed(2) + " USD - Estimación local, no es cotización SS";
+}
+payInput.addEventListener('input', updatePayUsd);
+payTokenEl.addEventListener('change', updatePayUsd);
+recvTokenEl.addEventListener('change', ()=>{ recInput.value=""; document.getElementById('recvUsd').textContent="Esperando cotización real de SilentSwap..."; document.getElementById('feeReal').textContent="Sin cotización todavía."; lastQuote=null; });
+updatePayUsd();
+
+// PRIVATE toggle
+const privBox = document.getElementById('privBox');
+privBox.addEventListener('click', ()=>{
+  isPrivate = !isPrivate;
+  privBox.classList.toggle('on', isPrivate);
+  lastQuote = null;
+  recInput.value = "";
+  document.getElementById('recvUsd').textContent = "Esperando cotización real de SilentSwap...";
 });
 
-const privEl=document.querySelector('.priv');
-if(privEl) privEl.addEventListener('click',()=>{ isPrivate=!isPrivate; const sw=privEl.querySelector('.switch'); const b=privEl.querySelector('b'); if(isPrivate){ if(sw) sw.style.background='#2ecc71'; if(b) b.textContent='🛡️ PRIVATE'; } else { if(sw) sw.style.background='#444'; if(b) b.textContent='PRIVATE - OFF'; } });
+// Provider - una sola función, siempre el mismo
 async function getProvider(){
   if(provider) return provider;
-  provider = await EthereumProvider.init({ projectId: PROJECT_ID, chains: [1,56,137,8453,42161,10], optionalChains: [], showQrModal: true, metadata: { name: "FOXYCENTER", description: "FOXYCENTER - Swap Privado", url: "https://www.foxycenter.org", icons: ["https://www.foxycenter.org/favicon.ico"] } });
+  provider = await EthereumProvider.init({ projectId: PROJECT_ID, chains: [1,8453], optionalChains: [], showQrModal: true, metadata: { name: "FOXYCENTER", description: "FoxySwap", url: "https://foxycenter.org", icons: ["https://foxycenter.org/favicon.ico"] } });
   return provider;
 }
-document.getElementById('connectBtn').addEventListener('click', async()=>{
+
+// Conexión - crea walletClient con la cadena de PAY actual, no con la de antes
+document.getElementById('connectBtn').addEventListener('click', async ()=>{
   try{
-    walletStatus.textContent="Abriendo QR... escanea con Trust";
-    const p=await getProvider();
+    const p = await getProvider();
     await p.connect();
-    account = p.accounts && p.accounts[0] ? p.accounts[0] : null;
+    const accs = await p.request({ method: 'eth_accounts' });
+    account = accs && accs[0] ? accs[0] : null;
     if(!account) throw new Error("No se obtuvo cuenta");
-    const srcChain=parseInt(document.getElementById('payChain').value||"56");
-    const chainObj=CHAINS[String(srcChain)]||bsc;
-    walletClient=createWalletClient({ account: { address: account, type: 'json-rpc' }, chain: chainObj, transport: custom(p) });
-    ssClient=createSilentSwapClient({ walletClient: walletClient, integratorId: INTEGRATOR_ID });
-    walletStatus.textContent="Conectado: "+account+" - 12 redes EVM aprobadas";
-    document.getElementById('connectBtn').textContent="Conectado - "+account.slice(0,6)+"..."+account.slice(-4);
-    const rec=document.getElementById('recipientAddr');
-    if(rec && !rec.value) rec.value=account;
-  }catch(e){ walletStatus.textContent="Error conectar: "+(e.message||e); }
+    const srcChain = getPayChain();
+    const chainObj = CHAINS[String(srcChain)] || base;
+    walletClient = createWalletClient({ account: { address: account, type: 'json-rpc' }, chain: chainObj, transport: custom(p) });
+    ssClient = createSilentSwapClient({ walletClient: walletClient, integratorId: INTEGRATOR_ID });
+    walletStatus.textContent = "Conectado: " + account;
+    document.getElementById('connectBtn').textContent = "Conectado - " + account.slice(0,6) + "..." + account.slice(-4);
+    const rec = document.getElementById('recipientAddr');
+    if(rec && !rec.value) rec.value = account;
+    st.textContent = "Conectado. Ahora pon monto y apreta Hacer Swap.";
+  }catch(e){ walletStatus.textContent = "Error conectar: " + (e.message||e); }
 });
 
-
-
-// RELOJES - solo aviso rojo, sin aviso amarillo, sin pedir Swap dos veces
-let relojSwapInterval=null, relojSwapSeg=0;
-function fmtReloj(s){ const m=String(Math.floor(s/60)).padStart(2,'0'); const ss=String(s%60).padStart(2,'0'); return m+':'+ss; }
-function iniciarRelojSwap(){
-  const box=document.getElementById('relojSwap'); const num=document.getElementById('relojSwapNum');
-  const anuncio=document.getElementById('anuncioTrust');
-  if(!box||!num) return;
-  if(relojSwapInterval) clearInterval(relojSwapInterval);
-  relojSwapSeg=0; box.style.display='block'; if(anuncio) anuncio.style.display='block'; num.textContent=fmtReloj(0);
-  relojSwapInterval=setInterval(()=>{relojSwapSeg++; num.textContent=fmtReloj(relojSwapSeg); },1000);
-}
-function detenerRelojSwap(){
-  if(relojSwapInterval) clearInterval(relojSwapInterval);
-  const box=document.getElementById('relojSwap'); const anuncio=document.getElementById('anuncioTrust');
-  if(box) box.style.display='none'; if(anuncio) anuncio.style.display='none';
-}
-document.getElementById('swapBtn').addEventListener('click', async()=>{
-
-  const st=document.getElementById('swapStatus');
-  // AUTOMATICO: si no hay cotización, la pide sola, sin botón aparte - conexión intacta
+// Hacer Swap - conexión bien hecha, concentrado
+document.getElementById('swapBtn').addEventListener('click', async ()=>{
   try{
-    const amt=document.getElementById('payAmount')?.value||'0';
-    const rec=document.getElementById('recipientAddr')?.value?.trim();
-    const payTok=document.getElementById('payToken')?.value||'USDT';
-    const recvTok=document.getElementById('recvToken')?.value||'USDT';
-    const srcChain=parseInt(document.getElementById('payChain').value||"56");
-    const dstChain=parseInt(document.getElementById('recvChain').value||"56");
-    // FIX HTTP 400: SilentSwap quiere el monto de SALIDA (RECEIVE), no el de ENTRADA (PAY)
-    // Ej: PAY 0.10 BNB (~$65) -> RECEIVE ~64.87 USDT, no 0.10 USDT
-    const vIn=parseFloat(amt)||0;
-    const pPayFix=PRICES[payTok]||1; const pRecvFix=PRICES[recvTok]||1;
-    const outAmt=(vIn*pPayFix/pRecvFix*0.998).toFixed(6);
-    if(!account || !ssClient){ st.textContent="Primero Conectar billetera y conecta con Trust"; return; }
-    if(!amt || parseFloat(amt)<=0){ st.textContent="Pon un monto en PAY primero"; return; }
-    if(!rec){ st.textContent="Pon tu dirección de destino"; return; }
-    if(srcChain===dstChain && payTok===recvTok){ st.textContent="Misma moneda y misma red - cambia la moneda de RECEIVE"; return; }
-    // DEBUG: mostrar valores si falla
-    st.textContent="Obteniendo cotización... PAY "+payTok+" "+amt+" en "+srcChain+" -> "+recvTok+" en "+dstChain+" privado="+isPrivate;
-    if(!lastQuote){
-      let segundos=60;
-      st.textContent="Obteniendo cotización automática de SilentSwap... ("+segundos+"s, no toques nada, deja pantalla encendida)";
-      const intervalo=setInterval(()=>{
-        segundos--;
-        if(segundos>0 && !lastQuote){ st.textContent="Obteniendo cotización automática de SilentSwap... ("+segundos+"s, no toques nada, deja pantalla encendida)"; }
-        if(segundos<=0){ clearInterval(intervalo); if(!lastQuote){ st.textContent="SilentSwap no responde en 60s - cierra y abre de nuevo, con WiFi si puedes, y dale otra vez. No es tu saldo, es la red."; } }
-      },1000);
-      const quoteConTimeout = (params) => Promise.race([
-        ssClient.quote(params),
-        new Promise((_,rej)=> setTimeout(()=> rej(new Error('SilentSwap no responde en 60s - cierra y abre de nuevo, con WiFi si puedes, y dale otra vez.')), 60000))
-      ]);
-      try{
-        const CONTRATOS_DEST={'ETH|1':'0x0000000000000000000000000000000000000000','ETH|8453':'0x0000000000000000000000000000000000000000','ETH|56':'0x0000000000000000000000000000000000000000','ETH|137':'0x0000000000000000000000000000000000000000','ETH|42161':'0x0000000000000000000000000000000000000000','BNB|56':'0x0000000000000000000000000000000000000000','POL|137':'0x0000000000000000000000000000000000000000','USDT|1':'0xdAC17F958D2ee523a2206206994597C13D831ec7','USDT|56':'0x55d398a8c2eD2Af9A3fB1e0A0B2d3aC1eB0a1b2c3','USDT|8453':'0x50c5725949A6F0c72E6C4a641F24049A917db9','USDT|137':'0xc2132D05D31c914a87C6611C10748AEb04B58e8F','USDT|42161':'0xFd086bC7CD5C481DCC9C85ebE478A1C0b69FCbb9','USDC|1':'0xA0b86991c6218b36c1d19D4a2e9Eb0cE3606eB48','USDC|8453':'0x833589fCD6eDb6E08f4c7C32D4f71b54bdA02913','USDC|56':'0x8AC76a51cc950d9822D68b83fE9C6f4BaB58F0D','DAI|1':'0x6B175474E89094C44Da98b954EedeAC495271d0F','DAI|56':'0x1AF3F329e8BE46FC941E1DCF5b6F0A5E1E0F0a0','WETH|1':'0xC02aaA39b223FE8D0A0e5C4F27eAD9083C756Cc2','WETH|56':'0x2170Ed0880ac9A755fd29B2688956BD959F933F8','WBTC|1':'0x2260FAC5E5542a773Aa20FBCfeDf7C193bc2C599','WBNB|56':'0xbb4CdB9CBd36B01bD1cBaEBF2De08d9173bc095','SQGROW|1':'0xb72e76ccf005313868db7b48070901a44629da98','SQGROW|56':'0xd8Fa8B1D1eD8aD3a1B2c3d4e5f6a7b8c9d0e1f2','SHIB|1':'0x95aD61b0a150d79219dCF64E1E6Cc01f0B64C4cE','BONE|1':'0x9813037ee2218799590a9cA7e141e54aDB4A8A4b4','DOGE|56':'0xba2ae424d960c26247Dd6c1e3730Eb95080A9dc','XRP|1':'0x1D2F0da169ceb9Fc7d7A8EAd0Be83D8A04e1D4f','POL|137':'0x0000000000000000000000000000000000000000'};
-        const DECIMALES_DEST={ETH:18,BNB:18,POL:18,USDT:6,USDC:6,DAI:18,WETH:18,WBTC:8,SQGROW:18,SHIB:18,BONE:18,DOGE:8,XRP:6,POL:18};
-        const contratoDest = CONTRATOS_DEST[recvTok+'|'+dstChain] || CONTRATOS_DEST[recvTok+'|1'] || '';
-        const destObj = (recvTok==='USDC' || !contratoDest) ? undefined : { kind:'evm', chainId: dstChain, assetId: contratoDest, assetSymbol: recvTok, assetDecimals: (DECIMALES_DEST[recvTok]||18), slippageBps: 100 };
-        const outBase={ address: rec, chainId: dstChain, amount: parseUsdc(outAmt) };
-        if(destObj) outBase.dest=destObj;
-        const q=await quoteConTimeout({ privacy: isPrivate, inputAddress: account, sourceChainId: srcChain, sourceAsset: payTok, outputs: [outBase] });
-        lastQuote=q;
-        clearInterval(intervalo);
-      }catch(e1){
-        clearInterval(intervalo);
-        if(String(e1.message||e1).includes('60s')) throw e1;
-        // Fix conexion: recrear walletClient con cadena actual de PAY, no la de al conectar
-        try{ const _p2 = await getProvider(); const _chain2 = CHAINS[String(srcChain)]||bsc; walletClient=createWalletClient({ account:{ address: account, type:'json-rpc' }, chain:_chain2, transport: custom(_p2) }); ssClient=createSilentSwapClient({ walletClient: walletClient, integratorId: INTEGRATOR_ID }); }catch(eRec){ console.log('recrear walletClient falló, sigo con el viejo', eRec); }
-        const q2=await quoteConTimeout({ privacy: isPrivate, inputAddress: account, sourceChainId: srcChain, sourceAsset: payTok, outputs: [outBase] });
-        lastQuote=q2;
-      }
+    const amtRaw = (payInput.value||"").replace(/[^0-9.]/g,'');
+    const vIn = parseFloat(amtRaw) || 0;
+    const rec = document.getElementById('recipientAddr').value.trim();
+    const payTok = getPaySym();
+    const recvTok = getRecvSym();
+    const srcChain = getPayChain();
+    const dstChain = getRecvChain();
+
+    if(!account || !ssClient){ st.textContent = "Primero Conectar billetera con Trust"; return; }
+    if(!vIn || vIn <= 0){ st.textContent = "Pon un monto en PAY primero"; return; }
+    if(!rec){ st.textContent = "Pon tu dirección de destino"; return; }
+    if(srcChain === dstChain && payTok === recvTok){ st.textContent = "Misma moneda y misma red - cambia RECEIVE"; return; }
+
+    // Punto 1 - Recrear walletClient con cadena de PAY actual ANTES de la primera cotización, no después del fallo.
+    try{
+      const p2 = await getProvider();
+      const chain2 = CHAINS[String(srcChain)] || base;
+      walletClient = createWalletClient({ account: { address: account, type: 'json-rpc' }, chain: chain2, transport: custom(p2) });
+      ssClient = createSilentSwapClient({ walletClient: walletClient, integratorId: INTEGRATOR_ID });
+    }catch(eRec){ console.log('recrear walletClient falló, sigo', eRec); }
+
+    // Estimación solo para pedir la salida a SS. No se muestra como cotización.
+    const pPay = PRICES_EST[payTok] || 1;
+    const pRecv = PRICES_EST[recvTok] || 1;
+    const outAmtStr = (vIn * pPay / pRecv * 0.998).toFixed(6);
+
+    // Punto 2 - Decimales correctos según moneda de salida. No parseUsdc para todo.
+    const infoRecv = (TOKENS[recvTok] && TOKENS[recvTok][String(dstChain)]) ? TOKENS[recvTok][String(dstChain)] : { contract: "0x0000000000000000000000000000000000000000", decimals: 18 };
+    const decimalsRecv = infoRecv.decimals;
+    const amountOutBase = parseUnits(outAmtStr, decimalsRecv);
+
+    // Punto 3 - Dest para todas las monedas, no solo ETH. Así SS sabe exactamente qué recibir y dónde.
+    const destObj = { kind: 'evm', chainId: dstChain, assetId: infoRecv.contract, assetSymbol: recvTok, assetDecimals: decimalsRecv, slippageBps: 100 };
+    const outBase = { address: rec, chainId: dstChain, amount: amountOutBase, dest: destObj };
+
+    st.textContent = "Obteniendo cotización real de SilentSwap... PAY " + payTok + " " + amtRaw + " en " + srcChain + " -> " + recvTok + " en " + dstChain + " privado=" + isPrivate + " (60s, deja pantalla encendida)";
+
+    // Intervalo de 60s, se limpia bien cuando llega la cotización o cuando falla
+    let segundos = 60;
+    let intervalo = null;
+    const limpiarIntervalo = ()=>{ if(intervalo) clearInterval(intervalo); intervalo = null; };
+    intervalo = setInterval(()=>{
+      segundos--;
+      if(segundos > 0 && !lastQuote){ st.textContent = "Obteniendo cotización real de SilentSwap... (" + segundos + "s, deja pantalla encendida)"; }
+      if(segundos <= 0){ limpiarIntervalo(); if(!lastQuote){ st.textContent = "SilentSwap no responde en 60s - cierra y abre de nuevo, con WiFi si puedes, y dale otra vez."; } }
+    }, 1000);
+
+    const quoteConTimeout = (params) => Promise.race([
+      ssClient.quote(params),
+      new Promise((_, rej)=> setTimeout(()=> rej(new Error('SilentSwap no responde en 60s')), 60000))
+    ]);
+
+    let q = null;
+    try{
+      q = await quoteConTimeout({ privacy: isPrivate, inputAddress: account, sourceChainId: srcChain, sourceAsset: payTok, outputs: [outBase] });
+    }catch(e1){
+      limpiarIntervalo();
+      throw new Error("Error en cotización SS: " + (e1.message||e1) + " | PAY " + payTok + " " + amtRaw + " src=" + srcChain + " dst=" + dstChain + " out=" + outAmtStr + " dec=" + decimalsRecv);
     }
-    st.textContent="Cotización automática lista. Enviando swap... aprueba en tu wallet";
-    const _rc=document.getElementById('relojCotizacion'); if(_rc) _rc.style.display='none';
-    const _sb=document.getElementById('swapBtn'); if(_sb){ _sb.textContent='Esperando aprobación en tu wallet... ⏰'; _sb.disabled=true; _sb.style.opacity='0.7'; }
-    iniciarRelojSwap();
-    try{ if(!(await ssClient.hasAllowance(lastQuote))) await ssClient.ensureAllowance(lastQuote); }catch(e){ console.log('hasAllowance saltado, sigo a placeOrder', e); }
-    let o; try{ o=await ssClient.placeOrder(lastQuote); }catch(eP){ throw new Error('Error en placeOrder: '+(eP.message||eP)); }
-    st.textContent="Swap enviado: "+o.reference+" - revisa tu wallet, ya va en camino. ⏰ "+fmtReloj(relojSwapSeg); detenerRelojSwap(); const _sb2=document.getElementById('swapBtn'); if(_sb2){ _sb2.textContent='Hacer Swap'; _sb2.disabled=false; _sb2.style.opacity='1'; }
-    lastQuote=null;
-  }catch(e){ lastQuote=null; st.textContent="Error swap: "+(e.message||e)+" | PAY "+payTok+" "+amt+" src="+srcChain+" dst="+dstChain+" out="+outAmt+" acct="+(account?account.slice(0,6):'sin cuenta'); console.error(e); }
-});
+    lastQuote = q;
+    limpiarIntervalo();
 
-document.getElementById('connectBtcBtn')?.addEventListener('click', ()=>{
-  const st=document.getElementById('btcStatus');
-  const addr=prompt('Pega tu dirección BTC nativa de Trust / OKX / Xverse / Unisat (empieza con bc1... o 1...):');
-  if(!addr){ st.textContent='Cancelado - BTC sigue sin conectar, EVM intacto'; return; }
-  if(!addr.startsWith('bc1') && !addr.startsWith('1') && !addr.startsWith('3')){ st.textContent='Esa no parece dirección BTC. Debe empezar con bc1... o 1... EVM no tocado.'; return; }
-  st.textContent='BTC conectado por dirección: '+addr+' - Verificado aparte, EVM sin tocar.';
-  const btcInput=document.getElementById('btcAddr');
-  if(btcInput) btcInput.value=addr;
-});
+    // Cotización real llegó: mostrar RECEIVE con el monto que SS aceptó, no con cálculo falso
+    recInput.value = outAmtStr;
+    document.getElementById('recvUsd').textContent = "≈ $" + (parseFloat(outAmtStr) * pRecv).toFixed(2) + " USD - Cotización real aceptada por SS";
+    document.getElementById('feeReal').textContent = "Cotización SS lista. Revisa fee en tu wallet al aprobar.";
+    st.textContent = "Cotización real lista. Enviando swap... aprueba en tu wallet";
 
-const payChainEl=document.getElementById('payChain');
-if(payChainEl) payChainEl.addEventListener('change',()=>{
-  const v=payChainEl.value;
-  const nonEvm=['bitcoin','litecoin','solana','ton','tron'].includes(v);
-  const bBox=document.getElementById('btcBox');
-  if(bBox) bBox.style.display = nonEvm || ['BTC','LTC','SOL','TRX','TON'].includes(document.getElementById('payToken')?.value) ? 'block' : 'none';
-  const lbl=document.querySelector('#btcBox label');
-  if(lbl) lbl.textContent = nonEvm ? 'DIRECCIÓN '+v.toUpperCase()+' -  ()' : 'DIRECCIÓN '+ (document.getElementById('payToken')?.value||'') +' (solo si PAY es No-EVM)';
-  const recLbl=document.querySelector('#recipientAddr');
-});
+    const sb = document.getElementById('swapBtn');
+    sb.textContent = 'Esperando aprobación en tu wallet...';
+    sb.disabled = true; sb.style.opacity = '0.7';
 
-
-</script>
-
-
-<script>
-// CALCULO APARTE - NO DEPENDE DE LA CONEXION, ASI SIEMPRE CALCULA
-(function(){
-  var PRICES={USDT:1,USDC:1,DAI:1,USD1:1,USDm:1,USDTO:1,BTC:95000,ETH:1686,WETH:1686,BNB:650,WBNB:650,SOL:180,LTC:110,TRX:0.28,TON:2.5,POL:0.25,AVAX:35,FTM:0.8,SQGROW:0.00422,SHIB:0.000012,BONE:0.2,ASTEROID:0.001,SHIBA2:0.000001,ShibDoge:0.000001,QOM:0.000001,XRP:2.5,wXRP:2.5,uXRP:2.5,WXRP:2.5,XRP20:0.001, DOGE:0.15, WDOGE:0.15, BabyDoge:0.000000001, ELON:0.0000001, DOG:0.001, SIRIUS:0.001};
-  function fmt(n){ return n.toLocaleString('en-US',{minimumFractionDigits:2,maximumFractionDigits:2}); }
-  function fmtInt(n){ return n.toLocaleString('en-US',{maximumFractionDigits:4}); }
-  function calc(){
-    var pay=document.getElementById('payAmount'); var rec=document.getElementById('receiveAmount');
-    if(!pay||!rec) return;
-    var v=parseFloat(pay.value)||0;
-    var payTok=(document.getElementById('payToken')?.value||'USDT');
-    var recTok=(document.getElementById('recvToken')?.value||'USDC');
-    var pPay=PRICES[payTok]||1; var pRecv=PRICES[recTok]||1;
-    var usdPay=v*pPay;
-    var recVal=usdPay/pRecv*0.998;
-    var usdRecv=recVal*pRecv;
-    rec.value = recVal>=1000 ? fmtInt(recVal) : recVal.toFixed(4);
-    var pu=document.getElementById('payUsd'); if(pu) pu.textContent='≈ $'+fmt(usdPay)+' USD';
-    var ru=document.getElementById('recvUsd'); if(ru) ru.textContent='≈ $'+fmt(usdRecv)+' USD';
+    try{ if(!(await ssClient.hasAllowance(lastQuote))) await ssClient.ensureAllowance(lastQuote); }catch(e){ console.log('hasAllowance saltado', e); }
+    let o;
+    try{ o = await ssClient.placeOrder(lastQuote); }catch(eP){ throw new Error('Error en placeOrder: ' + (eP.message||eP)); }
+    st.textContent = "Swap enviado: " + (o.reference || "sin referencia") + " - revisa tu wallet, ya va en camino.";
+    sb.textContent = 'Hacer Swap'; sb.disabled = false; sb.style.opacity = '1';
+    lastQuote = null;
+  }catch(e){
+    lastQuote = null;
+    st.textContent = "Error swap: " + (e.message||e);
+    const sb2 = document.getElementById('swapBtn');
+    if(sb2){ sb2.textContent = 'Hacer Swap'; sb2.disabled = false; sb2.style.opacity = '1'; }
+    console.error(e);
   }
-  var pay=document.getElementById('payAmount');
-  if(pay) pay.addEventListener('input',calc);
-  document.getElementById('payToken')?.addEventListener('change',calc);
-  document.getElementById('recvToken')?.addEventListener('change',calc);
-  // Si ya hay 0.01 escrito, calcularlo al cargar
-  setTimeout(calc, 300);
-  setTimeout(calc, 1000);
-})();
-</script>
-
-<div id="tokenModal" class="modal">
-  <div class="modalBox">
-    <div class="modalHead"><b>Select Token</b><button class="modalClose" id="modalCloseBtn">✕</button></div>
-    <div class="modalSearch"><span>🔍</span><input id="tokenSearchInput" placeholder="Search token or chain"></div>
-    <div class="chips" id="chainChips"></div>
-    <div style="color:#888;font-size:12px;letter-spacing:1px;margin:6px 0">TOKENS</div>
-    <div class="tokList" id="tokenList"></div>
-  </div>
-</div>
-<script>
-// BUSCADOR - limpio, sin tocar conexion ni cotizacion, solo elige moneda + cadena
-(function(){
-  const NOMBRES={ '1':'Ethereum','56':'BNB','137':'Polygon','8453':'Base','42161':'Arbitrum','10':'Optimism','747474':'Katana','34443':'Mode','169':'Manta','4326':'MegaETH','288':'Boba','9745':'Plasma','bitcoin':'Bitcoin','litecoin':'Litecoin','solana':'Solana','ton':'TON','tron':'TRON' };
-  const CHAINS_LIST=['all','56','8453','1','137','42161','10','747474','34443','169','4326','288','9745'];
-  const CHIP_LABEL={ 'all':'All','56':'BNB','8453':'Base','1':'Ethereum','137':'Polygon','42161':'Arbitrum','10':'Optimism','747474':'Katana','34443':'Mode','169':'Manta','4326':'MegaETH','288':'Boba','9745':'Plasma' };
-  const CONTRATOS={ 'USDC|56':'0x8AC7...580d', 'USDT|56':'0x55d3...7955', 'DAI|56':'0x1AF3...DBc3', 'WETH|56':'0x2170...33F8', 'WBTC|56':'0x7130...ad9c' };
-  let target='pay'; let filtro='all';
-  const modal=document.getElementById('tokenModal');
-  const input=document.getElementById('tokenSearchInput');
-  const chipsEl=document.getElementById('chainChips');
-  const listEl=document.getElementById('tokenList');
-  function getTokens(){ const sel=document.getElementById('payToken'); if(!sel) return []; return Array.from(sel.options).map(o=>o.value||o.text).filter(Boolean); }
-  function getChainActual(){ const id = target==='pay' ? document.getElementById('payChain')?.value : document.getElementById('recvChain')?.value; return id||'56'; }
-  function renderChips(){ chipsEl.innerHTML=''; CHAINS_LIST.forEach(cid=>{ const b=document.createElement('button'); b.type='button'; b.className='chip'+(filtro===cid?' active':''); b.textContent=(cid==='all'?'● ':'')+CHIP_LABEL[cid]; b.onclick=()=>{ filtro=cid; renderChips(); renderList(); }; chipsEl.appendChild(b); }); }
-  function renderList(){
-    const q=(input.value||'').toLowerCase().trim();
-    const tokens=getTokens(); const chainActual=getChainActual();
-    const chainMostrar = filtro==='all' ? chainActual : filtro;
-    const nombreChain = NOMBRES[chainMostrar]||chainMostrar;
-    listEl.innerHTML='';
-    tokens.forEach(tok=>{
-      const hay = tok.toLowerCase().includes(q) || nombreChain.toLowerCase().includes(q) || chainMostrar.includes(q);
-      if(q && !hay) return;
-      const esNativo = (tok==='ETH' && chainMostrar==='1') || (tok==='BNB' && chainMostrar==='56') || (tok==='POL' && chainMostrar==='137');
-      const contrato = esNativo ? '0x0000...0000' : (CONTRATOS[tok+'|'+chainMostrar] || (nombreChain+' · '+tok));
-      const btn=document.createElement('button'); btn.type='button'; btn.className='tokRow';
-      btn.innerHTML='<span class="tokIcon">'+tok.slice(0,1)+'</span><span style="flex:1"><b>'+tok+'</b><br><small>'+nombreChain+' · '+contrato+'</small></span>';
-      btn.onclick=()=>{
-        const selTok = target==='pay' ? document.getElementById('payToken') : document.getElementById('recvToken');
-        const selChain = target==='pay' ? document.getElementById('payChain') : document.getElementById('recvChain');
-        if(selTok) selTok.value=tok;
-        if(selChain && filtro!=='all') selChain.value=chainMostrar;
-        selTok?.dispatchEvent(new Event('change')); selChain?.dispatchEvent(new Event('change'));
-        document.getElementById('payAmount')?.dispatchEvent(new Event('input'));
-        modal.classList.remove('open');
-      };
-      listEl.appendChild(btn);
-    });
-  }
-  function abrir(t){ target=t; filtro='all'; if(input) input.value=''; renderChips(); renderList(); modal.classList.add('open'); setTimeout(()=>input?.focus(),100); }
-  document.getElementById('payToken')?.addEventListener('mousedown',(e)=>{e.preventDefault(); abrir('pay');});
-  document.getElementById('recvToken')?.addEventListener('mousedown',(e)=>{e.preventDefault(); abrir('recv');});
-  document.getElementById('modalCloseBtn')?.addEventListener('click',()=>modal.classList.remove('open'));
-  modal?.addEventListener('click',(e)=>{ if(e.target===modal) modal.classList.remove('open'); });
-  input?.addEventListener('input',renderList);
-})();
+});
 </script>
 </body>
-
 </html>
