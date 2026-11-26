@@ -50,7 +50,7 @@ body{background:#0a0a0f;color:#fff;font-family:Inter,system-ui,-apple-system,san
 <div class="box"><label>PAY</label><div class="row"><input id="payAmount" placeholder="0.00"><select id="payToken" class="token"><option>ETH</option><option>BNB</option><option>USDC</option><option>USDT</option><option>WETH</option><option>DAI</option><option>WBTC</option><option>CAKE</option><option>FDUSD</option><option>cbBTC</option><option>AERO</option><option>cbETH</option><option>SQGROW</option><option>SHIB</option><option>BTC</option><option>LTC</option><option>SOL</option><option>TON</option><option>TRX</option></select></div><div style="text-align:right;color:#8b8ba3;font-size:13px"><span id="payUsd">&asymp; $0.00 USD</span></div></div>
 <div class="arrow"><span>&darr;</span></div>
 <div class="box"><label>RECEIVE</label><div class="row"><input id="receiveAmount" value="0.00" readonly style="color:#8b8ba3"><select id="recvToken" class="token"><option>ETH</option><option>BNB</option><option>USDC</option><option>USDT</option><option>WETH</option><option>DAI</option><option>WBTC</option><option>CAKE</option><option>FDUSD</option><option>cbBTC</option><option>AERO</option><option>cbETH</option><option>SQGROW</option><option>SHIB</option><option>BTC</option><option>LTC</option><option>SOL</option><option>TON</option><option>TRX</option></select></div><div style="text-align:right;color:#8b8ba3;font-size:13px"><span id="recvUsd">&asymp; $0.00 USD</span></div></div>
-<div class="box"><label>DIRECCI&Oacute;N DE DESTINO</label><div class="row"><input id="recipientAddr" placeholder="0x... tu direcci&oacute;n donde recibes" style="font-size:14px;width:100%"></div></div><div class="box" id="nonEvmBox" style="display:none"><label id="nonEvmLabel">DIRECCI&Oacute;N NO-EVM</label><div class="row"><input id="nonEvmAddr" placeholder="Pega tu direcci&oacute;n BTC / SOL / LTC / TON / TRX de Trust" style="font-size:14px;width:100%"></div></div>
+<div class="box"><label>DIRECCI&Oacute;N DE DESTINO</label><div class="row"><input id="recipientAddr" placeholder="0x... tu direcci&oacute;n donde recibes" style="font-size:14px;width:100%"></div></div><div class="box" id="nonEvmBox" style="display:none"><label id="nonEvmLabel">DIRECCI&Oacute;N NO-EVM</label><div class="row"><input id="nonEvmAddr" placeholder="Pega tu direccion BTC / SOL / LTC / TON / TRX de Trust" style="font-size:14px;width:100%"></div></div>
 <div id="walletStatus"></div>
 <div id="avisoRed"></div>
 <div id="relojCotizacion">Cotizaci&oacute;n v&aacute;lida ⏰ <span id="relojCotNum">01:00</span> - aprueba en tu wallet antes que se acabe</div>
@@ -122,6 +122,7 @@ const TOKENS_SS = {
     "TRX": { address: "native", decimals: 6, isNative: true },
     "USDT": { address: "TR7NHqjeKQxGTCi8q8ZY4pL8otSzgjLj6t", decimals: 6, isNative: false }
   }
+  }
 };
 function getTokenInfo(chainId, symbol){ const c=TOKENS_SS[String(chainId)]; return c ? c[symbol] : null; }
 function chainIdDe(valor){ const v=String(valor||''); if(['bitcoin','litecoin','solana','ton','tron'].includes(v)) return v; const n=parseInt(v||'8453'); return isNaN(n)?8453:n; }
@@ -164,7 +165,7 @@ document.getElementById('connectBtn').addEventListener('click', async()=>{
     await p.connect();
     account=p.accounts && p.accounts[0] ? p.accounts[0] : null;
     if(!account) throw new Error("No se obtuvo cuenta");
-    const srcChainRaw=document.getElementById('payChain').value||"8453"; const srcChain=chainIdDe(srcChainRaw);
+    const srcChain=chainIdDe(document.getElementById('payChain').value||"8453");
     const chainObj=CHAINS[String(srcChain)]||base;
     walletClient=createWalletClient({ account: { address: account, type: 'json-rpc' }, chain: chainObj, transport: custom(p) });
     ssClient=createSilentSwapClient({ walletClient: walletClient, integratorId: INTEGRATOR_ID });
@@ -191,32 +192,36 @@ document.getElementById('swapBtn').addEventListener('click', async()=>{
   const st=document.getElementById('swapStatus');
   try{
     const amt=document.getElementById('payAmount')?.value||'0';
-    const rec=document.getElementById('recipientAddr')?.value?.trim();
+    const recEvm=document.getElementById('recipientAddr')?.value?.trim();
+    const recNonEvm=document.getElementById('nonEvmAddr')?.value?.trim();
     const payTok=getPaySym(); const recvTok=getRecvSym();
-    const srcChainRaw=document.getElementById('payChain').value||"8453"; const srcChain=chainIdDe(srcChainRaw);
-    const dstChain=parseInt(document.getElementById('recvChain').value||"1");
+    const srcChain=chainIdDe(document.getElementById('payChain').value||"8453");
+    const dstChain=chainIdDe(document.getElementById('recvChain').value||"1");
+    // CORRECCION Base 8453: outputs[0].dest es OBLIGATORIO. Sin dest, SilentSwap intenta Simple Bridge y falla con "is unavailable through Simple Bridge on chain 8453; provide outputs[0].dest"
+    const destAddr = esNonEvmChain(dstChain) ? recNonEvm : recEvm;
+    const rec = destAddr;
+    const inputAddr = esNonEvmChain(srcChain) ? (recNonEvm || account) : account;
     const vIn=parseFloat(amt)||0;
     const pPay=PRICES[payTok]||1; const pRecv=PRICES[recvTok]||1;
     const outAmt=(vIn*pPay/pRecv*0.998).toFixed(6);
     if(!account || !ssClient){ st.textContent="Primero Conectar billetera y conecta con Trust"; return; }
     if(!amt || parseFloat(amt)<=0){ st.textContent="Pon un monto en PAY primero"; return; }
-    if(!destAddr){ st.textContent = esNonEvmChain(dstChain) ? "Pon tu dirección no-EVM de destino (BTC / SOL / LTC / TON / TRX) - es outputs[0].dest" : "Pon tu dirección de destino (0x...) - es outputs[0].dest"; return; }
+    if(!destAddr){ st.textContent = esNonEvmChain(dstChain) ? "Pon tu direccion no-EVM de destino (BTC / SOL / LTC / TON / TRX) - es outputs[0].dest" : "Pon tu direccion de destino (0x...) - es outputs[0].dest"; return; }
     if(srcChain===dstChain && payTok===recvTok){ st.textContent="Misma moneda y misma red - cambia la moneda de RECEIVE"; return; }
     const payInfo=getTokenInfo(srcChain, payTok); const recvInfo=getTokenInfo(dstChain, recvTok);
     if(!payInfo){ st.textContent='PAY '+payTok+' no existe en cadena '+srcChain+' en lista SS'; return; }
     if(!recvInfo){ st.textContent='RECEIVE '+recvTok+' no existe en cadena '+dstChain+' en lista SS'; return; }
-    st.textContent="Obteniendo cotización... PAY "+payTok+" "+amt+" en "+srcChain+" -> "+recvTok+" en "+dstChain+" privado="+isPrivate;
+    st.textContent="Obteniendo cotizacion... PAY "+payTok+" "+amt+" en "+srcChain+" -> "+recvTok+" en "+dstChain+" privado="+isPrivate;
     if(!lastQuote){
       let segundos=60;
-      st.textContent="Obteniendo cotización automática de SilentSwap... ("+segundos+"s, no toques nada, deja pantalla encendida)";
+      st.textContent="Obteniendo cotizacion automatica de SilentSwap... ("+segundos+"s, no toques nada, deja pantalla encendida)";
       const intervalo=setInterval(()=>{
         segundos--;
-        if(segundos>0 && !lastQuote){ st.textContent="Obteniendo cotización automática de SilentSwap... ("+segundos+"s, no toques nada, deja pantalla encendida)"; }
+        if(segundos>0 && !lastQuote){ st.textContent="Obteniendo cotizacion automatica de SilentSwap... ("+segundos+"s, no toques nada, deja pantalla encendida)"; }
         if(segundos<=0){ clearInterval(intervalo); if(!lastQuote){ st.textContent="SilentSwap no responde en 60s - cierra y abre de nuevo, con WiFi si puedes, y dale otra vez."; } }
       },1000);
       const quoteConTimeout=(params)=>Promise.race([ ssClient.quote(params), new Promise((_,rej)=> setTimeout(()=> rej(new Error('SilentSwap no responde en 60s')), 60000)) ]);
       try{
-        // Quote estándar, NO Simple Bridge forzado. outputs completo: dest + address + chainId + asset + amount
         const q=await quoteConTimeout({ privacy: isPrivate, inputAddress: inputAddr, sourceChainId: srcChain, sourceAsset: payInfo.address, outputs: [{ dest: destAddr, address: destAddr, chainId: dstChain, amount: parseUnits(outAmt, recvInfo.decimals), asset: recvInfo.address }] });
         lastQuote=q; clearInterval(intervalo);
       }catch(e1){
@@ -226,12 +231,12 @@ document.getElementById('swapBtn').addEventListener('click', async()=>{
         lastQuote=q2;
       }
     }
-    st.textContent="Cotización lista. Enviando swap... aprueba en tu wallet";
-    const _sb=document.getElementById('swapBtn'); if(_sb){ _sb.textContent='Esperando aprobación en tu wallet... ⏰'; _sb.disabled=true; _sb.style.opacity='0.7'; }
+    st.textContent="Cotizacion lista. Enviando swap... aprueba en tu wallet";
+    const _sb=document.getElementById('swapBtn'); if(_sb){ _sb.textContent='Esperando aprobacion en tu wallet...'; _sb.disabled=true; _sb.style.opacity='0.7'; }
     iniciarRelojSwap();
     try{ if(!(await ssClient.hasAllowance(lastQuote))) await ssClient.ensureAllowance(lastQuote); }catch(e){ console.log('hasAllowance saltado', e); }
     let o; try{ o=await ssClient.placeOrder(lastQuote); }catch(eP){ throw new Error('Error en placeOrder: '+(eP.message||eP)); }
-    st.textContent="Swap enviado: "+o.reference+" - revisa tu wallet, ya va en camino. ⏰ "+fmtReloj(relojSwapSeg);
+    st.textContent="Swap enviado: "+o.reference+" - revisa tu wallet, ya va en camino. "+fmtReloj(relojSwapSeg);
     detenerRelojSwap();
     const _sb2=document.getElementById('swapBtn'); if(_sb2){ _sb2.textContent='Hacer Swap'; _sb2.disabled=false; _sb2.style.opacity='1'; }
     lastQuote=null;
@@ -239,10 +244,10 @@ document.getElementById('swapBtn').addEventListener('click', async()=>{
     lastQuote=null; detenerRelojSwap();
     const _sbE=document.getElementById('swapBtn'); if(_sbE){ _sbE.textContent='Hacer Swap'; _sbE.disabled=false; _sbE.style.opacity='1'; }
     const _av=document.getElementById('avisoRed');
-    if(_av && String(e.message||e).includes('60s')){ _av.style.display='block'; _av.textContent='⚠️ SilentSwap no responde en 60s - prueba con PRIVATE OFF. No es tu saldo, es la red.'; }
+    if(_av && String(e.message||e).includes('60s')){ _av.style.display='block'; _av.textContent='SilentSwap no responde en 60s - prueba con PRIVATE OFF. No es tu saldo, es la red.'; }
     const msgErr=String(e.message||e);
     if(msgErr.includes('outputs[0].dest') || msgErr.includes('Simple Bridge')){
-      st.textContent="Error swap: Falta outputs[0].dest en Base 8453 - ya está corregido, revisa que tu dirección de destino esté pegada y dale de nuevo. Detalle: "+msgErr;
+      st.textContent="Error swap: Falta outputs[0].dest en Base 8453 - revisa que tu direccion de destino este pegada y dale de nuevo. Detalle: "+msgErr;
     } else {
       st.textContent="Error swap: "+msgErr;
     }
@@ -261,7 +266,7 @@ function actualizarCajaNonEvm(){
   if(box) box.style.display = esNonEvm ? 'block' : 'none';
   if(lbl && esNonEvm){
     const cual = NON_EVM.includes(rc) ? rc.toUpperCase() : pc.toUpperCase();
-    lbl.textContent='DIRECCIÓN '+cual+' - por dirección (no-EVM)';
+    lbl.textContent='DIRECCION '+cual+' - por direccion (no-EVM)';
   }
 }
 document.getElementById('payChain')?.addEventListener('change', actualizarCajaNonEvm);
