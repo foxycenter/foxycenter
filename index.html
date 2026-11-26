@@ -272,5 +272,34 @@ function actualizarCajaNonEvm(){
 document.getElementById('payChain')?.addEventListener('change', actualizarCajaNonEvm);
 document.getElementById('recvChain')?.addEventListener('change', actualizarCajaNonEvm);
 </script>
+
+<!-- CALCULO-RESPALDO: calcula RECEIVE aunque falle la SDK de SilentSwap / WalletConnect. No depende de imports. -->
+<script>
+(function(){
+  var PRECIOS={ETH:1686,BNB:650,USDC:1,USDT:1,WETH:1686,DAI:1,WBTC:95000,CAKE:2.5,FDUSD:1,cbBTC:95000,AERO:0.8,cbETH:1700,SQGROW:0.00422,SHIB:0.000012,BTC:95000,LTC:110,SOL:180,TON:2.5,TRX:0.28};
+  function fmt2(n){ return Number(n).toLocaleString('en-US',{minimumFractionDigits:2,maximumFractionDigits:2}); }
+  function fmtInt2(n){ return Number(n).toLocaleString('en-US',{maximumFractionDigits:4}); }
+  var pay=document.getElementById('payAmount');
+  var rec=document.getElementById('receiveAmount');
+  var payTok=document.getElementById('payToken');
+  var recvTok=document.getElementById('recvToken');
+  function calcular(){
+    if(!pay||!rec) return;
+    var v=parseFloat(pay.value)||0;
+    var sPay=payTok?payTok.value:'USDC';
+    var sRecv=recvTok?recvTok.value:'ETH';
+    var pPay=PRECIOS[sPay]||1; var pRecv=PRECIOS[sRecv]||1;
+    var usdPay=v*pPay; var r=usdPay/pRecv*0.998; var usdRecv=r*pRecv;
+    rec.value = r>=1000?fmtInt2(r):r.toFixed(4);
+    var pu=document.getElementById('payUsd'); if(pu) pu.textContent='≈ $'+fmt2(usdPay)+' USD';
+    var ru=document.getElementById('recvUsd'); if(ru) ru.textContent='≈ $'+fmt2(usdRecv)+' USD';
+  }
+  if(pay) pay.addEventListener('input', calcular);
+  if(payTok) payTok.addEventListener('change', calcular);
+  if(recvTok) recvTok.addEventListener('change', calcular);
+  // Si ya hay un monto (ej 15) al cargar, calcular al tiro
+  if(pay && pay.value) setTimeout(calcular, 300);
+})();
+</script>
 </body>
 </html>
