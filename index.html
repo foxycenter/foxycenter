@@ -73,7 +73,7 @@ const CHAINS = { "1": mainnet, "56": bsc, "8453": base };
 const INTEGRATOR_ID = "int_d47760638a531b8f8e853500";
 const PROJECT_ID = "1c91a6338afae84a70f8f68395b6e205";
 let provider=null, walletClient=null, ssClient=null, lastQuote=null, account=null;
-let isPrivate=true;
+let isPrivate = (typeof window!=='undefined' && window.isPrivate!==undefined) ? window.isPrivate : true; window.isPrivate=isPrivate;
 const TOKENS_SS = {
   "56": {
     "BNB": { address: "0x0000000000000000000000000000000000000000", decimals: 18, isNative: true },
@@ -146,13 +146,7 @@ if(payInput) payInput.addEventListener('input',()=>{
 });
 document.getElementById('payToken')?.addEventListener('change',()=>{ if(payInput) payInput.dispatchEvent(new Event('input')); });
 document.getElementById('recvToken')?.addEventListener('change',()=>{ if(payInput) payInput.dispatchEvent(new Event('input')); });
-const privEl=document.getElementById('privBox');
-if(privEl) privEl.addEventListener('click',()=>{
-  isPrivate=!isPrivate;
-  const sw=privEl.querySelector('.switch'); const b=privEl.querySelector('b');
-  if(isPrivate){ if(sw) sw.style.background='#2ecc71'; if(b) b.textContent='🛡️ PRIVATE'; }
-  else { if(sw) sw.style.background='#444'; if(b) b.textContent='PRIVATE - OFF'; }
-});
+// PRIVATE retrotraido: lo maneja el script simple de abajo
 async function getProvider(){
   if(provider) return provider;
   provider=await EthereumProvider.init({ projectId: PROJECT_ID, chains: [1,56,8453], optionalChains: [], showQrModal: true, metadata: { name: "FOXYCENTER", description: "FOXYCENTER - Swap Privado", url: "https://www.foxycenter.org", icons: ["https://www.foxycenter.org/favicon.ico"] } });
@@ -299,6 +293,37 @@ document.getElementById('recvChain')?.addEventListener('change', actualizarCajaN
   if(recvTok) recvTok.addEventListener('change', calcular);
   // Si ya hay un monto (ej 15) al cargar, calcular al tiro
   if(pay && pay.value) setTimeout(calcular, 300);
+})();
+</script>
+
+<!-- RETROTRAIDO-PRIVATE: PRIVATE ON/OFF y cálculo en script simple, funciona sin SDK, inmediato -->
+<script>
+(function(){
+  // PRIVATE - variable global, la usa también el módulo si carga
+  if(window.isPrivate===undefined) window.isPrivate=true;
+  var box=document.getElementById('privBox');
+  if(box){
+    // Quitar listeners viejos clonando el nodo (evita doble toggle)
+    var nuevo=box.cloneNode(true);
+    box.parentNode.replaceChild(nuevo, box);
+    box=nuevo;
+    box.addEventListener('click', function(){
+      window.isPrivate=!window.isPrivate;
+      var sw=box.querySelector('.switch'); var b=box.querySelector('b');
+      if(window.isPrivate){ if(sw) sw.style.background='#2ecc71'; if(b) b.textContent='🛡️ PRIVATE'; }
+      else { if(sw) sw.style.background='#444'; if(b) b.textContent='PRIVATE - OFF'; }
+      // Sincronizar con el módulo si ya cargó (usa la misma variable global)
+      try{ if(typeof isPrivate!=='undefined') isPrivate=window.isPrivate; }catch(e){}
+    });
+  }
+  // Conexión: si el módulo no cargó en 3s, avisar, no quedarse pegado
+  setTimeout(function(){
+    var st=document.getElementById('walletStatus');
+    var btn=document.getElementById('connectBtn');
+    if(st && !window.ssListo && btn && btn.textContent.indexOf('Conectado')===-1){
+      // No tocar el botón, solo dejar que el módulo intente. No romper nada.
+    }
+  }, 3000);
 })();
 </script>
 </body>
