@@ -258,7 +258,14 @@ function detenerRelojSwap(){
   const box=document.getElementById('relojSwap'); const anuncio=document.getElementById('anuncioTrust');
   if(box) box.style.display='none'; if(anuncio) anuncio.style.display='none';
 }
-document.getElementById('swapBtn').addEventListener('click', async()=>{
+
+    function parseOutAmt(outAmt, dstChain, recvTok){
+      const info = (typeof getTokenInfo === 'function') ? getTokenInfo(dstChain, recvTok) : null;
+      const dec = info ? info.decimals : (recvTok==='USDC'||recvTok==='USDT'?6:18);
+      try{ return parseUnits(String(outAmt), dec); }catch(e){ return parseUnits('0', dec); }
+    }
+    
+    document.getElementById('swapBtn').addEventListener('click', async()=>{
 
   const st=document.getElementById('swapStatus');
   // AUTOMATICO: si no hay cotización, la pide sola, sin botón aparte - conexión intacta
@@ -293,13 +300,13 @@ document.getElementById('swapBtn').addEventListener('click', async()=>{
         new Promise((_,rej)=> setTimeout(()=> rej(new Error('SilentSwap no responde en 60s - cierra y abre de nuevo, con WiFi si puedes, y dale otra vez.')), 60000))
       ]);
       try{
-        const q=await quoteConTimeout({ privacy: isPrivate, inputAddress: account, sourceChainId: srcChain, sourceAsset: payTok, outputs: [{ address: rec, chainId: dstChain, amount: parseUsdc(outAmt), asset: recvTok }] });
+        const q=await quoteConTimeout({ privacy: isPrivate, inputAddress: account, sourceChainId: srcChain, sourceAsset: payTok, outputs: [{ address: rec, chainId: dstChain, amount: parseOutAmt(outAmt, dstChain, recvTok), asset: recvTok }] });
         lastQuote=q;
         clearInterval(intervalo);
       }catch(e1){
         clearInterval(intervalo);
         if(String(e1.message||e1).includes('60s')) throw e1;
-        const q2=await quoteConTimeout({ privacy: isPrivate, inputAddress: account, sourceChainId: srcChain, sourceAsset: payTok, outputs: [{ address: rec, chainId: dstChain, amount: parseUsdc(outAmt) }] });
+        const q2=await quoteConTimeout({ privacy: isPrivate, inputAddress: account, sourceChainId: srcChain, sourceAsset: payTok, outputs: [{ address: rec, chainId: dstChain, amount: parseOutAmt(outAmt, dstChain, recvTok) }] });
         lastQuote=q2;
       }
     }
