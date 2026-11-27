@@ -127,7 +127,6 @@ const TOKENS_SS = {
     "TRX": { address: "native", decimals: 6, isNative: true },
     "USDT": { address: "TR7NHqjeKQxGTCi8q8ZY4pL8otSzgjLj6t", decimals: 6, isNative: false }
   }
-  }
 };
 function getTokenInfo(chainId, symbol){ const c=TOKENS_SS[String(chainId)]; return c ? c[symbol] : null; }
 function chainIdDe(valor){ const v=String(valor||''); if(['bitcoin','litecoin','solana','ton','tron'].includes(v)) return v; const n=parseInt(v||'8453'); return isNaN(n)?8453:n; }
@@ -365,7 +364,6 @@ document.getElementById('recvChain')?.addEventListener('change', actualizarCajaN
   "tron": {
     "TRX": { address: "native", decimals: 6, isNative: true },
     "USDT": { address: "TR7NHqjeKQxGTCi8q8ZY4pL8otSzgjLj6t", decimals: 6, isNative: false }
-  }
   }
 };
   var PRECIOS_SIMPLE={ETH:1686,BNB:650,USDC:1,USDT:1,WETH:1686,DAI:1,WBTC:95000,CAKE:2.5,FDUSD:1,cbBTC:95000,AERO:0.8,cbETH:1700,SQGROW:0.00422,SHIB:0.000012,BTC:95000,LTC:110,SOL:180,TON:2.5,TRX:0.28};
