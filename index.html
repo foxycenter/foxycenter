@@ -3,314 +3,269 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>FOXYCENTER - FoxySwap - Privado, simple</title>
+<title>FOXYCENTER - FoxySwap</title>
 <style>
-*{box-sizing:border-box;margin:0;padding:0}
-body{background:#0a0a0f;color:#fff;font-family:Inter,system-ui,-apple-system,sans-serif;min-height:100vh}
-.top{max-width:480px;width:100%;margin:0 auto;padding:16px}
-.logo{display:flex;align-items:center;gap:12px;justify-content:center}
-.logo b{font-size:26px;letter-spacing:-0.5px}
-.hero{margin:20px 0 16px;text-align:center}
-.hero h1{font-size:32px;line-height:1.05}
-.hero h1 span{color:#ff6a00}
-.hero p{color:#8b8ba3;margin-top:10px;font-size:15px}
-.card{background:#13131c;border:1px solid #23232f;border-radius:20px;padding:16px}
-.chainrow{display:flex;gap:8px;margin-bottom:12px;align-items:center}
-.chainrow select{flex:1;background:#0c0c12;color:#fff;border:1px solid #23232f;border-radius:10px;padding:10px;font-size:13px;outline:none}
-.chainrow span{color:#ff6a00;font-weight:700}
-.box{background:#0c0c12;border:1px solid #23232f;border-radius:14px;padding:14px;margin-bottom:12px}
-.box label{font-size:12px;color:#8b8ba3;letter-spacing:.5px}
-.row{display:flex;justify-content:space-between;align-items:center;gap:12px;margin-top:6px}
-.row input{background:transparent;border:0;color:#fff;font-size:28px;font-weight:700;flex:1;min-width:0;outline:none}
-.token{background:#1a1a26;color:#fff;border:1px solid #2a2a3a;border-radius:999px;padding:8px 12px;font-weight:600;outline:none;font-size:14px}
-.arrow{text-align:center;margin:-4px 0 8px}
-.arrow span{background:#1a1a26;border:1px solid #2a2a3a;width:36px;height:36px;display:inline-flex;align-items:center;justify-content:center;border-radius:50%;color:#ff6a00;font-size:18px}
-.priv{display:flex;justify-content:space-between;align-items:center;padding:12px 4px;border-top:1px solid #23232f;margin-top:4px;cursor:pointer}
-.priv b{color:#2ecc71}
-.switch{width:52px;height:28px;background:#2ecc71;border-radius:999px;position:relative}
-.switch:after{content:"";position:absolute;right:4px;top:4px;width:20px;height:20px;background:#fff;border-radius:50%}
-.btn{width:100%;background:#ff6a00;color:#000;border:0;border-radius:14px;padding:16px;font-size:16px;font-weight:700;margin-top:16px;cursor:pointer}
-.btn-swap{background:#23232f;color:#fff;border:1px solid #ff6a00}
-.powered{text-align:center;color:#8b8ba3;font-size:13px;margin-top:14px}
-.footer{text-align:center;color:#666;font-size:12px;padding:16px 0 30px}
-#walletStatus{text-align:center;font-size:12px;color:#c7c7d6;margin:8px 0}
-#avisoRed{display:none;background:#3a0d0d;border:1px solid #ff4444;border-radius:12px;padding:10px;margin:8px 0;font-size:13px;color:#ffd6d6;text-align:center}
-#relojCotizacion{display:none;background:#0f2a1a;border:1px solid #2ecc71;border-radius:12px;padding:10px;margin:8px 0;font-size:13px;color:#d6ffe6;text-align:center;font-weight:700}
-#relojSwap{display:none;background:#1a1a26;border:1px solid #ff6a00;border-radius:12px;padding:12px;margin:8px 0;font-size:14px;text-align:center;font-weight:700}
-#anuncioTrust{display:none;background:#ff6a00;color:#000;border-radius:14px;padding:14px;margin:8px 0;font-size:15px;font-weight:800;text-align:center}
-#swapStatus{text-align:center;font-size:13px;color:#ffcc88;margin-top:10px;min-height:18px;word-break:break-all}
+*{box-sizing:border-box} body{margin:0;background:#0b0b12;color:#fff;font-family:system-ui,-apple-system,Segoe UI,Roboto,sans-serif}
+.wrap{max-width:520px;margin:0 auto;padding:16px 12px 28px}
+.logo{text-align:center;font-size:30px;font-weight:900;letter-spacing:2px} .logo span{color:#ff6a00}
+.sub{text-align:center;color:#aaa;font-size:12px;margin-bottom:12px}
+.card{background:#15151f;border:1px solid #26262f;border-radius:16px;padding:14px;margin-bottom:10px}
+.lbl{font-size:11px;letter-spacing:1px;color:#9a9aad;margin-bottom:6px}
+.row{display:flex;gap:8px;align-items:center}
+input[type=text],input[type=number]{flex:1;background:#0e0e16;border:1px solid #2a2a36;color:#fff;border-radius:12px;padding:12px;font-size:20px;outline:none;width:100%}
+select{background:#0e0e16;border:1px solid #2a2a36;color:#fff;border-radius:12px;padding:10px;font-size:15px;outline:none}
+.usd{font-size:12px;color:#8b8ba3;margin-top:6px}
+.dest{width:100%;background:#0e0e16;border:1px solid #2a2a36;color:#fff;border-radius:12px;padding:11px;font-size:13px;outline:none;word-break:break-all}
+.priv{display:flex;justify-content:space-between;align-items:center;background:#15151f;border:1px solid #26262f;border-radius:16px;padding:12px 14px;margin-bottom:10px;cursor:pointer}
+.switch{width:48px;height:26px;background:#333;border-radius:999px;position:relative;flex-shrink:0} .switch:after{content:"";position:absolute;top:3px;left:3px;width:20px;height:20px;background:#fff;border-radius:50%;transition:.2s} .priv.on .switch{background:#1db954} .priv.on .switch:after{left:25px}
+.btn{width:100%;padding:14px;border:0;border-radius:14px;font-size:16px;font-weight:800;cursor:pointer;margin-top:8px}
+.btn-connect{background:#ff6a00;color:#fff} .btn-swap{background:#23232f;color:#fff;border:1px solid #ff6a00}
+.status{text-align:center;font-size:13px;color:#ffcc88;margin-top:10px;min-height:18px;word-break:break-word}
+.fee{font-size:12px;color:#aaa} .fee b{color:#fff}
+.powered{text-align:center;font-size:11px;color:#666;margin-top:14px} .footer{text-align:center;font-size:11px;color:#555;margin-top:6px}
+.small{font-size:11px;color:#888;text-align:center;margin-top:8px}
 </style>
 </head>
 <body>
-<div class="top">
-<div class="logo"><b>FOXYCENTER</b></div>
-<div class="hero"><h1><span>Privacidad</span> es la necesidad.</h1><p>Swap privado &bull; Seguro &bull; Sin rastreo</p><p style="color:#c7c7d6;font-size:13px;margin-top:8px">Usas tus propios fondos. FOXYCENTER no custodia fondos.</p></div>
+<div class="wrap">
+<div class="logo">FOXY<span>CENTER</span></div>
+<div class="sub">FoxySwap - Privado, simple, por SilentSwap</div>
+
 <div class="card">
-<div class="chainrow"><select id="payChain"><option value="56">BNB Chain (56)</option><option value="8453" selected>Base (8453)</option><option value="1">Ethereum (1)</option><option value="bitcoin">Bitcoin - BTC</option><option value="litecoin">Litecoin - LTC</option><option value="solana">Solana - SOL</option><option value="ton">TON - TON</option><option value="tron">TRON - TRX</option></select><span>&rarr;</span><select id="recvChain"><option value="56">BNB Chain (56)</option><option value="8453">Base (8453)</option><option value="1" selected>Ethereum (1)</option><option value="bitcoin">Bitcoin - BTC</option><option value="litecoin">Litecoin - LTC</option><option value="solana">Solana - SOL</option><option value="ton">TON - TON</option><option value="tron">TRON - TRX</option></select></div>
-<div class="box"><label>PAY</label><div class="row"><input id="payAmount" placeholder="0.00"><select id="payToken" class="token"><option>ETH</option><option>BNB</option><option>USDC</option><option>USDT</option><option>WETH</option><option>DAI</option><option>WBTC</option><option>CAKE</option><option>FDUSD</option><option>cbBTC</option><option>AERO</option><option>cbETH</option><option>SQGROW</option><option>SHIB</option><option>BTC</option><option>LTC</option><option>SOL</option><option>TON</option><option>TRX</option></select></div><div style="text-align:right;color:#8b8ba3;font-size:13px"><span id="payUsd">&asymp; $0.00 USD</span></div></div>
-<div class="arrow"><span>&darr;</span></div>
-<div class="box"><label>RECEIVE</label><div class="row"><input id="receiveAmount" value="0.00" readonly style="color:#8b8ba3"><select id="recvToken" class="token"><option>ETH</option><option>BNB</option><option>USDC</option><option>USDT</option><option>WETH</option><option>DAI</option><option>WBTC</option><option>CAKE</option><option>FDUSD</option><option>cbBTC</option><option>AERO</option><option>cbETH</option><option>SQGROW</option><option>SHIB</option><option>BTC</option><option>LTC</option><option>SOL</option><option>TON</option><option>TRX</option></select></div><div style="text-align:right;color:#8b8ba3;font-size:13px"><span id="recvUsd">&asymp; $0.00 USD</span></div></div>
-<div class="box"><label>DIRECCI&Oacute;N DE DESTINO</label><div class="row"><input id="recipientAddr" placeholder="0x... tu direcci&oacute;n donde recibes" style="font-size:14px;width:100%"></div></div><div class="box" id="nonEvmBox" style="display:none"><label id="nonEvmLabel">DIRECCI&Oacute;N NO-EVM</label><div class="row"><input id="nonEvmAddr" placeholder="Pega tu direccion BTC / SOL / LTC / TON / TRX de Trust" style="font-size:14px;width:100%"></div></div>
-<div id="walletStatus"></div>
-<div id="avisoRed"></div>
-<div id="relojCotizacion">Cotizaci&oacute;n v&aacute;lida ⏰ <span id="relojCotNum">01:00</span> - aprueba en tu wallet antes que se acabe</div>
-<div id="relojSwap">Swap en curso ⏰ <span id="relojSwapNum">00:00</span> - no cierres FoxySwap</div>
-<div id="anuncioTrust">📱 ANDA A TU WALLET Y APRIETA CONFIRMAR</div>
-<div class="priv" id="privBox"><b>🛡️ PRIVATE</b><div class="switch"></div></div>
+<div class="lbl">PAY - TU PAGAS</div>
+<div class="row">
+<input id="payAmount" type="text" inputmode="decimal" placeholder="0.00" value="16.5">
+<select id="payToken"><option value="USDC">USDC - Base</option><option value="ETH">ETH - Base</option><option value="USDT">USDT - Base</option></select>
 </div>
-<button class="btn" id="connectBtn">Conectar billetera - Trust / WalletConnect</button>
+<div class="usd" id="payUsd">≈ $16.50 USD - Estimación local, no es cotización SS</div>
+<!-- Cadenas ocultas, no confunden. Por dentro: PAY Base 8453, RECEIVE Ethereum 1. No se borraron, solo se ocultan. -->
+<select id="payChain" style="display:none;"><option value="8453" selected>Base</option></select>
+<select id="recvChain" style="display:none;"><option value="1" selected>Ethereum</option></select>
+</div>
+
+<div class="card">
+<div class="lbl">RECEIVE - TU RECIBES</div>
+<div class="row">
+<input id="receiveAmount" type="text" readonly placeholder="—" value="">
+<select id="recvToken"><option value="ETH" selected>ETH - Ethereum</option><option value="USDC">USDC - Ethereum</option><option value="USDT">USDT - Ethereum</option></select>
+</div>
+<div class="usd" id="recvUsd">Esperando cotización real de SilentSwap...</div>
+</div>
+
+<div class="card">
+<div class="lbl">DIRECCIÓN DE DESTINO - DONDE RECIBES</div>
+<input id="recipientAddr" class="dest" type="text" placeholder="0x... tu wallet donde recibes">
+<div class="small">Si recibes ETH, pon tu dirección ETH. Si recibes USDC, pon tu dirección donde quieres USDC.</div>
+</div>
+
+<div class="priv" id="privBox">
+<div><b>PRIVATE</b><div style="font-size:11px;color:#aaa">Si está ON, el swap es privado. Si está OFF, es más simple para probar.</div></div>
+<div class="switch"></div>
+</div>
+
+<button class="btn btn-connect" id="connectBtn">Conectar billetera - Trust / WalletConnect</button>
 <button class="btn btn-swap" id="swapBtn">Hacer Swap</button>
-<div id="swapStatus"></div>
-<div class="powered">Powered by <b>SilentSwap</b></div>
-<div class="footer">&copy; 2026 FOXYCENTER - Todos los derechos reservados</div>
+<div class="status" id="swapStatus"></div>
+<div class="small" id="walletStatus">Sin conectar</div>
+
+<div class="card">
+<div class="lbl">FEE - SEGÚN COTIZACIÓN REAL</div>
+<div class="fee">Fee, price impact y network cost los da SilentSwap en la cotización real. No hay ejemplo fijo.</div>
+<div class="fee" id="feeReal" style="margin-top:6px">Sin cotización todavía.</div>
 </div>
-<!-- SDK SilentSwap: se usa SOLO en SWAP-SIMPLE abajo, con import dinámico al apretar. No hay módulo viejo con ssClient en null. -->
 
-<!-- CALCULO-ESTIMADO (solo vista previa, NO es la cotización real. La real la da SilentSwap al apretar Hacer Swap): calcula RECEIVE aunque falle la SDK de SilentSwap / WalletConnect. No depende de imports. -->
-<script>
-(function(){
-  var PRECIOS={ETH:1686,BNB:650,USDC:1,USDT:1,WETH:1686,DAI:1,WBTC:95000,CAKE:2.5,FDUSD:1,cbBTC:95000,AERO:0.8,cbETH:1700,SQGROW:0.00422,SHIB:0.000012,BTC:95000,LTC:110,SOL:180,TON:2.5,TRX:0.28};
-  function fmt2(n){ return Number(n).toLocaleString('en-US',{minimumFractionDigits:2,maximumFractionDigits:2}); }
-  function fmtInt2(n){ return Number(n).toLocaleString('en-US',{maximumFractionDigits:4}); }
-  var pay=document.getElementById('payAmount');
-  var rec=document.getElementById('receiveAmount');
-  var payTok=document.getElementById('payToken');
-  var recvTok=document.getElementById('recvToken');
-  function calcular(){
-    if(!pay||!rec) return;
-    var v=parseFloat(pay.value)||0;
-    var sPay=payTok?payTok.value:'USDC';
-    var sRecv=recvTok?recvTok.value:'ETH';
-    var pPay=PRECIOS[sPay]||1; var pRecv=PRECIOS[sRecv]||1;
-    var usdPay=v*pPay; var r=usdPay/pRecv*0.998; var usdRecv=r*pRecv;
-    rec.value = r>=1000?fmtInt2(r):r.toFixed(4);
-    var pu=document.getElementById('payUsd'); if(pu) pu.textContent='≈ $'+fmt2(usdPay)+' USD';
-    var ru=document.getElementById('recvUsd'); if(ru) ru.textContent='≈ $'+fmt2(usdRecv)+' USD';
-  }
-  if(pay) pay.addEventListener('input', calcular);
-  if(payTok) payTok.addEventListener('change', calcular);
-  if(recvTok) recvTok.addEventListener('change', calcular);
-  // Si ya hay un monto (ej 15) al cargar, calcular al tiro
-  if(pay && pay.value) setTimeout(calcular, 300);
-})();
-</script>
+<div class="powered">Powered by <b>SilentSwap</b></div>
+<div class="footer">© 2026 FOXYCENTER - Todos los derechos reservados</div>
+</div>
 
-<!-- RETROTRAIDO-PRIVATE: PRIVATE ON/OFF y cálculo en script simple, funciona sin SDK, inmediato -->
-<script>
-(function(){
-  // PRIVATE - variable global, la usa también el módulo si carga
-  if(window.isPrivate===undefined) window.isPrivate=true;
-  var box=document.getElementById('privBox');
-  if(box){
-    // Quitar listeners viejos clonando el nodo (evita doble toggle)
-    var nuevo=box.cloneNode(true);
-    box.parentNode.replaceChild(nuevo, box);
-    box=nuevo;
-    box.addEventListener('click', function(){
-      window.isPrivate=!window.isPrivate;
-      var sw=box.querySelector('.switch'); var b=box.querySelector('b');
-      if(window.isPrivate){ if(sw) sw.style.background='#2ecc71'; if(b) b.textContent='🛡️ PRIVATE'; }
-      else { if(sw) sw.style.background='#444'; if(b) b.textContent='PRIVATE - OFF'; }
-      // Sincronizar con el módulo si ya cargó (usa la misma variable global)
-      try{ if(typeof isPrivate!=='undefined') isPrivate=window.isPrivate; }catch(e){}
-    });
-  }
-  // Conexión: si el módulo no cargó en 3s, avisar, no quedarse pegado
-  setTimeout(function(){
-    var st=document.getElementById('walletStatus');
-    var btn=document.getElementById('connectBtn');
-    if(st && !window.ssListo && btn && btn.textContent.indexOf('Conectado')===-1){
-      // No tocar el botón, solo dejar que el módulo intente. No romper nada.
-    }
-  }, 3000);
-})();
-</script>
+<script type="module">
+import { EthereumProvider } from "https://esm.sh/@walletconnect/ethereum-provider@2.21.0";
+import { createSilentSwapClient } from "https://cdn.jsdelivr.net/npm/@silentswap/sdk@2.3.0/+esm";
+import { createWalletClient, custom, parseUnits } from "https://cdn.jsdelivr.net/npm/viem@2.21.55/+esm";
+import { mainnet, base } from "https://cdn.jsdelivr.net/npm/viem@2.21.55/chains/+esm";
 
-<!-- CONEXION-SIMPLE: Conectar billeteras en script simple, sin depender de que cargue la SDK completa -->
-<script>
-(function(){
-  var btn=document.getElementById('connectBtn');
-  var st=document.getElementById('walletStatus');
-  if(!btn) return;
-  // Clonar para borrar handler viejo del módulo
-  var nuevoBtn=btn.cloneNode(true);
-  btn.parentNode.replaceChild(nuevoBtn, btn);
-  btn=nuevoBtn;
-  var PROJECT_ID="1c91a6338afae84a70f8f68395b6e205";
-  function mostrarConectado(addr){
-    window.connectedAccount=addr; window.account=addr;
-    try{ window.dispatchEvent(new CustomEvent('foxy-conectado',{detail:{account:addr}})); }catch(e){}
-    btn.textContent="Conectado - "+addr.slice(0,6)+"..."+addr.slice(-4);
-    btn.style.background="#2ecc71"; btn.style.color="#000";
-    if(st) st.textContent="Conectado: "+addr;
-    var rec=document.getElementById('recipientAddr');
-    if(rec && !rec.value) rec.value=addr;
-    var destEvm=document.getElementById('destEvmAddr');
-    if(destEvm && !destEvm.value) destEvm.value=addr;
-    var destBox=document.getElementById('destAddr');
-    if(destBox && !destBox.value) destBox.value=addr;
-  }
-  btn.addEventListener('click', async function(){
-    if(window.connectedAccount){ if(st) st.textContent="Ya conectado: "+window.connectedAccount; return; }
-    if(st) st.textContent="Conectando... abre Trust y confirma";
-    btn.textContent="Conectando...";
-    try{
-      // 1) Si estás dentro de Trust / MetaMask, window.ethereum ya está inyectado - conectar directo, sin QR
-      if(window.ethereum && window.ethereum.request){
-        var accs=await window.ethereum.request({method:'eth_requestAccounts'});
-        if(accs && accs[0]){ mostrarConectado(accs[0]); return; }
-      }
-      // 2) Si no hay inyectada, usar WalletConnect con QR (import dinámico, no rompe si falla la SDK de SilentSwap)
-      if(st) st.textContent="Abriendo QR... escanea con Trust";
-      var mod=await import("https://esm.sh/@walletconnect/ethereum-provider@2.21.0");
-      var provider=await mod.EthereumProvider.init({projectId:PROJECT_ID, chains:[1,56,8453], showQrModal:true});
-      await provider.connect();
-      var a=provider.accounts && provider.accounts[0] ? provider.accounts[0] : null;
-      if(!a) throw new Error("No se obtuvo cuenta");
-      window._wcProvider=provider;
-      mostrarConectado(a);
-    }catch(e){
-      btn.textContent="Conectar billetera - Trust / WalletConnect";
-      if(st) st.textContent="Error conectar: "+(e.message||e)+" - Intenta dentro de Trust o recarga";
-      console.error(e);
-    }
-  });
-  // Si ya estabas conectado antes (Trust inyectada), mostrarlo al cargar
-  if(window.ethereum && window.ethereum.selectedAddress){
-    mostrarConectado(window.ethereum.selectedAddress);
-  }
-})();
-</script>
+const CHAINS = { "1": mainnet, "8453": base };
+const INTEGRATOR_ID = "int_d47760638a531b8f8e853500";
+const PROJECT_ID = "1c91a6338afae84a70f8f68395b6e205";
 
-<!-- SWAP-SIMPLE: Boton Hacer Swap en script simple, siempre responde al apretar -->
-<script>
-(function(){
-  var btn=document.getElementById('swapBtn');
-  var st=document.getElementById('swapStatus');
-  if(!btn) return;
-  var nuevoBtn=btn.cloneNode(true);
-  btn.parentNode.replaceChild(nuevoBtn, btn);
-  btn=nuevoBtn;
-  btn.disabled=false; btn.style.opacity='1'; btn.textContent='Hacer Swap';
-  var TOKENS_SS_SIMPLE = {
-  "56": {
-    "BNB": { address: "0x0000000000000000000000000000000000000000", decimals: 18, isNative: true },
-    "USDC": { address: "0x8AC76a51cc950d9822D68b83fE1Ad97B32Cd580d", decimals: 18, isNative: false },
-    "USDT": { address: "0x55d398326f99059fF775485246999027B3197955", decimals: 18, isNative: false },
-    "WETH": { address: "0x2170Ed0880ac9A755fd29B2688956BD959F933F8", decimals: 18, isNative: false },
-    "DAI": { address: "0x1AF3F329e8BE154074D8769D1FFa4eE058B1DBc3", decimals: 18, isNative: false },
-    "WBTC": { address: "0x7130d2A12B9BCbFAe4f2634d864A1Ee1Ce3Ead9c", decimals: 18, isNative: false },
-    "CAKE": { address: "0x0E09FaBB73BD3Ade0a17ECC321fD13a19e81cE82", decimals: 18, isNative: false },
-    "FDUSD": { address: "0xc5f0f7b66764F6ec8C8Dff7BA683102295E16409", decimals: 18, isNative: false }
-  },
-  "8453": {
-    "ETH": { address: "0x0000000000000000000000000000000000000000", decimals: 18, isNative: true },
-    "USDC": { address: "0x833589fCD6eDb6E08f4c7C32D4f71b54bdA02913", decimals: 6, isNative: false },
-    "WETH": { address: "0x4200000000000000000000000000000000000006", decimals: 18, isNative: false },
-    "cbBTC": { address: "0xcbB7C0000aB88B473b1f5aFd9ef808440eed33Bf", decimals: 8, isNative: false },
-    "USDT": { address: "0xfde4C96c8593536E31F229EA8f37b2ADa2699bb2", decimals: 6, isNative: false },
-    "DAI": { address: "0x50c5725949A6F0c72E6C4a641F24049A917DB0Cb", decimals: 18, isNative: false },
-    "AERO": { address: "0x940181a94A35A4569E4529A3CDfB74e38FD98631", decimals: 18, isNative: false },
-    "cbETH": { address: "0x2Ae3F1Ec7F1F5012CdEab0185bfc7aa3cf0DEc22", decimals: 18, isNative: false }
-  },
-  "1": {
-    "ETH": { address: "0x0000000000000000000000000000000000000000", decimals: 18, isNative: true },
-    "USDC": { address: "0xA0b86991c6218b36c1d19D4a2e9Eb0cE3606eB48", decimals: 6, isNative: false },
-    "USDT": { address: "0xdAC17F958D2ee523a2206206994597C13D831ec7", decimals: 6, isNative: false },
-    "WBTC": { address: "0x2260FAC5E5542a773Aa44fBCfeDf7C193bc2C599", decimals: 8, isNative: false },
-    "SQGROW": { address: "0xd8fe887198e09647209738c8646011c75127ee7b", decimals: 18, isNative: false },
-    "DAI": { address: "0x6B175474E89094C44Da98b954EedeAC495271d0F", decimals: 18, isNative: false },
-    "WETH": { address: "0xC02aaA39b223FE8D0A0e5C4F27eAD9083C756Cc2", decimals: 18, isNative: false },
-    "SHIB": { address: "0x95aD61b0a150d79219dCF64E1E6Cc01f0B64C4cE", decimals: 18, isNative: false }
-  },
-  "bitcoin": {
-    "BTC": { address: "native", decimals: 8, isNative: true }
-  },
-  "litecoin": {
-    "LTC": { address: "native", decimals: 8, isNative: true }
-  },
-  "solana": {
-    "SOL": { address: "11111111111111111111111111111111", decimals: 9, isNative: true },
-    "USDC": { address: "EPjFWdd5AufqSSqeM2qN1xzybapC8G4wEGGkZwyTDt1v", decimals: 6, isNative: false }
-  },
-  "ton": {
-    "TON": { address: "native", decimals: 9, isNative: true }
-  },
-  "tron": {
-    "TRX": { address: "native", decimals: 6, isNative: true },
-    "USDT": { address: "TR7NHqjeKQxGTCi8q8ZY4pL8otSzgjLj6t", decimals: 6, isNative: false }
-  }
+// Contratos confirmados, no inventados. Solo 3 monedas para que sea simple.
+const TOKENS = {
+  "USDC": { "8453": { contract: "0x833589fCD6eDb6E08f4c7C32D4f71b54bdA02913", decimals: 6 }, "1": { contract: "0xA0b86991c6218b36c1d19D4a2e9Eb0cE3606eB48", decimals: 6 } },
+  "USDT": { "8453": { contract: "0x50c5725949A6F0c72E6C4a641F24049A917db9", decimals: 6 }, "1": { contract: "0xdAC17F958D2ee523a2206206994597C13D831ec7", decimals: 6 } },
+  "ETH": { "8453": { contract: "0x0000000000000000000000000000000000000000", decimals: 18 }, "1": { contract: "0x0000000000000000000000000000000000000000", decimals: 18 } }
 };
-  var PRECIOS_SIMPLE={ETH:1686,BNB:650,USDC:1,USDT:1,WETH:1686,DAI:1,WBTC:95000,CAKE:2.5,FDUSD:1,cbBTC:95000,AERO:0.8,cbETH:1700,SQGROW:0.00422,SHIB:0.000012,BTC:95000,LTC:110,SOL:180,TON:2.5,TRX:0.28};
-  var INTEGRATOR_SIMPLE="int_d47760638a531b8f8e853500";
-  function chainIdDeSimple(v){ var s=String(v||''); if(['bitcoin','litecoin','solana','ton','tron'].includes(s)) return s; var n=parseInt(s||'8453'); return isNaN(n)?8453:n; }
-  function esNonEvmSimple(v){ return ['bitcoin','litecoin','solana','ton','tron'].includes(String(v||'')); }
-  function getPaySymSimple(){ return document.getElementById('payToken')?.value || 'USDC'; }
-  function getRecvSymSimple(){ return document.getElementById('recvToken')?.value || 'ETH'; }
-  function getTokenInfoSimple(chainId, sym){ var c=TOKENS_SS_SIMPLE[String(chainId)]; return c ? c[sym] : null; }
-  function fmtRelojSimple(s){ var m=Math.floor(s/60); var ss=s%60; return String(m).padStart(2,'0')+':'+String(ss).padStart(2,'0'); }
-  btn.addEventListener('click', async function(){
-    if(st) st.textContent="Llamando a SilentSwap... no toques nada";
-    btn.textContent='Llamando...'; btn.disabled=true; btn.style.opacity='0.7';
+// Precios solo para estimar cuánto pedir en la salida, antes de la cotización real. No se muestran como cotización.
+const PRICES_EST = { "USDC": 1, "USDT": 1, "ETH": 1686 };
+
+let provider = null, walletClient = null, ssClient = null, lastQuote = null, account = null;
+let isPrivate = false;
+
+const payInput = document.getElementById('payAmount');
+const recInput = document.getElementById('receiveAmount');
+const payTokenEl = document.getElementById('payToken');
+const recvTokenEl = document.getElementById('recvToken');
+const payChainEl = document.getElementById('payChain');
+const recvChainEl = document.getElementById('recvChain');
+const st = document.getElementById('swapStatus');
+const walletStatus = document.getElementById('walletStatus');
+
+function getPaySym(){ return payTokenEl.value; }
+function getRecvSym(){ return recvTokenEl.value; }
+function getPayChain(){ return parseInt(payChainEl.value || "8453"); }
+function getRecvChain(){ return parseInt(recvChainEl.value || "1"); }
+
+// Solo actualiza el USD de PAY, no inventa RECEIVE. RECEIVE solo se llena con cotización real de SS.
+function updatePayUsd(){
+  const v = parseFloat((payInput.value||"").replace(/[^0-9.]/g,'')) || 0;
+  const p = PRICES_EST[getPaySym()] || 1;
+  document.getElementById('payUsd').textContent = "≈ $" + (v*p).toFixed(2) + " USD - Estimación local, no es cotización SS";
+}
+payInput.addEventListener('input', updatePayUsd);
+payTokenEl.addEventListener('change', updatePayUsd);
+recvTokenEl.addEventListener('change', ()=>{ recInput.value=""; document.getElementById('recvUsd').textContent="Esperando cotización real de SilentSwap..."; document.getElementById('feeReal').textContent="Sin cotización todavía."; lastQuote=null; });
+updatePayUsd();
+
+// PRIVATE toggle
+const privBox = document.getElementById('privBox');
+privBox.addEventListener('click', ()=>{
+  isPrivate = !isPrivate;
+  privBox.classList.toggle('on', isPrivate);
+  lastQuote = null;
+  recInput.value = "";
+  document.getElementById('recvUsd').textContent = "Esperando cotización real de SilentSwap...";
+});
+
+// Provider - una sola función, siempre el mismo
+async function getProvider(){
+  if(provider) return provider;
+  provider = await EthereumProvider.init({ projectId: PROJECT_ID, chains: [1,8453], optionalChains: [], showQrModal: true, metadata: { name: "FOXYCENTER", description: "FoxySwap", url: "https://foxycenter.org", icons: ["https://foxycenter.org/favicon.ico"] } });
+  return provider;
+}
+
+// Conexión - crea walletClient con la cadena de PAY actual, no con la de antes
+document.getElementById('connectBtn').addEventListener('click', async ()=>{
+  try{
+    const p = await getProvider();
+    await p.connect();
+    const accs = await p.request({ method: 'eth_accounts' });
+    account = accs && accs[0] ? accs[0] : null;
+    if(!account) throw new Error("No se obtuvo cuenta");
+    const srcChain = getPayChain();
+    const chainObj = CHAINS[String(srcChain)] || base;
+    walletClient = createWalletClient({ account: { address: account, type: 'json-rpc' }, chain: chainObj, transport: custom(p) });
+    ssClient = createSilentSwapClient({ walletClient: walletClient, integratorId: INTEGRATOR_ID });
+    walletStatus.textContent = "Conectado: " + account;
+    document.getElementById('connectBtn').textContent = "Conectado - " + account.slice(0,6) + "..." + account.slice(-4);
+    const rec = document.getElementById('recipientAddr');
+    if(rec && !rec.value) rec.value = account;
+    st.textContent = "Conectado. Ahora pon monto y apreta Hacer Swap.";
+  }catch(e){ walletStatus.textContent = "Error conectar: " + (e.message||e); }
+});
+
+// Hacer Swap - conexión bien hecha, concentrado
+document.getElementById('swapBtn').addEventListener('click', async ()=>{
+  try{
+    const amtRaw = (payInput.value||"").replace(/[^0-9.]/g,'');
+    const vIn = parseFloat(amtRaw) || 0;
+    const rec = document.getElementById('recipientAddr').value.trim();
+    const payTok = getPaySym();
+    const recvTok = getRecvSym();
+    const srcChain = getPayChain();
+    const dstChain = getRecvChain();
+
+    if(!account || !ssClient){ st.textContent = "Primero Conectar billetera con Trust"; return; }
+    if(!vIn || vIn <= 0){ st.textContent = "Pon un monto en PAY primero"; return; }
+    if(!rec){ st.textContent = "Pon tu dirección de destino"; return; }
+    if(srcChain === dstChain && payTok === recvTok){ st.textContent = "Misma moneda y misma red - cambia RECEIVE"; return; }
+
+    // Punto 1 - Recrear walletClient con cadena de PAY actual ANTES de la primera cotización, no después del fallo.
     try{
-      var isPrivate = (window.isPrivate!==undefined) ? window.isPrivate : true;
-      var account = window.connectedAccount || window.account || null;
-      if(!account && window.ethereum && window.ethereum.selectedAddress) account=window.ethereum.selectedAddress;
-      if(!account){ if(st) st.textContent="Primero Conectar billetera y conecta con Trust"; btn.textContent='Hacer Swap'; btn.disabled=false; btn.style.opacity='1'; return; }
-      var amt=document.getElementById('payAmount')?.value||'0';
-      if(!amt || parseFloat(amt)<=0){ if(st) st.textContent="Pon un monto en PAY primero"; btn.textContent='Hacer Swap'; btn.disabled=false; btn.style.opacity='1'; return; }
-      var recEvm=document.getElementById('recipientAddr')?.value?.trim() || document.getElementById('destEvmAddr')?.value?.trim() || document.getElementById('destAddr')?.value?.trim() || account;
-      var recNonEvm=document.getElementById('nonEvmAddr')?.value?.trim() || '';
-      var payTok=getPaySymSimple(); var recvTok=getRecvSymSimple();
-      var srcChain=chainIdDeSimple(document.getElementById('payChain').value||"8453");
-      var dstChain=chainIdDeSimple(document.getElementById('recvChain').value||"1");
-      var destAddr = esNonEvmSimple(dstChain) ? recNonEvm : recEvm;
-      if(!destAddr){ if(st) st.textContent="Pon tu direccion de destino (0x...) - es outputs[0].dest"; btn.textContent='Hacer Swap'; btn.disabled=false; btn.style.opacity='1'; return; }
-      if(srcChain===dstChain && payTok===recvTok){ if(st) st.textContent="Misma moneda y misma red - cambia la moneda de RECEIVE"; btn.textContent='Hacer Swap'; btn.disabled=false; btn.style.opacity='1'; return; }
-      var payInfo=getTokenInfoSimple(srcChain, payTok); var recvInfo=getTokenInfoSimple(dstChain, recvTok);
-      if(!payInfo){ if(st) st.textContent='PAY '+payTok+' no existe en cadena '+srcChain+' en lista SS'; btn.textContent='Hacer Swap'; btn.disabled=false; btn.style.opacity='1'; return; }
-      if(!recvInfo){ if(st) st.textContent='RECEIVE '+recvTok+' no existe en cadena '+dstChain+' en lista SS'; btn.textContent='Hacer Swap'; btn.disabled=false; btn.style.opacity='1'; return; }
-      var vIn=parseFloat(amt)||0; var pPay=PRECIOS_SIMPLE[payTok]||1; var pRecv=PRECIOS_SIMPLE[recvTok]||1;
-      var outAmt=(vIn*pPay/pRecv*0.998).toFixed(6);
-      if(st) st.textContent="Obteniendo cotizacion... PAY "+payTok+" "+amt+" en "+srcChain+" -> "+recvTok+" en "+dstChain+" privado="+isPrivate+" (60s, no toques nada, deja pantalla encendida)";
-      var viem=await import("https://cdn.jsdelivr.net/npm/viem@2.21.55/+esm");
-      var chainsMod=await import("https://cdn.jsdelivr.net/npm/viem@2.21.55/chains/+esm");
-      var ssMod=await import("https://cdn.jsdelivr.net/npm/@silentswap/sdk@2.3.0/+esm");
-      var prov = window._wcProvider || window.ethereum || null;
-      if(!prov) throw new Error("No hay provider - Conecta primero con Trust");
-      var CHAINS_SIMPLE={ "1": chainsMod.mainnet, "56": chainsMod.bsc, "8453": chainsMod.base };
-      var chainObj=CHAINS_SIMPLE[String(srcChain)] || chainsMod.base;
-      var walletClient=viem.createWalletClient({ account: { address: account, type: 'json-rpc' }, chain: chainObj, transport: viem.custom(prov) });
-      var ssClient=ssMod.createSilentSwapClient({ walletClient: walletClient, integratorId: INTEGRATOR_SIMPLE });
-      var inputAddr = esNonEvmSimple(srcChain) ? (recNonEvm || account) : account;
-      var quoteConTimeout=(params)=>Promise.race([ ssClient.quote(params), new Promise((_,rej)=> setTimeout(()=> rej(new Error('SilentSwap no responde en 60s')), 60000)) ]);
-      var q=null;
-      try{
-        q=await quoteConTimeout({ privacy: isPrivate, inputAddress: inputAddr, sourceChainId: srcChain, sourceAsset: payInfo.address, outputs: [{ dest: destAddr, address: destAddr, chainId: dstChain, amount: viem.parseUnits(outAmt, recvInfo.decimals), asset: recvInfo.address }] });
-      }catch(e1){
-        if(String(e1.message||e1).includes('60s')) throw e1;
-        q=await quoteConTimeout({ privacy: isPrivate, inputAddress: inputAddr, sourceChainId: srcChain, sourceAsset: payInfo.address, outputs: [{ dest: destAddr, address: destAddr, chainId: dstChain, amount: viem.parseUnits(outAmt, recvInfo.decimals), asset: recvInfo.address }] });
+      const p2 = await getProvider();
+      const chain2 = CHAINS[String(srcChain)] || base;
+      walletClient = createWalletClient({ account: { address: account, type: 'json-rpc' }, chain: chain2, transport: custom(p2) });
+      ssClient = createSilentSwapClient({ walletClient: walletClient, integratorId: INTEGRATOR_ID });
+    }catch(eRec){ console.log('recrear walletClient falló, sigo', eRec); }
+
+    // Estimación solo para pedir la salida a SS. No se muestra como cotización.
+    const pPay = PRICES_EST[payTok] || 1;
+    const pRecv = PRICES_EST[recvTok] || 1;
+    const outAmtStr = (vIn * pPay / pRecv * 0.998).toFixed(6);
+
+    // Punto 2 - Decimales correctos según moneda de salida. No parseUsdc para todo.
+    const infoRecv = (TOKENS[recvTok] && TOKENS[recvTok][String(dstChain)]) ? TOKENS[recvTok][String(dstChain)] : { contract: "0x0000000000000000000000000000000000000000", decimals: 18 };
+    const decimalsRecv = infoRecv.decimals;
+    const amountOutBase = parseUnits(outAmtStr, decimalsRecv);
+
+    // Punto 3 - Dest para todas las monedas, no solo ETH. Así SS sabe exactamente qué recibir y dónde.
+    const destObj = { kind: 'evm', chainId: dstChain, assetId: infoRecv.contract, assetSymbol: recvTok, assetDecimals: decimalsRecv, slippageBps: 100 };
+    const outBase = { address: rec, chainId: dstChain, amount: amountOutBase, dest: destObj };
+
+    st.textContent = "Obteniendo cotización real de SilentSwap... PAY " + payTok + " " + amtRaw + " en " + srcChain + " -> " + recvTok + " en " + dstChain + " privado=" + isPrivate + " (60s, deja pantalla encendida)";
+
+    // Intervalo de 60s, se limpia bien cuando llega la cotización o cuando falla
+    let segundos = 60;
+    let intervalo = null;
+    const limpiarIntervalo = ()=>{ if(intervalo) clearInterval(intervalo); intervalo = null; };
+    intervalo = setInterval(()=>{
+      segundos--;
+      if(segundos > 0 && !lastQuote){ st.textContent = "Obteniendo cotización real de SilentSwap... (" + segundos + "s, deja pantalla encendida)"; }
+      if(segundos <= 0){ limpiarIntervalo(); if(!lastQuote){ st.textContent = "SilentSwap no responde en 60s - cierra y abre de nuevo, con WiFi si puedes, y dale otra vez."; } }
+    }, 1000);
+
+    const quoteConTimeout = (params) => Promise.race([
+      ssClient.quote(params),
+      new Promise((_, rej)=> setTimeout(()=> rej(new Error('SilentSwap no responde en 60s')), 60000))
+    ]);
+
+    let q = null;
+    try{
+      // Fix conexión según doc oficial SS:
+      // - Doc dice sourceAsset es símbolo 'USDC' / 'ETH', no contrato. Volvemos a símbolo.
+      // - PRIVATE OFF = Simple Bridge: amount arriba (input), outputs con dest, SIN amount en outputs. Si falta amount arriba, SS hace amount.toString() de undefined y se cae.
+      // - PRIVATE ON = Privado: outputs con amount, SIN dest, SIN amount arriba.
+      const infoPay2 = (TOKENS[payTok] && TOKENS[payTok][String(srcChain)]) ? TOKENS[payTok][String(srcChain)] : { contract: "0x0000000000000000000000000000000000000000", decimals: 18 };
+      const decimalsPay = infoPay2.decimals;
+      const amountInBase = parseUnits(amtRaw, decimalsPay);
+      let quoteParams;
+      if(!isPrivate){
+        // Simple Bridge - PRIVATE OFF
+        quoteParams = { privacy: false, inputAddress: account, sourceChainId: srcChain, sourceAsset: payTok, amount: amountInBase, outputs: [{ address: rec, chainId: dstChain, dest: destObj }] };
+      } else {
+        // Privado - PRIVATE ON
+        quoteParams = { privacy: true, inputAddress: account, sourceChainId: srcChain, sourceAsset: payTok, amount: amountInBase, outputs: [{ address: rec, chainId: dstChain, amount: 1n, dest: destObj }] }; // PRIVATE ON: exact-input, con destObj (era el que faltaba y daba HTTP 400)
       }
-      if(st) st.textContent="Cotizacion lista. Enviando swap... aprueba en tu wallet";
-      var relojBox=document.getElementById('relojSwap'); var relojNum=document.getElementById('relojSwapNum'); var anuncio=document.getElementById('anuncioTrust');
-      if(relojBox) relojBox.style.display='block'; if(anuncio) anuncio.style.display='block';
-      var seg=0; var relojInt=setInterval(()=>{ seg++; if(relojNum) relojNum.textContent=fmtRelojSimple(seg); },1000);
-      try{ if(!(await ssClient.hasAllowance(q))) await ssClient.ensureAllowance(q); }catch(e){ console.log('hasAllowance saltado', e); }
-      var o=await ssClient.placeOrder(q);
-      clearInterval(relojInt);
-      if(st) st.textContent="Swap enviado: "+(o.reference||o.hash||'OK')+" - revisa tu wallet, ya va en camino.";
-      btn.textContent='Hacer Swap'; btn.disabled=false; btn.style.opacity='1';
-    }catch(e){
-      var msg=String(e.message||e);
-      if(st){
-        if(msg.includes('outputs[0].dest') || msg.includes('Simple Bridge')) st.textContent="Error swap: Falta outputs[0].dest en Base 8453 - revisa que tu direccion de destino este pegada y dale de nuevo. Detalle: "+msg;
-        else st.textContent="Error swap: "+msg;
-      }
-      console.error(e);
-      btn.textContent='Hacer Swap'; btn.disabled=false; btn.style.opacity='1';
+      q = await quoteConTimeout(quoteParams);
+    }catch(e1){
+      limpiarIntervalo();
+      throw new Error("Error en cotización SS: " + (e1.message||e1) + " | PAY " + payTok + " " + amtRaw + " src=" + srcChain + " dst=" + dstChain + " out=" + outAmtStr + " dec=" + decimalsRecv);
     }
-  });
-})();
+    lastQuote = q;
+    limpiarIntervalo();
+
+    // Cotización real llegó: mostrar RECEIVE con el monto que SS aceptó, no con cálculo falso
+    recInput.value = outAmtStr;
+    document.getElementById('recvUsd').textContent = "≈ $" + (parseFloat(outAmtStr) * pRecv).toFixed(2) + " USD - Cotización real aceptada por SS";
+    document.getElementById('feeReal').textContent = "Cotización SS lista. Revisa fee en tu wallet al aprobar.";
+    st.textContent = "Cotización real lista. Enviando swap... aprueba en tu wallet";
+
+    const sb = document.getElementById('swapBtn');
+    sb.textContent = 'Esperando aprobación en tu wallet...';
+    sb.disabled = true; sb.style.opacity = '0.7';
+
+    try{ if(!(await ssClient.hasAllowance(lastQuote))) await ssClient.ensureAllowance(lastQuote); }catch(e){ console.log('hasAllowance saltado', e); }
+    let o;
+    try{ o = await ssClient.placeOrder(lastQuote); }catch(eP){ throw new Error('Error en placeOrder: ' + (eP.message||eP)); }
+    st.textContent = "Swap enviado: " + (o.reference || "sin referencia") + " - revisa tu wallet, ya va en camino.";
+    sb.textContent = 'Hacer Swap'; sb.disabled = false; sb.style.opacity = '1';
+    lastQuote = null;
+  }catch(e){
+    lastQuote = null;
+    st.textContent = "Error swap: " + (e.message||e);
+    const sb2 = document.getElementById('swapBtn');
+    if(sb2){ sb2.textContent = 'Hacer Swap'; sb2.disabled = false; sb2.style.opacity = '1'; }
+    console.error(e);
+  }
+});
 </script>
 </body>
 </html>
