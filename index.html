@@ -127,6 +127,7 @@ const TOKENS_SS = {
     "TRX": { address: "native", decimals: 6, isNative: true },
     "USDT": { address: "TR7NHqjeKQxGTCi8q8ZY4pL8otSzgjLj6t", decimals: 6, isNative: false }
   }
+  }
 };
 function getTokenInfo(chainId, symbol){ const c=TOKENS_SS[String(chainId)]; return c ? c[symbol] : null; }
 function chainIdDe(valor){ const v=String(valor||''); if(['bitcoin','litecoin','solana','ton','tron'].includes(v)) return v; const n=parseInt(v||'8453'); return isNaN(n)?8453:n; }
@@ -304,137 +305,6 @@ document.getElementById('recvChain')?.addEventListener('change', actualizarCajaN
   if(window.ethereum && window.ethereum.selectedAddress){
     mostrarConectado(window.ethereum.selectedAddress);
   }
-})();
-</script>
-
-<!-- SWAP-SIMPLE: Boton Hacer Swap en script simple, siempre responde al apretar -->
-<script>
-(function(){
-  var btn=document.getElementById('swapBtn');
-  var st=document.getElementById('swapStatus');
-  if(!btn) return;
-  var nuevoBtn=btn.cloneNode(true);
-  btn.parentNode.replaceChild(nuevoBtn, btn);
-  btn=nuevoBtn;
-  btn.disabled=false; btn.style.opacity='1'; btn.textContent='Hacer Swap';
-  var TOKENS_SS_SIMPLE = {
-  "56": {
-    "BNB": { address: "0x0000000000000000000000000000000000000000", decimals: 18, isNative: true },
-    "USDC": { address: "0x8AC76a51cc950d9822D68b83fE1Ad97B32Cd580d", decimals: 18, isNative: false },
-    "USDT": { address: "0x55d398326f99059fF775485246999027B3197955", decimals: 18, isNative: false },
-    "WETH": { address: "0x2170Ed0880ac9A755fd29B2688956BD959F933F8", decimals: 18, isNative: false },
-    "DAI": { address: "0x1AF3F329e8BE154074D8769D1FFa4eE058B1DBc3", decimals: 18, isNative: false },
-    "WBTC": { address: "0x7130d2A12B9BCbFAe4f2634d864A1Ee1Ce3Ead9c", decimals: 18, isNative: false },
-    "CAKE": { address: "0x0E09FaBB73BD3Ade0a17ECC321fD13a19e81cE82", decimals: 18, isNative: false },
-    "FDUSD": { address: "0xc5f0f7b66764F6ec8C8Dff7BA683102295E16409", decimals: 18, isNative: false }
-  },
-  "8453": {
-    "ETH": { address: "0x0000000000000000000000000000000000000000", decimals: 18, isNative: true },
-    "USDC": { address: "0x833589fCD6eDb6E08f4c7C32D4f71b54bdA02913", decimals: 6, isNative: false },
-    "WETH": { address: "0x4200000000000000000000000000000000000006", decimals: 18, isNative: false },
-    "cbBTC": { address: "0xcbB7C0000aB88B473b1f5aFd9ef808440eed33Bf", decimals: 8, isNative: false },
-    "USDT": { address: "0xfde4C96c8593536E31F229EA8f37b2ADa2699bb2", decimals: 6, isNative: false },
-    "DAI": { address: "0x50c5725949A6F0c72E6C4a641F24049A917DB0Cb", decimals: 18, isNative: false },
-    "AERO": { address: "0x940181a94A35A4569E4529A3CDfB74e38FD98631", decimals: 18, isNative: false },
-    "cbETH": { address: "0x2Ae3F1Ec7F1F5012CdEab0185bfc7aa3cf0DEc22", decimals: 18, isNative: false }
-  },
-  "1": {
-    "ETH": { address: "0x0000000000000000000000000000000000000000", decimals: 18, isNative: true },
-    "USDC": { address: "0xA0b86991c6218b36c1d19D4a2e9Eb0cE3606eB48", decimals: 6, isNative: false },
-    "USDT": { address: "0xdAC17F958D2ee523a2206206994597C13D831ec7", decimals: 6, isNative: false },
-    "WBTC": { address: "0x2260FAC5E5542a773Aa44fBCfeDf7C193bc2C599", decimals: 8, isNative: false },
-    "SQGROW": { address: "0xd8fe887198e09647209738c8646011c75127ee7b", decimals: 18, isNative: false },
-    "DAI": { address: "0x6B175474E89094C44Da98b954EedeAC495271d0F", decimals: 18, isNative: false },
-    "WETH": { address: "0xC02aaA39b223FE8D0A0e5C4F27eAD9083C756Cc2", decimals: 18, isNative: false },
-    "SHIB": { address: "0x95aD61b0a150d79219dCF64E1E6Cc01f0B64C4cE", decimals: 18, isNative: false }
-  },
-  "bitcoin": {
-    "BTC": { address: "native", decimals: 8, isNative: true }
-  },
-  "litecoin": {
-    "LTC": { address: "native", decimals: 8, isNative: true }
-  },
-  "solana": {
-    "SOL": { address: "11111111111111111111111111111111", decimals: 9, isNative: true },
-    "USDC": { address: "EPjFWdd5AufqSSqeM2qN1xzybapC8G4wEGGkZwyTDt1v", decimals: 6, isNative: false }
-  },
-  "ton": {
-    "TON": { address: "native", decimals: 9, isNative: true }
-  },
-  "tron": {
-    "TRX": { address: "native", decimals: 6, isNative: true },
-    "USDT": { address: "TR7NHqjeKQxGTCi8q8ZY4pL8otSzgjLj6t", decimals: 6, isNative: false }
-  }
-};
-  var PRECIOS_SIMPLE={ETH:1686,BNB:650,USDC:1,USDT:1,WETH:1686,DAI:1,WBTC:95000,CAKE:2.5,FDUSD:1,cbBTC:95000,AERO:0.8,cbETH:1700,SQGROW:0.00422,SHIB:0.000012,BTC:95000,LTC:110,SOL:180,TON:2.5,TRX:0.28};
-  var INTEGRATOR_SIMPLE="int_d47760638a531b8f8e853500";
-  function chainIdDeSimple(v){ var s=String(v||''); if(['bitcoin','litecoin','solana','ton','tron'].includes(s)) return s; var n=parseInt(s||'8453'); return isNaN(n)?8453:n; }
-  function esNonEvmSimple(v){ return ['bitcoin','litecoin','solana','ton','tron'].includes(String(v||'')); }
-  function getPaySymSimple(){ return document.getElementById('payToken')?.value || 'USDC'; }
-  function getRecvSymSimple(){ return document.getElementById('recvToken')?.value || 'ETH'; }
-  function getTokenInfoSimple(chainId, sym){ var c=TOKENS_SS_SIMPLE[String(chainId)]; return c ? c[sym] : null; }
-  function fmtRelojSimple(s){ var m=Math.floor(s/60); var ss=s%60; return String(m).padStart(2,'0')+':'+String(ss).padStart(2,'0'); }
-  btn.addEventListener('click', async function(){
-    if(st) st.textContent="Llamando a SilentSwap... no toques nada";
-    btn.textContent='Llamando...'; btn.disabled=true; btn.style.opacity='0.7';
-    try{
-      var isPrivate = (window.isPrivate!==undefined) ? window.isPrivate : true;
-      var account = window.connectedAccount || window.account || null;
-      if(!account && window.ethereum && window.ethereum.selectedAddress) account=window.ethereum.selectedAddress;
-      if(!account){ if(st) st.textContent="Primero Conectar billetera y conecta con Trust"; btn.textContent='Hacer Swap'; btn.disabled=false; btn.style.opacity='1'; return; }
-      var amt=document.getElementById('payAmount')?.value||'0';
-      if(!amt || parseFloat(amt)<=0){ if(st) st.textContent="Pon un monto en PAY primero"; btn.textContent='Hacer Swap'; btn.disabled=false; btn.style.opacity='1'; return; }
-      var recEvm=document.getElementById('recipientAddr')?.value?.trim() || document.getElementById('destEvmAddr')?.value?.trim() || document.getElementById('destAddr')?.value?.trim() || account;
-      var recNonEvm=document.getElementById('nonEvmAddr')?.value?.trim() || '';
-      var payTok=getPaySymSimple(); var recvTok=getRecvSymSimple();
-      var srcChain=chainIdDeSimple(document.getElementById('payChain').value||"8453");
-      var dstChain=chainIdDeSimple(document.getElementById('recvChain').value||"1");
-      var destAddr = esNonEvmSimple(dstChain) ? recNonEvm : recEvm;
-      if(!destAddr){ if(st) st.textContent="Pon tu direccion de destino (0x...) - es outputs[0].dest"; btn.textContent='Hacer Swap'; btn.disabled=false; btn.style.opacity='1'; return; }
-      if(srcChain===dstChain && payTok===recvTok){ if(st) st.textContent="Misma moneda y misma red - cambia la moneda de RECEIVE"; btn.textContent='Hacer Swap'; btn.disabled=false; btn.style.opacity='1'; return; }
-      var payInfo=getTokenInfoSimple(srcChain, payTok); var recvInfo=getTokenInfoSimple(dstChain, recvTok);
-      if(!payInfo){ if(st) st.textContent='PAY '+payTok+' no existe en cadena '+srcChain+' en lista SS'; btn.textContent='Hacer Swap'; btn.disabled=false; btn.style.opacity='1'; return; }
-      if(!recvInfo){ if(st) st.textContent='RECEIVE '+recvTok+' no existe en cadena '+dstChain+' en lista SS'; btn.textContent='Hacer Swap'; btn.disabled=false; btn.style.opacity='1'; return; }
-      var vIn=parseFloat(amt)||0; var pPay=PRECIOS_SIMPLE[payTok]||1; var pRecv=PRECIOS_SIMPLE[recvTok]||1;
-      var outAmt=(vIn*pPay/pRecv*0.998).toFixed(6);
-      if(st) st.textContent="Obteniendo cotizacion... PAY "+payTok+" "+amt+" en "+srcChain+" -> "+recvTok+" en "+dstChain+" privado="+isPrivate+" (60s, no toques nada, deja pantalla encendida)";
-      var viem=await import("https://cdn.jsdelivr.net/npm/viem@2.21.55/+esm");
-      var chainsMod=await import("https://cdn.jsdelivr.net/npm/viem@2.21.55/chains/+esm");
-      var ssMod=await import("https://cdn.jsdelivr.net/npm/@silentswap/sdk@2.3.0/+esm");
-      var prov = window._wcProvider || window.ethereum || null;
-      if(!prov) throw new Error("No hay provider - Conecta primero con Trust");
-      var CHAINS_SIMPLE={ "1": chainsMod.mainnet, "56": chainsMod.bsc, "8453": chainsMod.base };
-      var chainObj=CHAINS_SIMPLE[String(srcChain)] || chainsMod.base;
-      var walletClient=viem.createWalletClient({ account: { address: account, type: 'json-rpc' }, chain: chainObj, transport: viem.custom(prov) });
-      var ssClient=ssMod.createSilentSwapClient({ walletClient: walletClient, integratorId: INTEGRATOR_SIMPLE });
-      var inputAddr = esNonEvmSimple(srcChain) ? (recNonEvm || account) : account;
-      var quoteConTimeout=(params)=>Promise.race([ ssClient.quote(params), new Promise((_,rej)=> setTimeout(()=> rej(new Error('SilentSwap no responde en 60s')), 60000)) ]);
-      var q=null;
-      try{
-        q=await quoteConTimeout({ privacy: isPrivate, inputAddress: inputAddr, sourceChainId: srcChain, sourceAsset: payInfo.address, outputs: [{ dest: destAddr, address: destAddr, chainId: dstChain, amount: viem.parseUnits(outAmt, recvInfo.decimals), asset: recvInfo.address }] });
-      }catch(e1){
-        if(String(e1.message||e1).includes('60s')) throw e1;
-        q=await quoteConTimeout({ privacy: isPrivate, inputAddress: inputAddr, sourceChainId: srcChain, sourceAsset: payInfo.address, outputs: [{ dest: destAddr, address: destAddr, chainId: dstChain, amount: viem.parseUnits(outAmt, recvInfo.decimals), asset: recvInfo.address }] });
-      }
-      if(st) st.textContent="Cotizacion lista. Enviando swap... aprueba en tu wallet";
-      var relojBox=document.getElementById('relojSwap'); var relojNum=document.getElementById('relojSwapNum'); var anuncio=document.getElementById('anuncioTrust');
-      if(relojBox) relojBox.style.display='block'; if(anuncio) anuncio.style.display='block';
-      var seg=0; var relojInt=setInterval(()=>{ seg++; if(relojNum) relojNum.textContent=fmtRelojSimple(seg); },1000);
-      try{ if(!(await ssClient.hasAllowance(q))) await ssClient.ensureAllowance(q); }catch(e){ console.log('hasAllowance saltado', e); }
-      var o=await ssClient.placeOrder(q);
-      clearInterval(relojInt);
-      if(st) st.textContent="Swap enviado: "+(o.reference||o.hash||'OK')+" - revisa tu wallet, ya va en camino.";
-      btn.textContent='Hacer Swap'; btn.disabled=false; btn.style.opacity='1';
-    }catch(e){
-      var msg=String(e.message||e);
-      if(st){
-        if(msg.includes('outputs[0].dest') || msg.includes('Simple Bridge')) st.textContent="Error swap: Falta outputs[0].dest en Base 8453 - revisa que tu direccion de destino este pegada y dale de nuevo. Detalle: "+msg;
-        else st.textContent="Error swap: "+msg;
-      }
-      console.error(e);
-      btn.textContent='Hacer Swap'; btn.disabled=false; btn.style.opacity='1';
-    }
-  });
 })();
 </script>
 </body>
