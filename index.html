@@ -56,6 +56,20 @@ body{background:#0a0a0f;color:#fff;font-family:Inter,system-ui,-apple-system,san
   .powered,.footer{width:100%;text-align:center}
   .btn{max-width:480px;margin-left:auto;margin-right:auto}
 .row input.big{font-size:22px} @media (max-width:480px){.row input{font-size:28px}} 
+
+/* --- GRAFICA TOKENS V5 - como SilentSwap, sin tocar logica --- */
+.box{ background:#17171f; border:1px solid #2a2a35; border-radius:18px; padding:14px 14px 10px; margin:10px 0; }
+.box label{ font-size:12px; letter-spacing:1px; color:#9a9ab0; font-weight:700; }
+.box .row{ display:flex; align-items:center; gap:10px; margin-top:6px; }
+.box .row input{ flex:1; background:transparent; border:none; outline:none; color:#fff; font-size:30px; font-weight:800; padding:4px 0; min-width:0; }
+.box .row input::placeholder{ color:#5a5a6e; }
+select.token{ background:#23232f; color:#fff; border:1px solid #ff6a00; border-radius:999px; padding:8px 12px 8px 10px; font-size:16px; font-weight:800; cursor:pointer; min-width:112px; text-align:left; }
+select.token:focus{ outline:2px solid #ff6a00; }
+.token-badge{ display:inline-flex; align-items:center; gap:6px; background:#23232f; border:1px solid #3a3a4a; border-radius:999px; padding:6px 10px; font-size:14px; font-weight:800; color:#fff; white-space:nowrap; }
+.token-dot{ width:22px; height:22px; border-radius:50%; display:inline-flex; align-items:center; justify-content:center; font-size:12px; font-weight:800; color:#fff; flex-shrink:0; }
+.token-sub{ font-size:12px; color:#8b8ba3; margin-top:6px; display:flex; justify-content:space-between; gap:8px; }
+.chain-pill{ background:#0f0f16; border:1px solid #2a2a35; border-radius:999px; padding:4px 10px; font-size:12px; color:#c7c7d6; }
+select[id$="Chain"]{ background:#0f0f16; color:#fff; border:1px solid #2a2a35; border-radius:999px; padding:8px 10px; font-size:13px; font-weight:600; }
 </style>
 </head>
 <body>
@@ -75,9 +89,9 @@ body{background:#0a0a0f;color:#fff;font-family:Inter,system-ui,-apple-system,san
       <span>&rarr;</span>
       <select id="recvChain"><option value="56">BNB Chain (56)</option><option value="8453">Base (8453)</option><option value="1" selected>Ethereum (1)</option><option value="137">Polygon (137)</option><option value="bitcoin">Bitcoin - BTC</option><option value="litecoin">Litecoin - LTC</option><option value="solana">Solana - SOL</option><option value="ton">TON - TON</option><option value="tron">TRON - TRX</option></select>
     </div>
-    <div class="box"><label>PAY</label><div class="row"><input id="payAmount" value="10" value="" placeholder="0.00"><select id="payToken" class="token"><option>ETH</option><option>BNB</option><option selected>USDC</option><option>USDT</option><option>WETH</option><option>DAI</option><option>WBTC</option><option>CAKE</option><option>FDUSD</option><option>cbBTC</option><option>cbETH</option><option>AERO</option><option>SQGROW</option><option>SHIB</option><option>BONE</option><option>DOGE</option><option>POL</option><option>XRP</option><option>WBNB</option><option>BTC</option><option>LTC</option><option>SOL</option><option>TON</option><option>TRX</option></select></div><div style="text-align:right;color:#8b8ba3;font-size:13px"><span id="payUsd">&asymp; $0.00 USD</span></span></div></div>
+    <div class="box"><label>PAY &nbsp;·&nbsp; <span id="payChainLabel" class="chain-pill">Base (8453)</span></label><div class="row"><input id="payAmount" value="13" placeholder="0.00"><span class="token-badge"><span id="payTokenDot" class="token-dot" style="background:#2775CA"> $ </span><span id="payTokenLabel">USDC</span><select id="payToken" class="token" style="background:transparent;border:none;padding:0;min-width:20px;appearance:none;color:#fff;font-weight:800;cursor:pointer"><option>ETH</option><option>BNB</option><option selected>USDC</option><option>USDT</option><option>WETH</option><option>DAI</option><option>WBTC</option><option>CAKE</option><option>FDUSD</option><option>cbBTC</option><option>cbETH</option><option>AERO</option><option>SQGROW</option><option>SHIB</option><option>BONE</option><option>DOGE</option><option>POL</option><option>XRP</option><option>WBNB</option><option>BTC</option><option>LTC</option><option>SOL</option><option>TON</option><option>TRX</option></select><span style="color:#ff6a00"> ▾</span></span></div><div class="token-sub"><span>BALANCE: tu saldo en Trust</span><span id="payUsd">&asymp; $0.00 USD</span></div><div class="token-sub"><span id="payRateLine">1 USDC &asymp; $1.00</span><span style="color:#ff6a00">Mínimo 12 USDC</span></div></div>
     <div class="arrow"><span>&darr;</span></div>
-    <div class="box"><label>RECEIVE</label><div class="row"><input id="receiveAmount" value="0.00" readonly style="color:#8b8ba3"><select id="recvToken" class="token"><option selected>ETH</option><option>BNB</option><option>USDC</option><option>USDT</option><option>WETH</option><option>DAI</option><option>WBTC</option><option>CAKE</option><option>FDUSD</option><option>cbBTC</option><option>cbETH</option><option>AERO</option><option>SQGROW</option><option>SHIB</option><option>BONE</option><option>DOGE</option><option>POL</option><option>XRP</option><option>WBNB</option><option>BTC</option><option>LTC</option><option>SOL</option><option>TON</option><option>TRX</option></select></div><div style="text-align:right;color:#8b8ba3;font-size:13px"><span id="recvUsd">&asymp; $0.00 USD</span></div></div>
+    <div class="box"><label>RECEIVE &nbsp;·&nbsp; <span id="recvChainLabel" class="chain-pill">Ethereum (1)</span></label><div class="row"><input id="receiveAmount" value="0.00" readonly style="color:#fff"><span class="token-badge"><span id="recvTokenDot" class="token-dot" style="background:#627EEA"> Ξ </span><span id="recvTokenLabel">ETH</span><select id="recvToken" class="token" style="background:transparent;border:none;padding:0;min-width:20px;appearance:none;color:#fff;font-weight:800;cursor:pointer"><option selected>ETH</option><option>BNB</option><option>USDC</option><option>USDT</option><option>WETH</option><option>DAI</option><option>WBTC</option><option>CAKE</option><option>FDUSD</option><option>cbBTC</option><option>cbETH</option><option>AERO</option><option>SQGROW</option><option>SHIB</option><option>BONE</option><option>DOGE</option><option>POL</option><option>XRP</option><option>WBNB</option><option>BTC</option><option>LTC</option><option>SOL</option><option>TON</option><option>TRX</option></select><span style="color:#ff6a00"> ▾</span></span></div><div class="token-sub"><span id="recvRateLine">1 USDC &asymp; 0.00058 ETH</span><span id="recvUsd">&asymp; $0.00 USD</span></div><div class="token-sub"><span>Fee &asymp; $0.13 &nbsp;·&nbsp; &lt; 1 min</span><span>PRIVATE ON = privado</span></div></div>
 
     <div class="box"><label>DIRECCIÓN DE DESTINO</label><div class="row"><input id="recipientAddr" placeholder="0x... tu dirección donde recibes" style="font-size:14px;width:100%"></div></div>
     <div class="box" id="btcBox" style="display:none"><label>DIRECCIÓN</label><div class="row"><input id="btcAddr" placeholder="bc1... tu dirección BTC de Trust" style="font-size:14px;width:100%"></div></div>
@@ -101,7 +115,7 @@ body{background:#0a0a0f;color:#fff;font-family:Inter,system-ui,-apple-system,san
   
   <button class="btn" id="swapBtn" style="background:#23232f;color:#fff;border:1px solid #ff6a00">Hacer Swap</button>
   <div id="swapStatus" style="text-align:center;font-size:13px;color:#ffcc88;margin-top:10px;min-height:18px;word-break:break-all"></div>
-  <div style="text-align:center;font-size:11px;color:#00ff88;margin:6px 0;font-weight:bold">V3 - COTIZACION ETH ARREGLADA - 27 NOV - parseOutAmt</div><div class="powered">Powered by <b>SilentSwap</b></div>
+  <div style="text-align:center;font-size:11px;color:#00ff88;margin:6px 0;font-weight:bold">V5 - GRAFICA TOKENS COMO SILENTSWAP - PAY 13 - MINIMO 12 - 27 NOV</div><div class="powered">Powered by <b>SilentSwap</b></div>
   <div class="footer">&copy; 2026 FOXYCENTER - Todos los derechos reservados</div>
 </div>
 
@@ -286,6 +300,7 @@ function detenerRelojSwap(){
     if(!rec){ st.textContent="Pon tu dirección de destino"; return; }
     if(srcChain===dstChain && payTok===recvTok){ st.textContent="Misma moneda y misma red - cambia la moneda de RECEIVE"; return; }
     // DEBUG: mostrar valores si falla
+    if(payTok==="USDC" && amt<12){ st.textContent="Mínimo 12 USDC - sube PAY a 13. Tienes 16.75, con 13 ya cotiza."; return; }
     st.textContent="Obteniendo cotización... PAY "+payTok+" "+amt+" en "+srcChain+" -> "+recvTok+" en "+dstChain+" privado="+isPrivate;
     if(!lastQuote){
       let segundos=60;
@@ -371,6 +386,23 @@ if(payChainEl) payChainEl.addEventListener('change',()=>{
   // Si ya hay 0.01 escrito, calcularlo al cargar
   setTimeout(calc, 300);
   setTimeout(calc, 1000);
+})();
+</script>
+
+<script>
+(function(){
+  var dots={ETH:['#627EEA','Ξ'],BNB:['#F0B90B','B'],USDC:['#2775CA','$'],USDT:['#26A17B','T'],WETH:['#627EEA','Ξ'],DAI:['#F5AC37','D'],WBTC:['#F7931A','₿'],CAKE:['#D1884F','C'],FDUSD:['#2A5CFF','F'],cbBTC:['#0052FF','₿'],cbETH:['#0052FF','Ξ'],AERO:['#2E6BF0','A'],SQGROW:['#00C853','S'],SHIB:['#FFA409','S'],BONE:['#EC6A2B','B'],DOGE:['#C2A633','Ð'],POL:['#8247E5','P'],XRP:['#23292F','X'],WBNB:['#F0B90B','B'],BTC:['#F7931A','₿'],LTC:['#345D9D','Ł'],SOL:['#9945FF','◎'],TON:['#0098EA','T'],TRX:['#FF060A','T']};
+  function upd(){
+    var pt=document.getElementById('payToken'); var rt=document.getElementById('recvToken');
+    var pc=document.getElementById('payChain'); var rc=document.getElementById('recvChain');
+    if(pt){ var d=dots[pt.value]||['#555','?']; var el=document.getElementById('payTokenDot'); if(el){el.style.background=d[0]; el.textContent=d[1];} var lb=document.getElementById('payTokenLabel'); if(lb) lb.textContent=pt.value; }
+    if(rt){ var d2=dots[rt.value]||['#555','?']; var el2=document.getElementById('recvTokenDot'); if(el2){el2.style.background=d2[0]; el2.textContent=d2[1];} var lb2=document.getElementById('recvTokenLabel'); if(lb2) lb2.textContent=rt.value; }
+    if(pc){ var o=pc.options[pc.selectedIndex]; var cl=document.getElementById('payChainLabel'); if(cl&&o) cl.textContent=o.text; }
+    if(rc){ var o2=rc.options[rc.selectedIndex]; var cl2=document.getElementById('recvChainLabel'); if(cl2&&o2) cl2.textContent=o2.text; }
+  }
+  document.addEventListener('change', upd);
+  document.addEventListener('DOMContentLoaded', upd);
+  setTimeout(upd, 500); setTimeout(upd, 1500);
 })();
 </script>
 </body>
