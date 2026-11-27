@@ -73,6 +73,11 @@ const CHAINS = { "1": mainnet, "56": bsc, "8453": base };
 const INTEGRATOR_ID = "int_d47760638a531b8f8e853500";
 const PROJECT_ID = "1c91a6338afae84a70f8f68395b6e205";
 let provider=null, walletClient=null, ssClient=null, lastQuote=null, account=null;
+if(typeof window!=='undefined'){
+  window.addEventListener('foxy-conectado', (e)=>{
+    try{ account=e.detail.account; if(window.connectedAccount!==account) window.connectedAccount=account; }catch(_){}
+  });
+}
 let isPrivate = (typeof window!=='undefined' && window.isPrivate!==undefined) ? window.isPrivate : true; window.isPrivate=isPrivate;
 const TOKENS_SS = {
   "56": {
@@ -152,23 +157,8 @@ async function getProvider(){
   provider=await EthereumProvider.init({ projectId: PROJECT_ID, chains: [1,56,8453], optionalChains: [], showQrModal: true, metadata: { name: "FOXYCENTER", description: "FOXYCENTER - Swap Privado", url: "https://www.foxycenter.org", icons: ["https://www.foxycenter.org/favicon.ico"] } });
   return provider;
 }
-document.getElementById('connectBtn').addEventListener('click', async()=>{
-  try{
-    walletStatus.textContent="Abriendo QR... escanea con Trust";
-    const p=await getProvider();
-    await p.connect();
-    account=p.accounts && p.accounts[0] ? p.accounts[0] : null;
-    if(!account) throw new Error("No se obtuvo cuenta");
-    const srcChain=chainIdDe(document.getElementById('payChain').value||"8453");
-    const chainObj=CHAINS[String(srcChain)]||base;
-    walletClient=createWalletClient({ account: { address: account, type: 'json-rpc' }, chain: chainObj, transport: custom(p) });
-    ssClient=createSilentSwapClient({ walletClient: walletClient, integratorId: INTEGRATOR_ID });
-    walletStatus.textContent="Conectado: "+account;
-    document.getElementById('connectBtn').textContent="Conectado - "+account.slice(0,6)+"..."+account.slice(-4);
-    const rec=document.getElementById('recipientAddr');
-    if(rec && !rec.value) rec.value=account;
-  }catch(e){ walletStatus.textContent="Error conectar: "+(e.message||e); }
-});
+// CONEXION retrotraida: la maneja el script simple CONEXION-SIMPLE de abajo
+// El módulo solo deja getProvider() para el swap, no toca el botón
 let relojSwapInterval=null, relojSwapSeg=0;
 function iniciarRelojSwap(){
   const box=document.getElementById('relojSwap'); const num=document.getElementById('relojSwapNum'); const anuncio=document.getElementById('anuncioTrust');
@@ -185,6 +175,19 @@ function detenerRelojSwap(){
 document.getElementById('swapBtn').addEventListener('click', async()=>{
   const st=document.getElementById('swapStatus');
   try{
+    // SYNC con script simple: PRIVATE y cuenta conectada desde el botón simple
+    if(typeof window!=='undefined' && window.isPrivate!==undefined) isPrivate=window.isPrivate;
+    if(!account && window.connectedAccount) account=window.connectedAccount;
+    if(!ssClient && account){
+      try{
+        var provSync = window._wcProvider || window.ethereum || null;
+        if(provSync){
+          var chainSync = CHAINS[String(chainIdDe(document.getElementById('payChain').value||"8453"))] || base;
+          walletClient=createWalletClient({ account: { address: account, type: 'json-rpc' }, chain: chainSync, transport: custom(provSync) });
+          ssClient=createSilentSwapClient({ walletClient: walletClient, integratorId: INTEGRATOR_ID });
+        }
+      }catch(eSync){ console.log('sync ssClient', eSync); }
+    }
     const amt=document.getElementById('payAmount')?.value||'0';
     const recEvm=document.getElementById('recipientAddr')?.value?.trim();
     const recNonEvm=document.getElementById('nonEvmAddr')?.value?.trim();
@@ -324,6 +327,62 @@ document.getElementById('recvChain')?.addEventListener('change', actualizarCajaN
       // No tocar el botón, solo dejar que el módulo intente. No romper nada.
     }
   }, 3000);
+})();
+</script>
+
+<!-- CONEXION-SIMPLE: Conectar billeteras en script simple, sin depender de que cargue la SDK completa -->
+<script>
+(function(){
+  var btn=document.getElementById('connectBtn');
+  var st=document.getElementById('walletStatus');
+  if(!btn) return;
+  // Clonar para borrar handler viejo del módulo
+  var nuevoBtn=btn.cloneNode(true);
+  btn.parentNode.replaceChild(nuevoBtn, btn);
+  btn=nuevoBtn;
+  var PROJECT_ID="1c91a6338afae84a70f8f68395b6e205";
+  function mostrarConectado(addr){
+    window.connectedAccount=addr; window.account=addr;
+    try{ window.dispatchEvent(new CustomEvent('foxy-conectado',{detail:{account:addr}})); }catch(e){}
+    btn.textContent="Conectado - "+addr.slice(0,6)+"..."+addr.slice(-4);
+    btn.style.background="#2ecc71"; btn.style.color="#000";
+    if(st) st.textContent="Conectado: "+addr;
+    var rec=document.getElementById('recipientAddr');
+    if(rec && !rec.value) rec.value=addr;
+    var destEvm=document.getElementById('destEvmAddr');
+    if(destEvm && !destEvm.value) destEvm.value=addr;
+    var destBox=document.getElementById('destAddr');
+    if(destBox && !destBox.value) destBox.value=addr;
+  }
+  btn.addEventListener('click', async function(){
+    if(window.connectedAccount){ if(st) st.textContent="Ya conectado: "+window.connectedAccount; return; }
+    if(st) st.textContent="Conectando... abre Trust y confirma";
+    btn.textContent="Conectando...";
+    try{
+      // 1) Si estás dentro de Trust / MetaMask, window.ethereum ya está inyectado - conectar directo, sin QR
+      if(window.ethereum && window.ethereum.request){
+        var accs=await window.ethereum.request({method:'eth_requestAccounts'});
+        if(accs && accs[0]){ mostrarConectado(accs[0]); return; }
+      }
+      // 2) Si no hay inyectada, usar WalletConnect con QR (import dinámico, no rompe si falla la SDK de SilentSwap)
+      if(st) st.textContent="Abriendo QR... escanea con Trust";
+      var mod=await import("https://esm.sh/@walletconnect/ethereum-provider@2.21.0");
+      var provider=await mod.EthereumProvider.init({projectId:PROJECT_ID, chains:[1,56,8453], showQrModal:true});
+      await provider.connect();
+      var a=provider.accounts && provider.accounts[0] ? provider.accounts[0] : null;
+      if(!a) throw new Error("No se obtuvo cuenta");
+      window._wcProvider=provider;
+      mostrarConectado(a);
+    }catch(e){
+      btn.textContent="Conectar billetera - Trust / WalletConnect";
+      if(st) st.textContent="Error conectar: "+(e.message||e)+" - Intenta dentro de Trust o recarga";
+      console.error(e);
+    }
+  });
+  // Si ya estabas conectado antes (Trust inyectada), mostrarlo al cargar
+  if(window.ethereum && window.ethereum.selectedAddress){
+    mostrarConectado(window.ethereum.selectedAddress);
+  }
 })();
 </script>
 </body>
