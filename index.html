@@ -71,13 +71,13 @@ body{background:#0a0a0f;color:#fff;font-family:Inter,system-ui,-apple-system,san
   </div>
   <div class="card">
     <div class="chainrow">
-      <select id="payChain"><option value="56">BNB Chain (56)</option><option value="8453" selected>Base (8453)</option><option value="1">Ethereum (1)</option></select>
+      <select id="payChain"><option value="56">BNB Chain (56)</option><option value="8453" selected>Base (8453)</option><option value="1">Ethereum (1)</option><option value="137">Polygon (137)</option><option value="bitcoin">Bitcoin - BTC</option><option value="litecoin">Litecoin - LTC</option><option value="solana">Solana - SOL</option><option value="ton">TON - TON</option><option value="tron">TRON - TRX</option></select>
       <span>&rarr;</span>
-      <select id="recvChain"><option value="56">BNB Chain (56)</option><option value="8453">Base (8453)</option><option value="1" selected>Ethereum (1)</option></select>
+      <select id="recvChain"><option value="56">BNB Chain (56)</option><option value="8453">Base (8453)</option><option value="1" selected>Ethereum (1)</option><option value="137">Polygon (137)</option><option value="bitcoin">Bitcoin - BTC</option><option value="litecoin">Litecoin - LTC</option><option value="solana">Solana - SOL</option><option value="ton">TON - TON</option><option value="tron">TRON - TRX</option></select>
     </div>
-    <div class="box"><label>PAY</label><div class="row"><input id="payAmount" value="" placeholder="0.00"><select id="payToken" class="token"><option>USDC</option><option>USDT</option><option>ETH</option><option>WETH</option><option>BNB</option><option>cbBTC</option><option>WBTC</option></select></div><div style="text-align:right;color:#8b8ba3;font-size:13px"><span id="payUsd">&asymp; $0.00 USD</span></span></div></div>
+    <div class="box"><label>PAY</label><div class="row"><input id="payAmount" value="10" value="" placeholder="0.00"><select id="payToken" class="token"><option>ETH</option><option>BNB</option><option selected>USDC</option><option>USDT</option><option>WETH</option><option>DAI</option><option>WBTC</option><option>CAKE</option><option>FDUSD</option><option>cbBTC</option><option>cbETH</option><option>AERO</option><option>SQGROW</option><option>SHIB</option><option>BONE</option><option>DOGE</option><option>POL</option><option>XRP</option><option>WBNB</option><option>BTC</option><option>LTC</option><option>SOL</option><option>TON</option><option>TRX</option></select></div><div style="text-align:right;color:#8b8ba3;font-size:13px"><span id="payUsd">&asymp; $0.00 USD</span></span></div></div>
     <div class="arrow"><span>&darr;</span></div>
-    <div class="box"><label>RECEIVE</label><div class="row"><input id="receiveAmount" value="0.00" readonly style="color:#8b8ba3"><select id="recvToken" class="token"><option>USDC</option><option>USDT</option><option>ETH</option><option>WETH</option><option>BNB</option><option>cbBTC</option><option>WBTC</option></select></div><div style="text-align:right;color:#8b8ba3;font-size:13px"><span id="recvUsd">&asymp; $0.00 USD</span></div></div>
+    <div class="box"><label>RECEIVE</label><div class="row"><input id="receiveAmount" value="0.00" readonly style="color:#8b8ba3"><select id="recvToken" class="token"><option selected>ETH</option><option>BNB</option><option>USDC</option><option>USDT</option><option>WETH</option><option>DAI</option><option>WBTC</option><option>CAKE</option><option>FDUSD</option><option>cbBTC</option><option>cbETH</option><option>AERO</option><option>SQGROW</option><option>SHIB</option><option>BONE</option><option>DOGE</option><option>POL</option><option>XRP</option><option>WBNB</option><option>BTC</option><option>LTC</option><option>SOL</option><option>TON</option><option>TRX</option></select></div><div style="text-align:right;color:#8b8ba3;font-size:13px"><span id="recvUsd">&asymp; $0.00 USD</span></div></div>
 
     <div class="box"><label>DIRECCIÓN DE DESTINO</label><div class="row"><input id="recipientAddr" placeholder="0x... tu dirección donde recibes" style="font-size:14px;width:100%"></div></div>
     <div class="box" id="btcBox" style="display:none"><label>DIRECCIÓN</label><div class="row"><input id="btcAddr" placeholder="bc1... tu dirección BTC de Trust" style="font-size:14px;width:100%"></div></div>
@@ -123,19 +123,58 @@ const TOKENS_SS = {
     "BNB": { address: "0x0000000000000000000000000000000000000000", decimals: 18, isNative: true },
     "USDC": { address: "0x8AC76a51cc950d9822D68b83fE1Ad97B32Cd580d", decimals: 18, isNative: false },
     "USDT": { address: "0x55d398326f99059fF775485246999027B3197955", decimals: 18, isNative: false },
-    "WETH": { address: "0x2170Ed0880ac9A755fd29B2688956BD959F933F8", decimals: 18, isNative: false }
+    "WETH": { address: "0x2170Ed0880ac9A755fd29B2688956BD959F933F8", decimals: 18, isNative: false },
+    "DAI": { address: "0x1AF3F329e8BE154074D8769D1FFa4eE058B1DBc3", decimals: 18, isNative: false },
+    "WBTC": { address: "0x7130d2A12B9BCbFAe4f2634d864A1Ee1Ce3Ead9c", decimals: 18, isNative: false },
+    "CAKE": { address: "0x0E09FaBB73BD3Ade0a17ECC321fD13a19e81cE82", decimals: 18, isNative: false },
+    "FDUSD": { address: "0xc5f0f7b66764F6ec8C8Dff7BA683102295E16409", decimals: 18, isNative: false },
+    "WBNB": { address: "0xbb4CdB9CBd36B01bD1cBaEBF2De08d9173bc095", decimals: 18, isNative: false },
+    "DOGE": { address: "0xba2ae424d960c26247Dd6c1e3730Eb95080A9dc", decimals: 8, isNative: false }
   },
   "8453": {
     "ETH": { address: "0x0000000000000000000000000000000000000000", decimals: 18, isNative: true },
     "USDC": { address: "0x833589fCD6eDb6E08f4c7C32D4f71b54bdA02913", decimals: 6, isNative: false },
     "WETH": { address: "0x4200000000000000000000000000000000000006", decimals: 18, isNative: false },
-    "cbBTC": { address: "0xcbB7C0000aB88B473b1f5aFd9ef808440eed33Bf", decimals: 8, isNative: false }
+    "cbBTC": { address: "0xcbB7C0000aB88B473b1f5aFd9ef808440eed33Bf", decimals: 8, isNative: false },
+    "USDT": { address: "0xfde4C96c8593536E31F229EA8f37b2ADa2699bb2", decimals: 6, isNative: false },
+    "DAI": { address: "0x50c5725949A6F0c72E6C4a641F24049A917DB0Cb", decimals: 18, isNative: false },
+    "AERO": { address: "0x940181a94A35A4569E4529A3CDfB74e38FD98631", decimals: 18, isNative: false },
+    "cbETH": { address: "0x2Ae3F1Ec7F1F5012CdEab0185bfc7aa3cf0DEc22", decimals: 18, isNative: false }
   },
   "1": {
     "ETH": { address: "0x0000000000000000000000000000000000000000", decimals: 18, isNative: true },
     "USDC": { address: "0xA0b86991c6218b36c1d19D4a2e9Eb0cE3606eB48", decimals: 6, isNative: false },
     "USDT": { address: "0xdAC17F958D2ee523a2206206994597C13D831ec7", decimals: 6, isNative: false },
-    "WBTC": { address: "0x2260FAC5E5542a773Aa44fBCfeDf7C193bc2C599", decimals: 8, isNative: false }
+    "WBTC": { address: "0x2260FAC5E5542a773Aa44fBCfeDf7C193bc2C599", decimals: 8, isNative: false },
+    "SQGROW": { address: "0xd8fe887198e09647209738c8646011c75127ee7b", decimals: 18, isNative: false },
+    "DAI": { address: "0x6B175474E89094C44Da98b954EedeAC495271d0F", decimals: 18, isNative: false },
+    "WETH": { address: "0xC02aaA39b223FE8D0A0e5C4F27eAD9083C756Cc2", decimals: 18, isNative: false },
+    "SHIB": { address: "0x95aD61b0a150d79219dCF64E1E6Cc01f0B64C4cE", decimals: 18, isNative: false },
+    "BONE": { address: "0x9813037ee2218799590a9cA7e141e54aDB4A8A4b4", decimals: 18, isNative: false },
+    "XRP": { address: "0x1D2F0da169ceb9Fc7d7A8EAd0Be83D8A04e1D4f", decimals: 6, isNative: false }
+  },
+  "137": {
+    "POL": { address: "0x0000000000000000000000000000000000000000", decimals: 18, isNative: true },
+    "USDC": { address: "0x2791Bca1f2de4661ED88A30C99A7a9449Aa84174", decimals: 6, isNative: false },
+    "USDT": { address: "0xc2132D05D31c914a87C6611C10748AEb04B58e8F", decimals: 6, isNative: false },
+    "WETH": { address: "0x7ceB23fD6bC0adD59E62ac25578270cFf1b9f6", decimals: 18, isNative: false }
+  },
+  "bitcoin": {
+    "BTC": { address: "native", decimals: 8, isNative: true }
+  },
+  "litecoin": {
+    "LTC": { address: "native", decimals: 8, isNative: true }
+  },
+  "solana": {
+    "SOL": { address: "11111111111111111111111111111111", decimals: 9, isNative: true },
+    "USDC": { address: "EPjFWdd5AufqSSqeM2qN1xzybapC8G4wEGGkZwyTDt1v", decimals: 6, isNative: false }
+  },
+  "ton": {
+    "TON": { address: "native", decimals: 9, isNative: true }
+  },
+  "tron": {
+    "TRX": { address: "native", decimals: 6, isNative: true },
+    "USDT": { address: "TR7NHqjeKQxGTCi8q8ZY4pL8otSzgjLj6t", decimals: 6, isNative: false }
   }
 };
 function getTokenInfo(chainId, symbol){ const c=TOKENS_SS[String(chainId)]; return c ? c[symbol] : null; }
@@ -152,7 +191,7 @@ const btcBox=document.getElementById('btcBox');
 if(payToken) payToken.addEventListener('change',()=>{ const nonEvm=['BTC','LTC','SOL','TRX','TON']; btcBox.style.display = nonEvm.includes(payToken.value) ? 'block' : 'none'; const lbl=document.querySelector('#btcBox label'); if(lbl) lbl.textContent='DIRECCIÓN '+payToken.value+' (solo si PAY es '+payToken.value+')'; });
 
 
-const PRICES = {USDT:1, USDC:1, ETH:1686, WETH:1686, BNB:650, cbBTC:95000, WBTC:95000};
+const PRICES = {ETH:1686, BNB:650, USDC:1, USDT:1, WETH:1686, DAI:1, WBTC:95000, CAKE:2.5, FDUSD:1, cbBTC:95000, cbETH:1700, AERO:0.8, SQGROW:0.00422, SHIB:0.000012, BONE:0.15, DOGE:0.18, POL:0.25, XRP:2.2, WBNB:650, BTC:95000, LTC:110, SOL:180, TON:2.5, TRX:0.28};
 function getPaySym(){ const s=document.getElementById('payToken'); return s? s.value : 'USDT'; }
 function getRecvSym(){ const s=document.getElementById('recvToken'); return s? s.value : 'USDT'; }
 function fmt(n){ return n.toLocaleString('en-US',{minimumFractionDigits:2,maximumFractionDigits:2}); }
