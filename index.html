@@ -112,7 +112,7 @@ select[id$="Chain"]{ background:#0f0f16; color:#fff; border:1px solid #2a2a35; b
   
   <button class="btn" id="swapBtn" style="background:#23232f;color:#fff;border:1px solid #ff6a00">Hacer Swap</button>
   <div id="swapStatus" style="text-align:center;font-size:13px;color:#ffcc88;margin-top:10px;min-height:18px;word-break:break-all"></div>
-  <div style="text-align:center;font-size:11px;color:#00ff88;margin:6px 0;font-weight:bold">V9 - PAY Y RECEIVE VACIOS COMO SS - 0.00 - DOCS ESTRICTO - 27 NOV</div><div class="powered">Powered by <b>SilentSwap</b></div>
+  <div style="text-align:center;font-size:11px;color:#00ff88;margin:6px 0;font-weight:bold">V10 - MONEDAS COMPLETAS COMO SS - 24 TOKENS + SELECTOR FUNCIONA - 27 NOV</div><div class="powered">Powered by <b>SilentSwap</b></div>
   <div class="footer">&copy; 2026 FOXYCENTER - Todos los derechos reservados</div>
 </div>
 
@@ -447,5 +447,61 @@ if(payChainEl) payChainEl.addEventListener('change',()=>{
   setTimeout(upd, 500); setTimeout(upd, 1500);
 })();
 </script>
-<div id="tokenModal" class="token-modal"><div class="token-sheet"><div class="token-sheet-head"><b>Select Token</b><button type="button" class="token-close" id="tokenModalClose">X</button></div><div class="token-search"><span>Search</span><input id="tokenSearchInput" placeholder="Search token or chain"></div><div class="token-filters" id="tokenFilters"><button type="button" class="token-filter active" data-filter="all">All</button><button type="button" class="token-filter" data-filter="56">BNB</button><button type="button" class="token-filter" data-filter="8453">Base</button><button type="button" class="token-filter" data-filter="1">Ethereum</button><button type="button" class="token-filter" data-filter="137">Polygon</button><button type="button" class="token-filter" data-filter="bitcoin">Bitcoin</button><button type="button" class="token-filter" data-filter="solana">Solana</button><button type="button" class="token-filter" data-filter="tron">TRON</button></div><div class="token-list" id="tokenList"></div></div></div></body>
+<div id="tokenModal" class="token-modal"><div class="token-sheet"><div class="token-sheet-head"><b>Select Token</b><button type="button" class="token-close" id="tokenModalClose">X</button></div><div class="token-search"><span>Search</span><input id="tokenSearchInput" placeholder="Search token or chain"></div><div class="token-filters" id="tokenFilters"><button type="button" class="token-filter active" data-filter="all">All</button><button type="button" class="token-filter" data-filter="56">BNB</button><button type="button" class="token-filter" data-filter="8453">Base</button><button type="button" class="token-filter" data-filter="1">Ethereum</button><button type="button" class="token-filter" data-filter="137">Polygon</button><button type="button" class="token-filter" data-filter="bitcoin">Bitcoin</button><button type="button" class="token-filter" data-filter="solana">Solana</button><button type="button" class="token-filter" data-filter="tron">TRON</button></div><div class="token-list" id="tokenList"></div></div></div>
+<script>
+(function(){
+  var dots={ETH:['#627EEA','E'],BNB:['#F0B90B','B'],USDC:['#2775CA','$'],USDT:['#26A17B','T'],WETH:['#627EEA','E'],DAI:['#F5AC37','D'],WBTC:['#F7931A','B'],CAKE:['#D1884F','C'],FDUSD:['#2A5CFF','F'],cbBTC:['#0052FF','B'],cbETH:['#0052FF','E'],AERO:['#2E6BF0','A'],SQGROW:['#00C853','S'],SHIB:['#FFA409','S'],BONE:['#EC6A2B','B'],DOGE:['#C2A633','D'],POL:['#8247E5','P'],XRP:['#23292F','X'],WBNB:['#F0B90B','B'],BTC:['#F7931A','B'],LTC:['#345D9D','L'],SOL:['#9945FF','S'],TON:['#0098EA','T'],TRX:['#FF060A','T']};
+  var chainNames={'56':'BNB','8453':'Base','1':'Ethereum','137':'Polygon','42161':'Arbitrum','10':'Optimism','bitcoin':'Bitcoin','litecoin':'Litecoin','solana':'Solana','ton':'TON','tron':'TRON'};
+  var cur=null, fil='all', sr='';
+  function shortA(a){ if(!a||a==='native') return '0x0000...0000'; if(a.length>12) return a.slice(0,6)+'...'+a.slice(-4); return a; }
+  function getT(){
+    var d={
+      '56':{BNB:'0x0000000000000000000000000000000000000000',USDC:'0x8AC76a51cc950d9822D68b83fE1Ad97B32Cd580d',USDT:'0x55d398326f99059fF775485246999027B3197955',WETH:'0x2170Ed0880ac9A755fd29B2688956BD959F933F8',DAI:'0x1AF3F329e8BE154074D8769D1FFa4eE058B1DBc3',WBTC:'0x7130d2A12B9BCbFAe4f2634d864A1Ee1Ce3Ead9c',CAKE:'0x0E09FaBB73BD3Ade0a17ECC321fD13a19e81cE82',FDUSD:'0xc5f0f7b66764F6ec8C8Dff7BA683102295E16409',WBNB:'0xbb4CdB9CBd36B01bD1cBaEBF2De08d9173bc095',DOGE:'0xba2ae424d960c26247Dd6c1e3730Eb95080A9dc'},
+      '8453':{ETH:'0x0000000000000000000000000000000000000000',USDC:'0x833589fCD6eDb6E08f4c7C32D4f71b54bdA02913',WETH:'0x4200000000000000000000000000000000000006',cbBTC:'0xcbB7C0000aB88B473b1f5aFd9ef808440eed33Bf',USDT:'0xfde4C96c8593536E31F229EA8f37b2ADa2699bb2',DAI:'0x50c5725949A6F0c72E6C4a641F24049A917DB0Cb',AERO:'0x940181a94A35A4569E4529A3CDfB74e38FD98631',cbETH:'0x2Ae3F1Ec7F1F5012CdEab0185bfc7aa3cf0DEc22'},
+      '1':{ETH:'0x0000000000000000000000000000000000000000',USDC:'0xA0b86991c6218b36c1d19D4a2e9Eb0cE3606eB48',USDT:'0xdAC17F958D2ee523a2206206994597C13D831ec7',WBTC:'0x2260FAC5E5542a773Aa44fBCfeDf7C193bc2C599',SQGROW:'0xd8fe887198e09647209738c8646011c75127ee7b',DAI:'0x6B175474E89094C44Da98b954EedeAC495271d0F',WETH:'0xC02aaA39b223FE8D0A0e5C4F27eAD9083C756Cc2',SHIB:'0x95aD61b0a150d79219dCF64E1E6Cc01f0B64C4cE',BONE:'0x9813037ee2218799590a9cA7e141e54aDB4A8A4b4',XRP:'0x1D2F0da169ceb9Fc7d7A8EAd0Be83D8A04e1D4f'},
+      '137':{POL:'0x0000000000000000000000000000000000000000',USDC:'0x2791Bca1f2de4661ED88A30C99A7a9449Aa84174',USDT:'0xc2132D05D31c914a87C6611C10748AEb04B58e8F',WETH:'0x7ceB23fD6bC0adD59E62ac25578270cFf1b9f6'},
+      '42161':{ETH:'0x0000000000000000000000000000000000000000',USDC:'0xaf88d065e77c8cC2239327C5EDb3A432268e5831',USDT:'0xFd086bC7CD5C481DCC9C85ebE478A1C0b69FCbb9',WETH:'0x82aF49447D8a07e3bd95BD0d56f35241523fBab1'},
+      '10':{ETH:'0x0000000000000000000000000000000000000000',USDC:'0x0b2C639c533813f4Aa9D7837CAf62653d097Ff85',USDT:'0x94b008aA00579c1307B0EF2c499aD98a8ce58e58',WETH:'0x4200000000000000000000000000000000000006'},
+      'bitcoin':{BTC:'native'},'litecoin':{LTC:'native'},'solana':{SOL:'11111111111111111111111111111111',USDC:'EPjFWdd5AufqSSqeM2qN1xzybapC8G4wEGGkZwyTDt1v'},'ton':{TON:'native'},'tron':{TRX:'native',USDT:'TR7NHqjeKQxGTCi8q8ZY4pL8otSzgjLj6t'}
+    };
+    var l=[]; Object.keys(d).forEach(function(ch){ Object.keys(d[ch]).forEach(function(s){ l.push({sym:s,chain:ch,chainName:chainNames[ch]||ch,addr:d[ch][s]}); }); }); return l;
+  }
+  function render(){
+    var list=getT();
+    var selS=cur==='pay'?(document.getElementById('payToken')?.value||'USDC'):(document.getElementById('recvToken')?.value||'ETH');
+    var selC=cur==='pay'?(document.getElementById('payChain')?.value||'8453'):(document.getElementById('recvChain')?.value||'1');
+    var box=document.getElementById('tokenList'); if(!box) return; box.innerHTML='';
+    var filtered=list.filter(function(it){ if(fil!=='all'&&it.chain!==fil) return false; if(sr){ var q=sr.toLowerCase(); if(!(it.sym.toLowerCase().includes(q)||it.chainName.toLowerCase().includes(q)||it.addr.toLowerCase().includes(q))) return false; } return true; });
+    if(filtered.length===0){ box.innerHTML='<div style="padding:20px;color:#8b8ba3;text-align:center">Sin resultados para '+sr+'</div>'; return; }
+    filtered.forEach(function(it){
+      var b=document.createElement('button'); b.type='button'; b.className='token-item';
+      var dd=dots[it.sym]||['#555','?']; var isS=(it.sym===selS&&String(it.chain)===String(selC));
+      b.innerHTML='<span class="token-dot" style="background:'+dd[0]+';width:36px;height:36px;font-size:16px">'+dd[1]+'</span><span style="flex:1"><span class="tok-name">'+it.sym+(isS?' <span class="tok-selected">SELECTED</span>':'')+'</span><br><span class="tok-meta">'+it.chainName+' - '+shortA(it.addr)+'</span></span>';
+      b.addEventListener('click',function(){
+        var s=document.getElementById(cur==='pay'?'payToken':'recvToken');
+        var c=document.getElementById(cur==='pay'?'payChain':'recvChain');
+        if(s){ s.value=it.sym; s.dispatchEvent(new Event('change')); }
+        if(c){ c.value=it.chain; c.dispatchEvent(new Event('change')); }
+        var dot=document.getElementById(cur==='pay'?'payTokenDot':'recvTokenDot');
+        var lab=document.getElementById(cur==='pay'?'payTokenLabel':'recvTokenLabel');
+        if(dot){ dot.style.background=dd[0]; dot.textContent=dd[1]; }
+        if(lab) lab.textContent=it.sym;
+        var cl=document.getElementById(cur==='pay'?'payChainLabel':'recvChainLabel');
+        if(cl) cl.textContent=it.chainName+' ('+it.chain+')';
+        closeM();
+      });
+      box.appendChild(b);
+    });
+  }
+  function openM(t){ cur=t; fil='all'; sr=''; var i=document.getElementById('tokenSearchInput'); if(i) i.value=''; document.querySelectorAll('.token-filter').forEach(function(f){ f.classList.toggle('active',f.dataset.filter==='all'); }); var m=document.getElementById('tokenModal'); if(m) m.classList.add('open'); render(); }
+  function closeM(){ var m=document.getElementById('tokenModal'); if(m) m.classList.remove('open'); }
+  document.getElementById('payTokenBtn')?.addEventListener('click',function(){ openM('pay'); });
+  document.getElementById('recvTokenBtn')?.addEventListener('click',function(){ openM('recv'); });
+  document.getElementById('tokenModalClose')?.addEventListener('click',closeM);
+  document.getElementById('tokenModal')?.addEventListener('click',function(e){ if(e.target.id==='tokenModal') closeM(); });
+  document.getElementById('tokenSearchInput')?.addEventListener('input',function(e){ sr=e.target.value||''; render(); });
+  document.querySelectorAll('.token-filter').forEach(function(f){ f.addEventListener('click',function(){ fil=f.dataset.filter; document.querySelectorAll('.token-filter').forEach(function(x){ x.classList.toggle('active',x===f); }); render(); }); });
+})();
+</script>
+</body>
 </html>
